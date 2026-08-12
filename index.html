@@ -151,6 +151,8 @@ select,input[type=text],input[type=time]{background:var(--bg3);border:1px solid 
 .solChip b{display:block;font-family:'Rubik','Heebo',sans-serif;font-size:1.02rem;color:var(--pearl);direction:ltr}
 .solChip.on{border-color:var(--gold);background:rgba(226,185,106,.12);box-shadow:0 0 20px rgba(226,185,106,.25)}
 .solChip.on b{color:var(--gold)}
+.solChip i{display:block;font-style:normal;font-size:.62rem;color:var(--muted);margin-top:4px;line-height:1.45;font-weight:300}
+.fqWhy{color:var(--muted);font-size:.72rem;font-weight:300;margin-top:5px;line-height:1.55}
 .fqRow{display:flex;align-items:center;gap:10px;margin:10px 0}
 .fqRow label{font-size:.78rem;color:var(--pearlDim);width:64px;flex-shrink:0}
 input[type=range]{flex:1;appearance:none;-webkit-appearance:none;height:4px;border-radius:4px;background:linear-gradient(90deg,var(--violet),var(--gold));outline:none}
@@ -1269,18 +1271,42 @@ function celeShow(m){
 /* ============ FREQUENCIES: WEB AUDIO ENGINE ============ */
 const FQ_PRESETS=[
  {id:'theta',ic:'🌀',name:'צלילה לתטא',desc:'binaural 6Hz · רמפה מאלפא · רעש חום',min:20,hp:true,
+  why:'האטה הדרגתית מערנות רגועה אל גלי תטא — המצב שבו המחשבות נרגעות ונפתחת דלת לדמיון מודרך ולעבודה פנימית עמוקה',
   ent:{type:'bin',carrier:200,beat:6,rampFrom:10,rampSec:300,lvl:.20},amb:{type:'brown',lp:700,lvl:.30}},
  {id:'flag',ic:'✨',name:'תרגול תטא',desc:'‏5.5Hz + דרון 528 עדין — פריסט הדגל',min:20,hp:true,
+  why:'המצב המומלץ לתרגול היומי: תטא יציב לעומק, ודרון 528 שמוסיף רוך — מתאים להטמעות ולמדיטציות האפליקציה',
   ent:{type:'bin',carrier:200,beat:5.5,rampFrom:9,rampSec:240,lvl:.20},sol:{f:528,lvl:.07},amb:{type:'brown',lp:800,lvl:.25}},
  {id:'sleep',ic:'🌙',name:'שינה עמוקה',desc:'isochronic 2.5Hz · גלי אוקיינוס',min:45,hp:false,
+  why:'גלי דלתא איטיים מלווים את המוח אל שינה — והאוקיינוס מסווה רעשי סביבה; מתאים להפעלה במיטה',
   ent:{type:'iso',carrier:150,beat:2.5,rampFrom:6,rampSec:600,lvl:.15},amb:{type:'ocean',lvl:.35}},
  {id:'calm',ic:'🍃',name:'רוגע',desc:'isochronic 8Hz רך · בלי אוזניות',min:15,hp:false,
+  why:'גלי אלפא — המצב הטבעי של רוגע ערני; מצוין להורדת מתח בכל שעה, גם ברמקול',
   ent:{type:'iso',carrier:180,beat:8,lvl:.15},amb:{type:'brown',lp:900,lvl:.28}},
  {id:'focus',ic:'🎯',name:'ריכוז',desc:'binaural 10Hz · גשם',min:30,hp:true,
+  why:'אלפא גבוה ששומר על ערנות שקטה — לעבודה, קריאה ולמידה; הגשם עוזר למסך הסחות דעת',
   ent:{type:'bin',carrier:250,beat:10,lvl:.18},amb:{type:'rain',lvl:.24}},
  {id:'shaman',ic:'🥁',name:'מסע שאמאני',desc:'פולס תיפוף 4.5Hz',min:15,hp:false,
-  ent:{type:'iso',carrier:110,beat:4.5,lvl:.24,hard:true},amb:{type:'brown',lp:500,lvl:.16}}];
-const SOLF=[[174,'שחרור כאב'],[285,'התחדשות'],[396,'שחרור פחד'],[417,'שינוי'],[528,'אהבה'],[639,'יחסים'],[741,'ניקוי'],[852,'אינטואיציה'],[963,'הארה']];
+  why:'קצב התוף המסורתי של מסעות שאמאניים — כ-4.5 פעימות בשנייה שמכניסות לטראנס קל ולמסע דמיון',
+  ent:{type:'iso',carrier:110,beat:4.5,lvl:.24,hard:true},amb:{type:'brown',lp:500,lvl:.16}},
+ {id:'earth',ic:'🌍',name:'תהודת שומאן',desc:'binaural 7.83Hz · רעש חום',min:20,hp:true,
+  why:'7.83Hz — התדר שבו מהדהד המרחב שבין כדור הארץ ליונוספירה, על הגבול שבין תטא לאלפא; תחושת עיגון וקרקוע',
+  ent:{type:'bin',carrier:210,beat:7.83,lvl:.18},amb:{type:'brown',lp:800,lvl:.28}},
+ {id:'gamma',ic:'⚡',name:'חדות וזיכרון',desc:'isochronic 40Hz · בלי אוזניות',min:15,hp:false,
+  why:'גלי גמא 40Hz — התדר הנחקר ביותר בהקשר של קשב וזיכרון; מתאים לפני משימה שדורשת מיקוד חד — לא לפני שינה',
+  ent:{type:'iso',carrier:220,beat:40,lvl:.13},amb:{type:'rain',lvl:.18}},
+ {id:'wake',ic:'🌅',name:'יקיצה רכה',desc:'רמפה עולה 5→12Hz · גשם קליל',min:10,hp:true,
+  why:'המסלול ההפוך: מתטא בהדרגה אל אלפא ערני — יציאה רכה ממדיטציה או התעוררות בהירה בלי קפיצה חדה',
+  ent:{type:'bin',carrier:240,beat:12,rampFrom:5,rampSec:300,lvl:.18},amb:{type:'rain',lvl:.20}}];
+const SOLF=[
+ [174,'שחרור כאב','הרפיה גופנית ותחושת ביטחון והקלה'],
+ [285,'התחדשות','התחדשות ותיקון פנימי אחרי מאמץ'],
+ [396,'שחרור פחד','המרת פחד ואשמה לקרקוע ויציבות'],
+ [417,'שינוי','ניקוי דפוסים ישנים ופתיחה להתחלה חדשה'],
+ [528,'אהבה','נקרא ״תדר האהבה״ — הרמוניה, חמלה ופתיחות הלב'],
+ [639,'יחסים','תקשורת, סליחה וחיבור בין-אישי'],
+ [741,'ניקוי','ניקוי רעשים פנימיים והבעה עצמית בהירה'],
+ [852,'אינטואיציה','חיזוק ראייה פנימית והקשבה לקול הפנימי'],
+ [963,'הארה','תחושת אחדות וחיבור למה שגדול מאיתנו']];
 
 let AC=null,AMaster=null,FQ={on:false,nodes:[],preset:null,solo:null,start:0,timer:null,mode:null,lock:null};
 let bgKeep=null;
@@ -1407,7 +1433,7 @@ function renderFqNow(){const el=document.getElementById('freqNow');if(!FQ.on){el
   const sec=Math.floor((Date.now()-FQ.start)/1000);
   const t=String(Math.floor(sec/60)).padStart(2,'0')+':'+String(sec%60).padStart(2,'0');
   const name=FQ.preset?FQ.preset.ic+' '+FQ.preset.name:'🎵 סולפג\'יו '+FQ.solo+'Hz';
-  const sub=FQ.preset?(FQ.mode==='iso'&&FQ.preset.ent.type==='bin'?'מצב רמקול (איזוכרוני)':FQ.preset.desc):SOLF.find(s=>s[0]===FQ.solo)[1];
+  const sub=FQ.preset?(FQ.mode==='iso'&&FQ.preset.ent.type==='bin'?'מצב רמקול (איזוכרוני)':FQ.preset.desc):SOLF.find(s=>s[0]===FQ.solo).slice(1).join(' \u00b7 ');
   if(!el.dataset.built||el.dataset.k!==(FQ.preset?FQ.preset.id:'s'+FQ.solo)){
     el.dataset.built='1';el.dataset.k=FQ.preset?FQ.preset.id:'s'+FQ.solo;
     el.innerHTML=`<div style="display:flex;align-items:center;gap:12px">
@@ -1425,13 +1451,13 @@ function renderFreq(){renderFqNow();
     const on=FQ.preset&&FQ.preset.id===p.id;
     return `<div class="card medCard ${on?'glow':''}" data-i="${i}">
       <div class="medIc">${p.ic}</div>
-      <div><h4>${p.name}</h4><p>${p.desc}</p>${p.hp?'<div class="hpBanner">🎧 מומלץ אוזניות · <u data-nohp="'+i+'">אין לי אוזניות</u></div>':''}</div>
+      <div><h4>${p.name}</h4><p>${p.desc}</p><p class="fqWhy">${p.why}</p>${p.hp?'<div class="hpBanner">🎧 מומלץ אוזניות · <u data-nohp="'+i+'">אין לי אוזניות</u></div>':''}</div>
       <div class="medDur">${on?'▶ פעיל':p.min+' ד׳'}</div></div>`;}).join('');
   document.querySelectorAll('#freqPresets .medCard').forEach(el=>el.onclick=e=>{
     if(e.target.dataset.nohp!==undefined){fqPlayPreset(FQ_PRESETS[+e.target.dataset.nohp],true);return;}
     fqPlayPreset(FQ_PRESETS[+el.dataset.i]);});
-  document.getElementById('solGrid').innerHTML=SOLF.map(([f,n])=>
-    `<button class="solChip ${FQ.solo===f?'on':''}" data-f="${f}"><b>${f}Hz</b>${n}</button>`).join('');
+  document.getElementById('solGrid').innerHTML=SOLF.map(([f,n,w])=>
+    `<button class="solChip ${FQ.solo===f?'on':''}" data-f="${f}"><b>${f}Hz</b>${n}<i>${w}</i></button>`).join('');
   document.querySelectorAll('.solChip').forEach(b=>b.onclick=()=>{
     if(FQ.solo===+b.dataset.f)fqStop(true);else fqPlaySol(+b.dataset.f);});}
 
