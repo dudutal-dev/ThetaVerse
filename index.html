@@ -338,6 +338,17 @@ textarea{width:100%;min-height:90px;background:var(--bg3);border:1px solid var(-
       <div class="solGrid" id="solGrid"></div>
     </div>
 
+    <h3 class="sec">🎧 בדיקת תדרים ושמיעה</h3>
+    <div class="card">
+      <p class="sub" style="margin-bottom:10px">אם משהו לא נשמע — שלוש הבדיקות האלה מגלות בדיוק איפה הבעיה:</p>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <button class="btn ghost" id="st1" style="flex:1;min-width:140px;font-size:.85rem">1 · צליל דרך מנוע התדרים</button>
+        <button class="btn ghost" id="st2" style="flex:1;min-width:140px;font-size:.85rem">2 · ביפ דרך נגן רגיל</button>
+        <button class="btn" id="st3" style="flex:1;min-width:140px;font-size:.85rem">3 · 🎧 סטריאו ופעימה</button>
+      </div>
+      <p class="sub" id="sndDiag" style="display:none;font-size:.84rem;margin-top:12px;line-height:1.8;border-inline-start:2px solid var(--cyan);padding-inline-start:12px"></p>
+    </div>
+
     <p class="disc">🎧 אפקט בינאורלי דורש אוזניות סטריאו — בלעדיהן נעבור אוטומטית לגלים איזוכרוניים · אין להאזין לתדרי הרפיה בזמן נהיגה · אם מופיעה אי-נוחות או צפצוף — הפסיקו · המסורת מספרת על משמעויות התדרים; המחקר תומך בעיקר בהרפיה, בצלילי טבע ובמוזיקה איטית — וזה בדיוק מה שיש כאן.</p>
   </section>
 
@@ -383,7 +394,17 @@ textarea{width:100%;min-height:90px;background:var(--bg3);border:1px solid var(-
       <div class="setRow"><label>שפת הנחיה</label>
         <select id="setGuideLang"><option value="he">עברית</option><option value="en">English</option></select></div>
       <div class="setRow"><label>קול</label>
-        <select id="setVoice" style="max-width:170px"></select></div>
+        <select id="setVoice" style="max-width:150px"></select>
+        <button class="btn ghost" id="voicePrev" style="padding:9px 14px;font-size:.82rem">▶</button></div>
+      <p class="sub" style="font-size:.74rem;margin:10px 2px 6px;line-height:1.7">מי מוביל — התדר או הקול? ℹ️ באייפון המערכת מתעלמת מעוצמת ההקראה, ולכן היחס נקבע מהצד השני: עמעום התדר בזמן דיבור. במצב "התדר מוביל" אין עמעום כלל.</p>
+      <div class="gRow" style="margin:0 0 12px">
+        <button class="gBtn mixB" data-m="back" style="font-size:.78rem">🎧 התדר מוביל</button>
+        <button class="gBtn mixB" data-m="mid" style="font-size:.78rem">מאוזן</button>
+        <button class="gBtn mixB" data-m="front" style="font-size:.78rem">🗣️ ההנחיה מובילה</button>
+      </div>
+      <div class="setRow"><label>עוצמת הנחיה</label>
+        <input type="range" id="setVVol" min="15" max="100" step="5" style="flex:1">
+        <b id="vvolVal" style="font-size:.85rem;min-width:42px;text-align:center;color:var(--pearl)"></b></div>
       <div class="setRow"><label>תזכורת בוקר ☀️</label><input type="time" id="remAM" style="width:112px"></div>
       <div class="setRow"><label>תזכורת ערב 🌙</label><input type="time" id="remPM" style="width:112px"></div>
       <p class="sub" style="font-size:.72rem;margin:10px 2px">💡 התזכורות פועלות כשהאפליקציה פתוחה או ברקע · השאר/י ריק לביטול</p>
@@ -517,7 +538,7 @@ if('serviceWorker' in navigator&&location.protocol==='https:')navigator.serviceW
 const KEY='thetaverse.v1';
 const todayKey=()=>{const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');};
 let S=load();
-S.journal=S.journal||[];S.program=S.program||{day:1,completed:[]};S.program.active=S.program.active||'21';S.milestones=S.milestones||[];S.stats.beliefsReplaced=S.stats.beliefsReplaced||0;S.settings=S.settings||{remAM:null,remPM:null,fired:{}};S.settings.fired=S.settings.fired||{};if(S.settings.tts===undefined)S.settings.tts=true;S.settings.ttsRate=S.settings.ttsRate||0.82;S.settings.guideLang=S.settings.guideLang||'he';
+S.journal=S.journal||[];S.program=S.program||{day:1,completed:[]};S.program.active=S.program.active||'21';S.milestones=S.milestones||[];S.stats.beliefsReplaced=S.stats.beliefsReplaced||0;S.settings=S.settings||{remAM:null,remPM:null,fired:{}};S.settings.fired=S.settings.fired||{};if(S.settings.tts===undefined)S.settings.tts=true;S.settings.ttsRate=S.settings.ttsRate||0.82;S.settings.guideLang=S.settings.guideLang||'he';S.settings.mix=S.settings.mix||'mid';if(S.settings.vvol===undefined)S.settings.vvol=0.7;
 function load(){try{const s=JSON.parse(localStorage.getItem(KEY));if(s&&s.schemaVersion===1)return s;}catch(e){}
   return {schemaVersion:1,profile:{name:'',gender:'x',onboarded:false},
     stats:{totalMinutes:0,sessions:0,downloadsAccepted:0,beliefsReplaced:0},
@@ -715,6 +736,12 @@ function renderMeds(){document.getElementById('medList').innerHTML=MEDS.map((m,i
   `<div class="card medCard" data-i="${i}"><div class="medIc">${m.ic}</div><div><h4>${m.name}</h4><p>${m.desc}</p></div><div class="medDur">${m.min} ד׳</div></div>`).join('');
   document.querySelectorAll('#medList .medCard').forEach(el=>el.onclick=()=>play(MEDS[+el.dataset.i]));}
 
+/* ---- voice/frequency mix (ported from MoneroGateway voiceEng.MIX) ----
+   iOS ignores utterance volume, so the ratio is controlled from the
+   other side: how much the frequency bed ducks while the voice speaks.
+   'back' = frequency leads, no ducking at all. ---- */
+const MIX={back:{vol:.40,duck:1.0},mid:{vol:.70,duck:.55},front:{vol:1.0,duck:.30}};
+
 /* ---- voice guidance engine: recorded audio -> TTS -> text ----
    (architecture ported from MoneroGateway: prime for iOS, quality-scored
     voice pick, recorded-first with per-segment fallback, bed ducking) ---- */
@@ -750,8 +777,12 @@ function ttsPrime(){if(TTS.primed||!('speechSynthesis' in window))return;
 document.addEventListener('touchend',ttsPrime,{once:true,passive:true});
 document.addEventListener('click',ttsPrime,{once:true});
 /* duck the frequency bed while the voice speaks */
-function duck(on){try{if(AC&&AMaster&&FQ.on)
-  AMaster.gain.setTargetAtTime(on?0.28:0.8,AC.currentTime,0.25);}catch(e){}}
+function duck(on){try{
+  if(!(AC&&AMaster&&FQ.on))return;
+  const base=FQ.userVol||0.8;
+  const d=(MIX[S.settings.mix||'mid']||MIX.mid).duck;
+  if(d>=1)return; /* התדר מוביל — אין עמעום */
+  AMaster.gain.setTargetAtTime(on?base*d:base,AC.currentTime,0.25);}catch(e){}}
 function speak(t){if(!S.settings.tts||!('speechSynthesis' in window))return;
   try{speechSynthesis.cancel();
     const en=S.settings.guideLang==='en';
@@ -759,7 +790,7 @@ function speak(t){if(!S.settings.tts||!('speechSynthesis' in window))return;
     const u=new SpeechSynthesisUtterance(clean);
     if(en){u.lang='en-US';if(TTS.envoice)u.voice=TTS.envoice;}
     else{u.lang='he-IL';if(TTS.voice)u.voice=TTS.voice;}
-    u.rate=S.settings.ttsRate||0.82;u.pitch=0.95;u.volume=1;
+    u.rate=S.settings.ttsRate||0.82;u.pitch=0.95;u.volume=(S.settings.vvol!==undefined?S.settings.vvol:0.7);
     u.onstart=()=>duck(true);u.onend=()=>duck(false);u.onerror=()=>duck(false);
     speechSynthesis.speak(u);}catch(e){}}
 function speakStop(){try{speechSynthesis.cancel();}catch(e){}duck(false);
@@ -930,7 +961,7 @@ function renderSettings(){document.getElementById('setName').value=S.profile.nam
   document.getElementById('setGender').value=S.profile.gender;
   document.getElementById('setTts').value=S.settings.tts?'on':'off';
   document.getElementById('setRate').value=String(S.settings.ttsRate||0.82);
-  document.getElementById('setGuideLang').value=S.settings.guideLang||'he';renderVoicePick();
+  document.getElementById('setGuideLang').value=S.settings.guideLang||'he';renderVoicePick();renderMix();
   document.getElementById('remAM').value=S.settings.remAM||'';
   document.getElementById('remPM').value=S.settings.remPM||'';
   document.getElementById('profSub').textContent=S.profile.name?'שלום, '+S.profile.name+' 🌟':'ההגדרות והידע שלך';}
@@ -1364,11 +1395,11 @@ function fqPlayPreset(p,forceIso){acInit();fqStop(false);
   if(p.sol)nodes.push(...mkSol(p.sol.f,p.sol.lvl));
   if(p.amb)nodes.push(...mkAmbient(p.amb));
   bowl(AC.currentTime+.1,432,.35);
-  FQ={on:true,nodes,preset:p,solo:null,start:Date.now(),mode,lock:null,timer:setInterval(renderFqNow,1000)};
+  FQ={on:true,nodes,preset:p,solo:null,start:Date.now(),mode,lock:null,userVol:0.8,timer:setInterval(renderFqNow,1000)};
   keepAlive(true,p.name);renderFreq();}
 function fqPlaySol(f){acInit();fqStop(false);
   const nodes=[...mkSol(f,.2),...mkAmbient({type:'brown',lp:900,lvl:.12})];
-  FQ={on:true,nodes,preset:null,solo:f,start:Date.now(),mode:'sol',lock:null,timer:setInterval(renderFqNow,1000)};
+  FQ={on:true,nodes,preset:null,solo:f,start:Date.now(),mode:'sol',lock:null,userVol:0.8,timer:setInterval(renderFqNow,1000)};
   keepAlive(true,'סולפג׳יו '+f+'Hz');renderFreq();}
 
 function renderFqNow(){const el=document.getElementById('freqNow');if(!FQ.on){el.style.display='none';return;}
@@ -1386,7 +1417,7 @@ function renderFqNow(){const el=document.getElementById('freqNow');if(!FQ.on){el
       <div class="fqRow"><label>עוצמה</label><input type="range" id="fqVol" min="0" max="100" value="80"></div>
       <button class="btn full ghost" id="fqStopBtn">סיום ⏹</button>`;
     document.getElementById('fqStopBtn').onclick=()=>fqStop(true);
-    document.getElementById('fqVol').oninput=e=>{const v=(e.target.value/100);AMaster.gain.setTargetAtTime(v*v,AC.currentTime,.05);};}
+    document.getElementById('fqVol').oninput=e=>{const v=(e.target.value/100);FQ.userVol=v*v;AMaster.gain.setTargetAtTime(v*v,AC.currentTime,.05);};}
   else document.getElementById('fqT').textContent=t;}
 
 function renderFreq(){renderFqNow();
@@ -1403,6 +1434,76 @@ function renderFreq(){renderFqNow();
     `<button class="solChip ${FQ.solo===f?'on':''}" data-f="${f}"><b>${f}Hz</b>${n}</button>`).join('');
   document.querySelectorAll('.solChip').forEach(b=>b.onclick=()=>{
     if(FQ.solo===+b.dataset.f)fqStop(true);else fqPlaySol(+b.dataset.f);});}
+
+/* ============ SOUND TEST (ported from MoneroGateway soundTest) ============ */
+function beepWavURL(){const sr=16000,dur=.6,N=Math.round(sr*dur);
+  const buf=new ArrayBuffer(44+N*2);const v=new DataView(buf);
+  const w=(o,t)=>{for(let i=0;i<t.length;i++)v.setUint8(o+i,t.charCodeAt(i));};
+  w(0,'RIFF');v.setUint32(4,36+N*2,true);w(8,'WAVE');w(12,'fmt ');v.setUint32(16,16,true);
+  v.setUint16(20,1,true);v.setUint16(22,1,true);v.setUint32(24,sr,true);v.setUint32(28,sr*2,true);
+  v.setUint16(32,2,true);v.setUint16(34,16,true);w(36,'data');v.setUint32(40,N*2,true);
+  for(let i=0;i<N;i++){const env=Math.min(1,i/300,(N-i)/2000);
+    v.setInt16(44+i*2,Math.sin(2*Math.PI*440*i/sr)*env*12000,true);}
+  return URL.createObjectURL(new Blob([buf],{type:'audio/wav'}));}
+const soundTest={
+  say(h){const e=document.getElementById('sndDiag');if(e){e.style.display='';e.innerHTML=h;}},
+  webaudio(){const rows=[];try{acInit();
+    rows.push('מנוע Web Audio: <b>'+(AC?'נוצר':'נכשל')+'</b>');
+    if(!AC){this.say(rows.join('<br>'));return;}
+    const play=()=>{const t=AC.currentTime+.05;const g=AC.createGain();
+      g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(.35,t+.08);
+      g.gain.exponentialRampToValueAtTime(.0001,t+1.6);
+      const o=AC.createOscillator();o.frequency.value=440;
+      o.connect(g);g.connect(AC.destination);o.start(t);o.stop(t+1.7);
+      setTimeout(()=>{rows.push('מצב ההקשר: <b>'+AC.state+'</b> · תדר דגימה: '+AC.sampleRate+'Hz');
+        rows.push(AC.state==='running'
+          ?'✅ נשלח צליל בדיקה של 440Hz לשנייה וחצי. <b>שמעת אותו?</b> אם לא — הבעיה אינה בקוד אלא בנתיב היציאה: מתג ההשתקה בצד המכשיר, עוצמת המדיה, או אוזניות שמחוברות למכשיר אחר.'
+          :'⚠️ ההקשר לא עבר למצב פעיל — הדפדפן חוסם אודיו. נסה/י ללחוץ שוב.');
+        rows.push('<span style="opacity:.7">טיפ: באייפון מתג ההשתקה משתיק את מנוע התדרים לחלוטין — גם כשעוצמת המדיה מלאה.</span>');
+        this.say(rows.join('<br>'));},300);};
+    if(AC.state==='suspended'&&AC.resume)AC.resume().then(play).catch(play);else play();
+  }catch(e){this.say('❌ שגיאה בהפעלת המנוע: '+(e&&e.message?e.message:e));}},
+  element(){try{const a=new Audio(beepWavURL());
+    a.play().then(()=>this.say('🔔 נשלח ביפ דרך נגן מדיה רגיל. <b>נשמע?</b><br>אם הביפ נשמע אבל בדיקה 1 שקטה — זה מתג ההשתקה של האייפון: הוא משתיק את מנוע התדרים אך לא נגני מדיה.<br>אם גם זה שקט — בדקו עוצמת שמע, ולאן האודיו מנותב (בלוטות׳?).'))
+     .catch(err=>this.say('⚠️ הדפדפן חסם ניגון: '+err.message));}
+    catch(e){this.say('❌ '+e.message);}},
+  stereo(){try{acInit();
+    const run=()=>{const t0=AC.currentTime;
+      const tone=(f,ch,at,dur)=>{const o=AC.createOscillator();o.frequency.value=f;
+        const g=AC.createGain();
+        g.gain.setValueAtTime(.0001,t0+at);g.gain.exponentialRampToValueAtTime(.3,t0+at+.08);
+        g.gain.setValueAtTime(.3,t0+at+dur-.15);g.gain.exponentialRampToValueAtTime(.0001,t0+at+dur);
+        const m=AC.createChannelMerger(2);
+        o.connect(g);g.connect(m,0,ch);m.connect(AC.destination);
+        o.start(t0+at);o.stop(t0+at+dur+.05);};
+      tone(250,0,.1,2);tone(250,1,2.4,2);tone(250,0,4.8,3);tone(256,1,4.8,3);
+      [[0,'🎧 <b>שלב 1/3 — אוזן שמאל בלבד</b><br><span style="opacity:.75">אמור להישמע רק משמאל.</span>'],
+       [2400,'🎧 <b>שלב 2/3 — אוזן ימין בלבד</b><br><span style="opacity:.75">אמור להישמע רק מימין.</span>'],
+       [4800,'🎧 <b>שלב 3/3 — שני הערוצים יחד</b><br><span style="opacity:.75">250Hz משמאל · 256Hz מימין. אמורה להישמע פעימה רכה של 6 פעימות בשנייה — הצליל ה"מתנדנד" הזה הוא כל המנגנון.</span>'],
+       [8200,'✅ <b>הבדיקה הסתיימה.</b><br>שמעת את שלב 1 רק משמאל ואת שלב 2 רק מימין? הסטריאו תקין והפעימה נוצרת כראוי.<br><span style="opacity:.75">אם שני השלבים נשמעו משני הצדדים — המכשיר ממזג למונו: הגדרות ← נגישות ← שמע ← "שמע מונו" כבוי. אם לא נשמעה פעימה בשלב 3 — בדקו שהאוזניות באוזניים הנכונות.</span>']]
+      .forEach(([ms,h])=>setTimeout(()=>this.say(h),ms));};
+    if(AC.state==='suspended'&&AC.resume)AC.resume().then(run).catch(run);else run();
+  }catch(e){this.say('❌ '+e.message);}}};
+document.getElementById('st1').onclick=()=>soundTest.webaudio();
+document.getElementById('st2').onclick=()=>soundTest.element();
+document.getElementById('st3').onclick=()=>soundTest.stereo();
+
+/* ============ MIX SETTINGS ============ */
+function renderMix(){
+  document.querySelectorAll('.mixB').forEach(b=>b.classList.toggle('on',b.dataset.m===(S.settings.mix||'mid')));
+  const sl=document.getElementById('setVVol');const lb=document.getElementById('vvolVal');
+  if(sl){sl.value=Math.round((S.settings.vvol!==undefined?S.settings.vvol:0.7)*100);}
+  if(lb){lb.textContent=Math.round((S.settings.vvol!==undefined?S.settings.vvol:0.7)*100)+'%';}}
+document.querySelectorAll('.mixB').forEach(b=>b.onclick=()=>{
+  S.settings.mix=b.dataset.m;S.settings.vvol=MIX[b.dataset.m].vol;save();renderMix();
+  const en=S.settings.guideLang==='en';
+  speak(en?'This is the guidance level':'זו עוצמת ההנחיה עכשיו');});
+document.getElementById('setVVol').oninput=e=>{
+  S.settings.vvol=e.target.value/100;save();
+  document.getElementById('vvolVal').textContent=e.target.value+'%';};
+document.getElementById('voicePrev').onclick=()=>{
+  const en=S.settings.guideLang==='en';
+  speak(en?'This is how I will sound during your practice':'כך אשמע בזמן התרגול');};
 
 /* ============ TOAST ============ */
 let toastT;function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('on');
