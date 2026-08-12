@@ -478,6 +478,7 @@ function markDay(kind,minutes=0){const k=todayKey();const d=S.practice.days[k]||
 /* gender */
 function G(t){const g=S.profile.gender;if(g==='x')return t;
   return t.replace(/([֐-׿]+)\/([֐-׿]+)/g,(m,a,b)=>{
+    if(a==='את'&&b==='ה')return g==='m'?'אתה':'את';
     if(g==='m')return a;
     if(b.length===1){const f={'ן':'נ','ם':'מ','ך':'כ','ף':'פ','ץ':'צ'};
       const last=a.slice(-1);const base=f[last]?a.slice(0,-1)+f[last]:a;return base+b;}
@@ -1326,10 +1327,10 @@ function renderFreq(){renderFqNow();
     const on=FQ.preset&&FQ.preset.id===p.id;
     return `<div class="card medCard ${on?'glow':''}" data-i="${i}">
       <div class="medIc">${p.ic}</div>
-      <div><h4>${p.name}</h4><p>${p.desc}</p>${p.hp?'<div class="hpBanner">🎧 מומלץ אוזניות · <u data-noHp="'+i+'">אין לי אוזניות</u></div>':''}</div>
+      <div><h4>${p.name}</h4><p>${p.desc}</p>${p.hp?'<div class="hpBanner">🎧 מומלץ אוזניות · <u data-nohp="'+i+'">אין לי אוזניות</u></div>':''}</div>
       <div class="medDur">${on?'▶ פעיל':p.min+' ד׳'}</div></div>`;}).join('');
   document.querySelectorAll('#freqPresets .medCard').forEach(el=>el.onclick=e=>{
-    if(e.target.dataset.noHp!==undefined){fqPlayPreset(FQ_PRESETS[+e.target.dataset.noHp],true);return;}
+    if(e.target.dataset.nohp!==undefined){fqPlayPreset(FQ_PRESETS[+e.target.dataset.nohp],true);return;}
     fqPlayPreset(FQ_PRESETS[+el.dataset.i]);});
   document.getElementById('solGrid').innerHTML=SOLF.map(([f,n])=>
     `<button class="solChip ${FQ.solo===f?'on':''}" data-f="${f}"><b>${f}Hz</b>${n}</button>`).join('');
