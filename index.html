@@ -718,8 +718,11 @@ function renderMeds(){document.getElementById('medList').innerHTML=MEDS.map((m,i
 /* ---- voice guidance engine: recorded audio -> TTS -> text ----
    (architecture ported from MoneroGateway: prime for iOS, quality-scored
     voice pick, recorded-first with per-segment fallback, bed ducking) ---- */
-const TTS={ok:false,voice:null,voices:[],envoice:null,primed:false};
-const EN_SOFT=[/Samantha/i,/Ava/i,/Serena/i,/Karen/i,/Moira/i,/Daniel/i,/Google US English/i,/Aria/i,/Jenny/i,/Zira/i];
+const TTS={ok:false,voice:null,voices:[],envoice:null,envoices:[],primed:false};
+const EN_FEM=/samantha|ava\b|serena|karen|moira|zira|aria|jenny|libby|susan|allison|nicky|tessa|martha|sonia|female|woman/i;
+function enQuality(v){const n=v.name||'';let q=0;
+  if(/premium|enhanced|neural|natural|siri/i.test(n))q+=2;
+  if(EN_FEM.test(n))q+=3;return q;}
 function ttsQuality(v){const n=v.name||'';
   if(/premium|enhanced|neural|natural|siri/i.test(n))return 2;
   if(/carmit|asaf/i.test(n))return 1;return 0;}
@@ -727,9 +730,9 @@ function ttsInit(){if(!('speechSynthesis' in window))return;
   const pick=()=>{try{
     const all=speechSynthesis.getVoices();
     const evs=all.filter(v=>/^en(-|_|$)/i.test(v.lang));
-    if(evs.length)TTS.envoice=evs.slice().sort((a,b)=>{
-      const q=v=>(/premium|enhanced|neural|natural|siri/i.test(v.name)?2:EN_SOFT.some(r=>r.test(v.name))?1:0);
-      return q(b)-q(a);})[0];
+    if(evs.length){TTS.envoices=evs.slice().sort((a,b)=>enQuality(b)-enQuality(a));
+      const savedEn=S.settings.ttsVoiceEn&&evs.find(v=>v.name===S.settings.ttsVoiceEn);
+      TTS.envoice=savedEn||TTS.envoices[0];}
     const vs=all.filter(v=>/^(he|iw)(-|_|$)/i.test(v.lang)||/hebrew|עברית|carmit|asaf/i.test(v.name));
     if(!vs.length&&!evs.length)return;
     TTS.ok=true;TTS.voices=vs;
@@ -774,9 +777,13 @@ function playSeg(id,text){
   a.onplay=()=>duck(true);a.onended=()=>{duck(false);if(REC.cur===a)REC.cur=null;};
   REC.cur=a;a.play().catch(()=>{REC.bad[id]=1;if(REC.cur===a)REC.cur=null;speak(text);});}
 function renderVoicePick(){const sel=document.getElementById('setVoice');if(!sel)return;
-  if(!TTS.voices.length){sel.parentElement.style.display='none';return;}
+  const en=S.settings.guideLang==='en';
+  const pool=en?TTS.envoices:TTS.voices;
+  if(!pool||!pool.length){sel.parentElement.style.display='none';return;}
   sel.parentElement.style.display='';
-  sel.innerHTML=TTS.voices.map(v=>`<option value="${v.name}" ${TTS.voice&&TTS.voice.name===v.name?'selected':''}>${v.name}${ttsQuality(v)===2?' ★':''}</option>`).join('');}
+  const cur=en?(TTS.envoice&&TTS.envoice.name):(TTS.voice&&TTS.voice.name);
+  const qf=en?enQuality:ttsQuality;
+  sel.innerHTML=pool.map(v=>`<option value="${v.name}" ${cur===v.name?'selected':''}>${v.name}${qf(v)>=2?' ★':''}</option>`).join('');}
 
 /* ---- breath pacer: orb + label synced to a real breathing pattern ---- */
 const BREATH={sos:[4,4,8]};const BREATH_DEF=[4,2,6];
@@ -884,7 +891,7 @@ document.getElementById('pPause').onclick=e=>{P.paused=!P.paused;e.target.textCo
 document.getElementById('pLang').onclick=e=>{
   S.settings.guideLang=S.settings.guideLang==='en'?'he':'en';save();
   e.target.textContent=S.settings.guideLang==='en'?'עב':'EN';
-  if(P.med)showStep();};
+  renderVoicePick();if(P.med)showStep();};
 document.getElementById('pVoice').onclick=e=>{S.settings.tts=!S.settings.tts;save();
   e.target.textContent=S.settings.tts?'🔊':'🔇';
   if(!S.settings.tts)speakStop();
@@ -931,10 +938,14 @@ document.getElementById('setName').onchange=e=>{S.profile.name=e.target.value.tr
 document.getElementById('setGender').onchange=e=>{S.profile.gender=e.target.value;save();renderAll();};
 document.getElementById('setTts').onchange=e=>{S.settings.tts=e.target.value==='on';save();};
 document.getElementById('setRate').onchange=e=>{S.settings.ttsRate=parseFloat(e.target.value);save();};
-document.getElementById('setGuideLang').onchange=e=>{S.settings.guideLang=e.target.value;save();};
-document.getElementById('setVoice').onchange=e=>{S.settings.ttsVoice=e.target.value;save();
-  const v=TTS.voices.find(x=>x.name===e.target.value);if(v)TTS.voice=v;
-  speak('כך אשמע בזמן התרגול');};
+document.getElementById('setGuideLang').onchange=e=>{S.settings.guideLang=e.target.value;save();renderVoicePick();};
+document.getElementById('setVoice').onchange=e=>{
+  const en=S.settings.guideLang==='en';
+  if(en){S.settings.ttsVoiceEn=e.target.value;
+    const v=TTS.envoices.find(x=>x.name===e.target.value);if(v)TTS.envoice=v;}
+  else{S.settings.ttsVoice=e.target.value;
+    const v=TTS.voices.find(x=>x.name===e.target.value);if(v)TTS.voice=v;}
+  save();speak(en?'This is how I will sound during your practice':'כך אשמע בזמן התרגול');};
 document.getElementById('remAM').onchange=e=>remChange('remAM',e.target.value);
 document.getElementById('remPM').onchange=e=>remChange('remPM',e.target.value);
 document.getElementById('expBtn').onclick=()=>{const a=document.createElement('a');
