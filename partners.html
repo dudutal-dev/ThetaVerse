@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#05060f">
+<link rel="icon" href="icon.svg">
+<title>ThetaVerse — שותפות למדריכות ומדריכים</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700&family=Heebo:wght@200;300;400;500;700&display=swap');
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg0:#05060f;--bg2:#0f1226;--card:rgba(22,27,56,.55);--cardB:rgba(124,140,255,.16);
+--pearl:#e8ecf7;--dim:#aab3d0;--muted:#5d6788;--gold:#e2b96a;--violet:#8b5cf6;--nebula:#c084fc;--cyan:#67e8f9;--green:#34d399}
+body{background:var(--bg0);color:var(--pearl);font-family:'Heebo','Rubik',sans-serif;line-height:1.75;overflow-x:hidden}
+.nb{position:fixed;border-radius:50%;filter:blur(100px);opacity:.45;pointer-events:none;z-index:0}
+.n1{width:55vmax;height:55vmax;background:radial-gradient(circle,#3b1d78,transparent 65%);top:-22vmax;right:-18vmax}
+.n2{width:45vmax;height:45vmax;background:radial-gradient(circle,#12365e,transparent 65%);bottom:-15vmax;left:-12vmax}
+.wrap{position:relative;z-index:1;max-width:760px;margin:0 auto;padding:48px 22px 80px}
+.hero{text-align:center;padding:36px 0 20px}
+.logo{font-family:'Rubik';font-weight:700;font-size:2.6rem;background:linear-gradient(100deg,#f6ead0,var(--gold) 30%,#fff 50%,var(--nebula) 75%,#9db4ff);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero .tag{color:var(--dim);font-weight:300;font-size:1.12rem;margin-top:10px}
+.hero .q{font-family:'Rubik';font-weight:500;font-size:1.55rem;margin:34px auto 8px;max-width:22ch;line-height:1.5}
+.hero .q b{color:var(--gold)}
+h2{font-family:'Rubik';font-weight:600;font-size:1.25rem;color:var(--gold);margin:46px 0 14px}
+p{color:var(--dim);font-weight:300}
+.card{background:var(--card);border:1px solid var(--cardB);border-radius:20px;padding:20px;backdrop-filter:blur(12px)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px}
+.feat{background:var(--card);border:1px solid var(--cardB);border-radius:18px;padding:16px}
+.feat .ic{font-size:1.6rem}
+.feat b{display:block;font-weight:500;margin:6px 0 3px;color:var(--pearl)}
+.feat span{font-size:.86rem;color:var(--dim);font-weight:300}
+.you li,.stud li{margin:10px 0;padding-inline-start:6px;color:var(--dim);font-weight:300}
+.you li b,.stud li b{color:var(--pearl);font-weight:500}
+ul{list-style:none}
+.you li::before{content:'✦';color:var(--gold);margin-inline-end:10px}
+.stud li::before{content:'✓';color:var(--green);margin-inline-end:10px}
+.why{border-inline-start:3px solid var(--violet);padding-inline-start:16px;margin:14px 0;color:var(--dim);font-weight:300}
+.why b{color:var(--pearl)}
+.price{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-top:14px}
+.pr{background:var(--card);border:1px solid var(--cardB);border-radius:18px;padding:18px;text-align:center}
+.pr.hot{border-color:rgba(226,185,106,.5);box-shadow:0 0 30px rgba(226,185,106,.12)}
+.pr b{font-family:'Rubik';font-size:1.45rem;display:block;color:var(--pearl)}
+.pr span{font-size:.8rem;color:var(--dim)}
+.cta{margin-top:52px;text-align:center;background:linear-gradient(150deg,rgba(226,185,106,.12),rgba(139,92,246,.14));border:1px solid rgba(226,185,106,.4);border-radius:26px;padding:34px 24px}
+.cta h2{margin-top:0}
+.cta .btn{display:inline-block;margin-top:16px;padding:15px 44px;border-radius:999px;background:linear-gradient(135deg,var(--gold),#c99a45);color:#141021;font-weight:600;font-size:1.08rem;text-decoration:none;box-shadow:0 6px 30px rgba(226,185,106,.35)}
+.cta .note{font-size:.82rem;color:var(--muted);margin-top:14px}
+.foot{margin-top:56px;font-size:.76rem;color:var(--muted);text-align:center;line-height:1.8}
+.appLink{color:var(--cyan);text-decoration:none}
+@media (max-width:480px){.logo{font-size:2.1rem}.hero .q{font-size:1.3rem}}
+</style>
+</head>
+<body>
+<div class="nb n1"></div><div class="nb n2"></div>
+<div class="wrap">
+
+  <div class="hero">
+    <div class="logo">ThetaVerse</div>
+    <div class="tag">אפליקציית התרגול היומי בעברית · מבוססת גלי תטא 🌀</div>
+    <div class="q">"מה לתרגל <b>בין המפגשים</b>?"<br>השאלה שכל מדריכה מכירה — סוף סוף יש לה תשובה.</div>
+  </div>
+
+  <h2>🌱 הבעיה המוכרת</h2>
+  <div class="card">
+    <p>התלמידים יוצאים מהקורס או מהסדנה מלאי השראה — ותוך שבועיים ההרגל מתפוגג. קבוצת ווטסאפ לא מחזיקה תרגול יומי, וההנחיה "תתרגלו בבית" נשארת באוויר. בדיוק בנקודה הזאת התלמידים הכי זקוקים לליווי — ובדיוק שם נגמרים הכלים.</p>
+  </div>
+
+  <h2>🌌 הפתרון — מלווה תרגול יומי בכיס</h2>
+  <div class="grid">
+    <div class="feat"><div class="ic">🌅</div><b>לולאה יומית מובנית</b><span>מדיטציית צלילה בבוקר, הטמעת היום, שלוש תודות בערב — 10 דקות ביום</span></div>
+    <div class="feat"><div class="ic">🌊</div><b>מחולל תדרים חי</b><span>פעימות בינאורליות ואיזוכרוניות בתדרי תטא, סולפג׳יו וצלילי רקע — נוצרים בזמן אמת במכשיר</span></div>
+    <div class="feat"><div class="ic">⛏️</div><b>יומן אמונות מודרך</b><span>אשף חפירה שמוביל מהמחשבה שעל פני השטח לאמונת השורש — ומחליף אותה</span></div>
+    <div class="feat"><div class="ic">🗺️</div><b>מסעות 21 ו-30 יום</b><span>תוכניות מובנות עם תיאוריה של דקה ותרגול יומי — ההרגל נבנה לבד</span></div>
+    <div class="feat"><div class="ic">💫</div><b>80+ הטמעות בעברית</b><span>ב-8 נושאים: אהבה עצמית, שפע, יחסים, ביטחון, סליחה ועוד</span></div>
+    <div class="feat"><div class="ic">🔒</div><b>פרטיות מלאה</b><span>בלי חשבון, בלי פרסומות — כל הנתונים נשמרים אצל התלמיד/ה במכשיר</span></div>
+  </div>
+
+  <h2>✨ מה את מקבלת כשותפת השקה</h2>
+  <div class="card you"><ul>
+    <li><b>עמלה שוטפת של 25%</b> על כל מנוי שמצטרף דרך הקוד האישי שלך — כל עוד המנוי פעיל</li>
+    <li><b>הקול שלך באפליקציה</b> — שותפות תוכן: מדיטציות מוקלטות בקולך, עם קרדיט מלא, לקהל שלך ומעבר לו</li>
+    <li><b>כלי עבודה לקבוצה שלך</b> — הפצת הטמעה יומית לתלמידים, מעקב התקדמות, ואתגרי קבוצה ממותגים (בהמשך הדרך)</li>
+    <li><b>מחיר מייסדות</b> לתלמידים שלך + השפעה ישירה על מפת הדרכים של המוצר</li>
+  </ul></div>
+
+  <h2>🤍 מה התלמידים שלך מקבלים</h2>
+  <div class="card stud"><ul>
+    <li><b>חינם לתמיד:</b> הלולאה היומית המלאה — מדיטציה, הטמעת היום, תודה ואיפוס SOS</li>
+    <li><b>Plus ‏(₪35/חודש או ₪249/שנה):</b> כל המדיטציות, כל התדרים, יומן האמונות והמסעות המלאים</li>
+    <li>עברית מלאה, לשון פנייה אישית, עובד גם בלי אינטרנט — ומרגיש כמו אפליקציה מהחנות</li>
+  </ul></div>
+
+  <h2>📈 למה דווקא עכשיו</h2>
+  <div class="why"><b>השוק הגנרי רווי — הנישות מנצחות.</b> Calm ו-Headspace מאבדות מנויים, בעוד אפליקציות נישה ממוקדות-קהילה צומחות פי כמה (Hallow הגיעה ל-10M הורדות ו-$33M ARR בנישה שלה). בעברית — הנישה הזאת פשוט ריקה: אין אף מלווה תרגול יומי רציני.</div>
+  <div class="why"><b>הקהילה שלך כבר מחפשת את זה.</b> התלמידים שואלים מה לתרגל — האפליקציה היא התשובה שנשארת אצלם בכיס, עם השם שלך עליה.</div>
+
+  <h2>💎 המודל, בשקיפות מלאה</h2>
+  <div class="price">
+    <div class="pr"><b>חינם</b><span>הלולאה היומית · לתמיד</span></div>
+    <div class="pr hot"><b>₪249<small style="font-size:.8rem">/שנה</small></b><span>Plus — הכול פתוח<br>(או ₪35/חודש)</span></div>
+    <div class="pr"><b>25%</b><span>עמלה שוטפת לשותפות<br>על כל מנוי שהגיע דרכך</span></div>
+  </div>
+
+  <div class="cta">
+    <h2 style="color:var(--pearl)">מצטרפות לגל הראשון? 🌊</h2>
+    <p>אנחנו פותחים את ההשקה עם <b style="color:var(--gold)">5 שותפות תוכן בלבד</b> — מדריכות ומדריכים עם קהילה פעילה שרוצים כלי אמיתי בין המפגשים, והכנסה שוטפת לצידו.</p>
+    <a class="btn" href="mailto:dudu@thetaverse.app?subject=שותפות ThetaVerse">בואו נדבר ←</a>
+    <div class="note">דודו טל · ThetaVerse · <a class="appLink" href="index.html">להתנסות באפליקציה עכשיו ↗</a></div>
+  </div>
+
+  <div class="foot">
+    ThetaVerse — אפליקציית תרגול יומי מבוססת גלי תטא · פיתוח: דודו טל<br>
+    התכנים לרווחה אישית בלבד ואינם מחליפים טיפול רפואי או נפשי · אין להאזין לתדרי הרפיה בזמן נהיגה
+  </div>
+
+</div>
+</body>
+</html>

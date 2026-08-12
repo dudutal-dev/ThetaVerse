@@ -7,6 +7,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="ThetaVerse">
 <meta name="theme-color" content="#05060f">
+<link rel="manifest" href="manifest.json">
 <meta name="description" content="ThetaVerse — תרגול יומי מבוסס גלי תטא">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌀</text></svg>">
 <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%230f1226'/><text y='.9em' font-size='68' x='50%' text-anchor='middle'>🌀</text></svg>">
@@ -137,7 +138,7 @@ h3.sec{font-family:'Rubik','Heebo',sans-serif;font-size:1.02rem;font-weight:500;
 /* settings */
 .setRow{display:flex;align-items:center;gap:12px;padding:14px 4px;border-bottom:1px solid rgba(255,255,255,.05)}
 .setRow label{flex:1;font-weight:300}
-select,input[type=text]{background:var(--bg3);border:1px solid var(--cardB);color:var(--pearl);font-family:inherit;font-size:.95rem;padding:9px 12px;border-radius:12px;outline:none}
+select,input[type=text],input[type=time]{background:var(--bg3);border:1px solid var(--cardB);color:var(--pearl);font-family:inherit;font-size:.95rem;padding:9px 12px;border-radius:12px;outline:none}
 .disc{font-size:.78rem;color:var(--muted);line-height:1.7;margin-top:16px}
 /* frequencies */
 .solGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
@@ -240,6 +241,7 @@ textarea{width:100%;min-height:90px;background:var(--bg3);border:1px solid var(-
   <section class="view on" id="v-today">
     <div class="hello" id="greet"></div>
     <p class="sub" id="greetSub"></p>
+    <div id="nudge"></div>
 
     <div class="card glow">
       <div class="loop" id="loopRow">
@@ -334,6 +336,9 @@ textarea{width:100%;min-height:90px;background:var(--bg3);border:1px solid var(-
       <div class="setRow"><label>שם</label><input type="text" id="setName" style="width:150px"></div>
       <div class="setRow"><label>לשון פנייה</label>
         <select id="setGender"><option value="x">מעורב (יודע/ת)</option><option value="f">נקבה</option><option value="m">זכר</option></select></div>
+      <div class="setRow"><label>תזכורת בוקר ☀️</label><input type="time" id="remAM" style="width:112px"></div>
+      <div class="setRow"><label>תזכורת ערב 🌙</label><input type="time" id="remPM" style="width:112px"></div>
+      <p class="sub" style="font-size:.72rem;margin:10px 2px">💡 התזכורות פועלות כשהאפליקציה פתוחה או ברקע · השאר/י ריק לביטול</p>
       <div class="setRow" style="border:none;gap:8px">
         <button class="btn ghost" id="expBtn" style="flex:1">ייצוא נתונים</button>
         <button class="btn ghost" id="impBtn" style="flex:1">ייבוא</button>
@@ -409,6 +414,13 @@ textarea{width:100%;min-height:90px;background:var(--bg3);border:1px solid var(-
   <div id="progDay"></div>
 </div></div>
 
+<!-- MOOD CHECK-IN -->
+<div id="mood" class="ovl"><div class="ovlIn" style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:92dvh;text-align:center">
+  <h2 id="moodT" style="font-family:'Rubik','Heebo',sans-serif;font-weight:600;font-size:1.35rem;margin-bottom:24px"></h2>
+  <div class="emoRow" style="width:100%;max-width:340px" id="moodRow"></div>
+  <button class="btn ghost" id="moodSkip" style="margin-top:20px">דלג/י</button>
+</div></div>
+
 <!-- MILESTONE CELEBRATION -->
 <div id="cele" class="ovl"><div class="ovlIn" style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:92dvh;text-align:center;padding-top:calc(60px + var(--stop))">
   <div id="celeE" style="font-size:4.2rem;animation:breathe 2.6s ease-in-out infinite;filter:drop-shadow(0 0 34px rgba(226,185,106,.55))"></div>
@@ -432,17 +444,18 @@ function drawStars(t){cx.clearRect(0,0,cv.width,cv.height);
     const a=.25+Math.abs(Math.sin(s.tw))*.6;cx.beginPath();cx.arc(s.x,s.y,s.r*devicePixelRatio,0,7);cx.fillStyle=`rgba(232,236,247,${a})`;cx.fill();}
   requestAnimationFrame(drawStars);}
 initStars();addEventListener('resize',initStars);requestAnimationFrame(drawStars);
+if('serviceWorker' in navigator&&location.protocol==='https:')navigator.serviceWorker.register('sw.js').catch(()=>{});
 
 /* ============ STATE ============ */
 const KEY='thetaverse.v1';
 const todayKey=()=>{const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');};
 let S=load();
-S.journal=S.journal||[];S.program=S.program||{day:1,completed:[]};S.program.active=S.program.active||'21';S.milestones=S.milestones||[];S.stats.beliefsReplaced=S.stats.beliefsReplaced||0;
+S.journal=S.journal||[];S.program=S.program||{day:1,completed:[]};S.program.active=S.program.active||'21';S.milestones=S.milestones||[];S.stats.beliefsReplaced=S.stats.beliefsReplaced||0;S.settings=S.settings||{remAM:null,remPM:null,fired:{}};S.settings.fired=S.settings.fired||{};
 function load(){try{const s=JSON.parse(localStorage.getItem(KEY));if(s&&s.schemaVersion===1)return s;}catch(e){}
   return {schemaVersion:1,profile:{name:'',gender:'x',onboarded:false},
     stats:{totalMinutes:0,sessions:0,downloadsAccepted:0,beliefsReplaced:0},
     practice:{days:{}},downloads:{acceptedIds:[],todayIds:[],todayDate:'',todayDone:false},gratitude:{},
-    journal:[],program:{day:1,completed:[]}};}
+    journal:[],program:{day:1,completed:[]},settings:{remAM:null,remPM:null,fired:{}}};}
 /* migration for pre-journal saves */
 (function(){})();
 function save(){localStorage.setItem(KEY,JSON.stringify(S));}
@@ -583,7 +596,7 @@ function greet(){const h=new Date().getHours();const n=S.profile.name?', '+S.pro
   if(h<22)return['ערב טוב'+n+' 🌙','זמן תודה ושחרור'];
   return['לילה טוב'+n+' 🌌','צלילה רכה אל תוך תטא'];}
 function renderToday(){const[g,s]=greet();document.getElementById('greet').textContent=g;document.getElementById('greetSub').textContent=s;
-  renderLoop();renderDaily();renderNextMed();renderGrat();renderProgCard();renderTodayDig();}
+  renderLoop();renderDaily();renderNextMed();renderGrat();renderProgCard();renderTodayDig();renderNudge();}
 function renderLoop(){const d=S.practice.days[todayKey()];const items=d?d.items:[];
   document.querySelectorAll('.loopIt').forEach(el=>el.classList.toggle('done',items.includes(el.dataset.k)));}
 
@@ -631,8 +644,9 @@ function renderMeds(){document.getElementById('medList').innerHTML=MEDS.map((m,i
   document.querySelectorAll('#medList .medCard').forEach(el=>el.onclick=()=>play(MEDS[+el.dataset.i]));}
 
 let P={med:null,step:0,left:0,total:0,elapsed:0,timer:null,paused:false};
+function play(med){if(!med)return;if(med.id==='sos'){playNow(med);return;}moodShow('before',med);}
 const CIRC=2*Math.PI*46;
-function play(med){P={med,step:0,left:med.steps[0][1],total:med.steps.reduce((a,s)=>a+s[1],0),elapsed:0,timer:null,paused:false};
+function playNow(med){P={med,step:0,left:med.steps[0][1],total:med.steps.reduce((a,s)=>a+s[1],0),elapsed:0,timer:null,paused:false};
   document.getElementById('pTitle').textContent=med.name;
   document.getElementById('pProg').style.strokeDasharray=CIRC;
   document.getElementById('player').classList.add('on');
@@ -650,7 +664,8 @@ function tick(){if(P.paused)return;
 function endMed(done){clearInterval(P.timer);if(P.lock)P.lock.release().catch(()=>{});
   document.getElementById('player').classList.remove('on');
   if(done){S.stats.sessions++;markDay('med',P.med.min);save();renderStats();
-    toast(P.med.id==='evening'?'לילה של אור 🌙':'הצלילה הושלמה ✨ '+P.med.min+' דקות בתטא');}}
+    toast(P.med.id==='evening'?'לילה של אור 🌙':'הצלילה הושלמה ✨ '+P.med.min+' דקות בתטא');
+    if(P.med.id!=='sos')setTimeout(()=>moodShow('after',null),900);}}
 document.getElementById('pExit').onclick=()=>{if(P.elapsed>=60){S.stats.sessions++;markDay('med',Math.round(P.elapsed/60));save();renderStats();}endMed(false);};
 document.getElementById('pPause').onclick=e=>{P.paused=!P.paused;e.target.textContent=P.paused?'▶':'⏸';};
 document.getElementById('sosFab').onclick=()=>play(MEDS.find(m=>m.id==='sos'));
@@ -685,9 +700,13 @@ function renderStats(){const now=new Date();const pre=now.getFullYear()+'-'+Stri
     strip.innerHTML=h;}}
 function renderSettings(){document.getElementById('setName').value=S.profile.name;
   document.getElementById('setGender').value=S.profile.gender;
+  document.getElementById('remAM').value=S.settings.remAM||'';
+  document.getElementById('remPM').value=S.settings.remPM||'';
   document.getElementById('profSub').textContent=S.profile.name?'שלום, '+S.profile.name+' 🌟':'ההגדרות והידע שלך';}
 document.getElementById('setName').onchange=e=>{S.profile.name=e.target.value.trim();save();renderToday();};
 document.getElementById('setGender').onchange=e=>{S.profile.gender=e.target.value;save();renderAll();};
+document.getElementById('remAM').onchange=e=>remChange('remAM',e.target.value);
+document.getElementById('remPM').onchange=e=>remChange('remPM',e.target.value);
 document.getElementById('expBtn').onclick=()=>{const a=document.createElement('a');
   a.href='data:application/json;charset=utf-8,'+encodeURIComponent(JSON.stringify(S,null,1));
   a.download='thetaverse-backup.json';a.click();toast('הגיבוי ירד ✓');};
@@ -695,6 +714,47 @@ document.getElementById('impBtn').onclick=()=>document.getElementById('impFile')
 document.getElementById('impFile').onchange=e=>{const f=e.target.files[0];if(!f)return;
   const r=new FileReader();r.onload=()=>{try{const s=JSON.parse(r.result);
     if(s.schemaVersion===1){S=s;save();renderAll();toast('הנתונים יובאו ✓');}else toast('קובץ לא תואם');}catch(err){toast('קובץ לא תקין');}};r.readAsText(f);};
+
+/* ============ REMINDERS ============ */
+function remChange(key,val){S.settings[key]=val||null;save();
+  if(val&&'Notification' in window&&Notification.permission==='default')Notification.requestPermission();}
+setInterval(()=>{try{
+  const now=new Date();
+  const hm=String(now.getHours()).padStart(2,'0')+':'+String(now.getMinutes()).padStart(2,'0');
+  const k=todayKey();
+  [['remAM','בוקר אור 🌅 רגע של צלילה לפני שהיום ממשיך?'],['remPM','ערב טוב 🌙 שלוש תודות לפני השינה?']].forEach(([key,msg])=>{
+    if(S.settings[key]&&S.settings[key]===hm&&S.settings.fired[key]!==k){
+      S.settings.fired[key]=k;save();toast(msg);
+      if('Notification' in window&&Notification.permission==='granted'){
+        try{new Notification('ThetaVerse',{body:msg,icon:'icon.svg'});}catch(e){}}}});
+}catch(e){}},20000);
+function renderNudge(){const ng=document.getElementById('nudge');if(!ng)return;
+  const d=S.practice.days[todayKey()];const h=new Date().getHours();
+  if(h>=19&&(!d||!d.items.length)){
+    ng.innerHTML=`<div class="card" style="border-color:rgba(103,232,249,.35);margin-bottom:14px">
+      <p class="sub" style="margin:0 0 10px">עוד לא תרגלת היום — שלוש דקות של אור לפני שהיום נגמר? ⚡</p>
+      <button class="btn full" id="nudgeGo">איפוס SOS — 3 ד׳</button></div>`;
+    document.getElementById('nudgeGo').onclick=()=>play(MEDS.find(m=>m.id==='sos'));}
+  else ng.innerHTML='';}
+
+/* ============ MOOD CHECK-IN ============ */
+const MOODE=['😞','😕','😐','🙂','😊'];
+let moodCtx=null;
+function moodShow(phase,med){moodCtx={phase,med};
+  document.getElementById('moodT').textContent=phase==='before'?'רגע לפני — איך את/ה מרגיש/ה?':'ואיך עכשיו?';
+  document.getElementById('moodRow').innerHTML=MOODE.map((e,i)=>`<button class="emoBtn" data-v="${i+1}">${e}</button>`).join('');
+  document.getElementById('mood').classList.add('on');
+  document.querySelectorAll('#moodRow .emoBtn').forEach(b=>b.onclick=()=>moodPick(+b.dataset.v));
+  document.getElementById('moodSkip').onclick=()=>moodPick(null);}
+function moodPick(v){const c=moodCtx;moodCtx=null;
+  document.getElementById('mood').classList.remove('on');
+  if(!c)return;const k=todayKey();
+  if(c.phase==='before'){
+    if(v){const d=S.practice.days[k]||(S.practice.days[k]={items:[]});d.moodBefore=v;save();}
+    playNow(c.med);}
+  else if(v){const d=S.practice.days[k]||(S.practice.days[k]={items:[]});d.moodAfter=v;save();
+    const b=d.moodBefore;
+    if(b&&v>b)toast(MOODE[b-1]+' ← '+MOODE[v-1]+'  עלית ✨');else toast('נרשם 🤍');}}
 
 /* ============ INFO / METHOD ============ */
 const INFO={
