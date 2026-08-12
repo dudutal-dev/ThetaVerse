@@ -59,7 +59,7 @@ ul{list-style:none}
    EXPIRES = תאריך תפוגה גורף של העמוד (לעריכה כאן).
    אפשר גם להגביל שליחה ספציפית: partners.html?exp=2026-08-20 (התאריך המוקדם מנצח). */
 (function(){
-  var EXPIRES='2026-09-15';
+  var EXPIRES='2099-12-31';
   var q=new URLSearchParams(location.search).get('exp');
   var lim=new Date(EXPIRES+'T23:59:59');
   if(q&&/^\d{4}-\d{2}-\d{2}$/.test(q)){var ql=new Date(q+'T23:59:59');if(ql<lim)lim=ql;}
