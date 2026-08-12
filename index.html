@@ -7,7 +7,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="ThetaVerse">
 <meta name="theme-color" content="#05060f">
-<meta name="description" content="ThetaVerse — תרגול תטא יומי">
+<meta name="description" content="ThetaVerse — תרגול יומי מבוסס גלי תטא">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌀</text></svg>">
 <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%230f1226'/><text y='.9em' font-size='68' x='50%' text-anchor='middle'>🌀</text></svg>">
 <title>ThetaVerse — תרגול תטא יומי</title>
@@ -217,23 +217,14 @@ textarea{width:100%;min-height:90px;background:var(--bg3);border:1px solid var(-
     <div class="core"></div>
   </div>
   <h1>ThetaVerse</h1>
-  <p>המסע היומי שלך אל המישור השביעי</p>
+  <p>מסע יומי אל גלי תטא — רוגע, עומק ובהירות</p>
   <button id="enterBtn">כניסה למרחב ✨</button>
 </div>
 
 <!-- ONBOARDING -->
 <div id="onb"><div class="onbCard">
-  <h2>ברוכים הבאים 🌀</h2>
-  <p>איך לקרוא לך?</p>
-  <input type="text" id="onbName" placeholder="השם שלך" style="width:100%">
-  <p style="margin-top:18px">לשון פנייה:</p>
-  <div class="gRow">
-    <button class="gBtn" data-g="f">נקבה</button>
-    <button class="gBtn" data-g="m">זכר</button>
-    <button class="gBtn on" data-g="x">מעורב</button>
-  </div>
-  <p style="font-size:.78rem;color:var(--muted)">ThetaVerse היא אפליקציית תרגול רוחני עצמאית (אינה קשורה ל-THInK / ThetaHealing®). התרגול משלים ואינו מחליף טיפול רפואי או נפשי מקצועי.</p>
-  <button class="btn gold full" id="onbGo" style="margin-top:16px">מתחילים ✨</button>
+  <div class="wizDots" id="onbDots"></div>
+  <div id="onbBody"></div>
 </div></div>
 
 <!-- APP -->
@@ -247,19 +238,19 @@ textarea{width:100%;min-height:90px;background:var(--bg3);border:1px solid var(-
 
     <div class="card glow">
       <div class="loop" id="loopRow">
-        <div class="loopIt" data-k="med"><div class="ic">🌌</div><div class="lb">עלייה</div></div>
-        <div class="loopIt" data-k="dl"><div class="ic">💫</div><div class="lb">הורדה</div></div>
+        <div class="loopIt" data-k="med"><div class="ic">🌌</div><div class="lb">תטא</div></div>
+        <div class="loopIt" data-k="dl"><div class="ic">💫</div><div class="lb">הטמעה</div></div>
         <div class="loopIt" data-k="grat"><div class="ic">🙏</div><div class="lb">תודה</div></div>
       </div>
     </div>
 
-    <h3 class="sec">💫 הורדת היום</h3>
+    <h3 class="sec">💫 ההטמעה של היום</h3>
     <div class="card" id="dlCard"></div>
 
     <h3 class="sec">🌌 התרגול הבא</h3>
     <div class="card medCard glow" id="nextMed"></div>
 
-    <h3 class="sec">🗺️ המסע — 21 יום למישור השביעי</h3>
+    <h3 class="sec">🗺️ המסע — 21 יום אל גלי תטא</h3>
     <div class="card glow" id="progCard"></div>
 
     <h3 class="sec">🙏 תודה של ערב</h3>
@@ -278,8 +269,8 @@ textarea{width:100%;min-height:90px;background:var(--bg3);border:1px solid var(-
 
   <!-- DOWNLOADS -->
   <section class="view" id="v-dl">
-    <div class="hello">ספריית ההורדות</div>
-    <p class="sub">אישור ב"כן" — כמסורת הרשות המילולית · <span id="dlCount" class="chip"></span></p>
+    <div class="hello">ספריית ההטמעות</div>
+    <p class="sub">שום דבר לא נכנס בלי "כן" — כל הטמעה נקלטת רק כשמאשרים אותה · <span id="dlCount" class="chip"></span></p>
     <div class="themeTabs" id="dlTabs"></div>
     <div id="dlList"></div>
   </section>
@@ -310,8 +301,8 @@ textarea{width:100%;min-height:90px;background:var(--bg3);border:1px solid var(-
     <div class="statGrid">
       <div class="stat"><b id="stDays">0</b><span>ימי תרגול החודש</span></div>
       <div class="stat"><b id="stMin">0</b><span>דקות בתטא</span></div>
-      <div class="stat"><b id="stDl">0</b><span>הורדות שאושרו</span></div>
-      <div class="stat"><b id="stSes">0</b><span>מסעות למישור השביעי</span></div>
+      <div class="stat"><b id="stDl">0</b><span>הטמעות שנקלטו</span></div>
+      <div class="stat"><b id="stSes">0</b><span>מסעות תטא</span></div>
       <div class="stat"><b id="stBel">0</b><span>אמונות שהוחלפו</span></div>
       <div class="stat"><b id="stProg">0</b><span>ימי מסע הושלמו</span></div>
     </div>
@@ -331,7 +322,13 @@ textarea{width:100%;min-height:90px;background:var(--bg3);border:1px solid var(-
         <input type="file" id="impFile" accept=".json" hidden>
       </div>
     </div>
-    <p class="disc">ThetaVerse — אפליקציית תרגול רוחני עצמאית בהשראת עולם התטא הילינג. אינה קשורה ל-THInK או לויאנה סטיבל; ThetaHealing® הוא סימן מסחרי רשום. התכנים לרווחה אישית בלבד — משלימים ואינם מחליפים טיפול רפואי או נפשי. אם יש היסטוריה של מצבים נפשיים מורכבים, מומלץ להתייעץ עם איש מקצוע לפני עבודה מדיטטיבית עמוקה.</p>
+    <h3 class="sec">ℹ️ אודות</h3>
+    <div class="card">
+      <div style="display:flex;align-items:center;gap:12px"><div class="medIc">🌀</div>
+      <div><h4 style="font-weight:500">ThetaVerse · גרסה 1.0</h4><p class="sub" style="margin:2px 0 0;font-size:.8rem">פיתוח: דודו טל</p></div></div>
+      <p class="sub" style="margin-top:12px;font-size:.86rem;line-height:1.75">אפליקציית תרגול יומי מבוססת גלי תטא (4–8 הרץ) — מדיטציות מודרכות, מחולל תדרים חי (בינאורלי, איזוכרוני וסולפג׳יו), הטמעות יומיות, יומן אמונות ומסע 21 יום. כל הצלילים נוצרים בזמן אמת בתוך המכשיר, וכל הנתונים נשמרים אצלך בלבד.</p>
+    </div>
+    <p class="disc">התכנים לרווחה אישית בלבד — משלימים ואינם מחליפים טיפול רפואי או נפשי. אם יש היסטוריה של מצבים נפשיים מורכבים, מומלץ להתייעץ עם איש מקצוע לפני עבודה מדיטטיבית עמוקה. אין להאזין לתדרי הרפיה בזמן נהיגה.</p>
   </section>
 
 </main>
@@ -341,7 +338,7 @@ textarea{width:100%;min-height:90px;background:var(--bg3);border:1px solid var(-
 <nav><div class="navIn">
   <button class="navBtn on" data-v="today"><span>🌅</span>היום</button>
   <button class="navBtn" data-v="med"><span>🌌</span>מדיטציות</button>
-  <button class="navBtn" data-v="dl"><span>💫</span>הורדות</button>
+  <button class="navBtn" data-v="dl"><span>💫</span>הטמעות</button>
   <button class="navBtn" data-v="freq"><span>🌊</span>תדרים</button>
   <button class="navBtn" data-v="me"><span>🪐</span>המסע שלי</button>
 </div></nav>
@@ -377,7 +374,7 @@ textarea{width:100%;min-height:90px;background:var(--bg3);border:1px solid var(-
 
 <!-- 21-DAY PROGRAM -->
 <div id="prog" class="ovl"><div class="ovlIn">
-  <div class="ovlHead"><b>המסע למישור השביעי 🗺️</b><button class="ovlX" id="progX">✕</button></div>
+  <div class="ovlHead"><b>מסע 21 יום אל תטא 🗺️</b><button class="ovlX" id="progX">✕</button></div>
   <div id="progMap"></div>
   <div id="progDay"></div>
 </div></div>
@@ -418,54 +415,52 @@ function G(t){const g=S.profile.gender;if(g==='x')return t;
   return t.replace(/([֐-׿]+)\/([֐-׿]+)/g,(m,a,b)=>g==='m'?a:a+b);}
 
 /* ============ DATA: DOWNLOADS ============ */
-const THEMES=[['love','💗 אהבה עצמית'],['abund','💰 שפע'],['rel','💞 זוגיות ויחסים'],['health','🌿 בריאות'],['safe','🛡️ ביטחון'],['forgive','🕊️ סליחה ושחרור'],['family','👨‍👩‍👧 משפחה'],['spirit','✨ חיבור לבורא']];
+const THEMES=[['love','💗 אהבה עצמית'],['abund','💰 שפע'],['rel','💞 זוגיות ויחסים'],['health','🌿 בריאות'],['safe','🛡️ ביטחון'],['forgive','🕊️ סליחה ושחרור'],['family','👨‍👩‍👧 משפחה'],['spirit','✨ רוחניות והשראה']];
 const DL={
-love:["אני יודע/ת איך זה מרגיש לאהוב את עצמי ללא תנאי.","אני יודע/ת איך לחיות את היומיום שלי מתוך אהבה עצמית.","אני יודע/ת שאני ראוי/ה לאהבה בדיוק כפי שאני.","אני יודע/ת איך זה מרגיש להיות שלם/ה עם מי שאני.","אני יודע/ת איך להציב גבולות מתוך אהבה, בלי אשמה.","אני יודע/ת איך זה מרגיש לסלוח לעצמי בקלות.","אני יודע/ת שמותר לי לנוח בלי להרגיש אשמה.","אני יודע/ת איך לראות את עצמי דרך עיני הבורא.","אני יודע/ת איך זה מרגיש להיות גאה בדרך שעברתי.","אני יודע/ת שאני מספיק/ה, בדיוק כמו שאני."],
-abund:["אני יודע/ת איך זה מרגיש לחיות בשפע בכל תחומי חיי.","אני יודע/ת איך לקבל כסף בשמחה ובקלות.","אני יודע/ת שאפשר להרוויח בשפע מעשייה שאני אוהב/ת.","אני יודע/ת איך זה מרגיש שכל צרכיי מסופקים תמיד.","אני יודע/ת איך לחיות בלי פחד ממחסור.","אני יודע/ת שכסף הוא אנרגיה נקייה, ומותר לי ליהנות ממנו.","אני יודע/ת איך זה מרגיש להיות ראוי/ה להצלחה.","אני יודע/ת איך לזהות הזדמנויות שהבורא שולח לי.","אני יודע/ת איך לתת ולקבל בזרימה מאוזנת.","אני יודע/ת שהשפע שלי אינו בא על חשבון איש."],
+love:["אני יודע/ת איך זה מרגיש לאהוב את עצמי ללא תנאי.","אני יודע/ת איך לחיות את היומיום שלי מתוך אהבה עצמית.","אני יודע/ת שאני ראוי/ה לאהבה בדיוק כפי שאני.","אני יודע/ת איך זה מרגיש להיות שלם/ה עם מי שאני.","אני יודע/ת איך להציב גבולות מתוך אהבה, בלי אשמה.","אני יודע/ת איך זה מרגיש לסלוח לעצמי בקלות.","אני יודע/ת שמותר לי לנוח בלי להרגיש אשמה.","אני יודע/ת איך לראות את עצמי בעיניים אוהבות.","אני יודע/ת איך זה מרגיש להיות גאה בדרך שעברתי.","אני יודע/ת שאני מספיק/ה, בדיוק כמו שאני."],
+abund:["אני יודע/ת איך זה מרגיש לחיות בשפע בכל תחומי חיי.","אני יודע/ת איך לקבל כסף בשמחה ובקלות.","אני יודע/ת שאפשר להרוויח בשפע מעשייה שאני אוהב/ת.","אני יודע/ת איך זה מרגיש שכל צרכיי מסופקים תמיד.","אני יודע/ת איך לחיות בלי פחד ממחסור.","אני יודע/ת שכסף הוא אנרגיה נקייה, ומותר לי ליהנות ממנו.","אני יודע/ת איך זה מרגיש להיות ראוי/ה להצלחה.","אני יודע/ת איך לזהות הזדמנויות כשהן מגיעות.","אני יודע/ת איך לתת ולקבל בזרימה מאוזנת.","אני יודע/ת שהשפע שלי אינו בא על חשבון איש."],
 rel:["אני יודע/ת איך זה מרגיש לאהוב ולהיות נאהב/ת בביטחון מלא.","אני יודע/ת איך לחיות בזוגיות מתוך כבוד הדדי.","אני יודע/ת איך זה מרגיש לסמוך על בן/בת הזוג שלי.","אני יודע/ת שאפשר לאהוב בלי לאבד את עצמי.","אני יודע/ת איך לתקשר את צרכיי בבהירות וברוך.","אני יודע/ת איך זה מרגיש להיות מובן/ת ומוערך/ת.","אני יודע/ת איך לשחרר קשרים שאינם משרתים אותי, באהבה.","אני יודע/ת שמגיעה לי אהבה נאמנה ויציבה.","אני יודע/ת איך זה מרגיש לחיות בלי פחד מנטישה.","אני יודע/ת איך לראות את הטוב באנשים ולשמור על עצמי בו-זמנית."],
 health:["אני יודע/ת איך זה מרגיש לחיות בגוף בריא ומלא חיות.","אני יודע/ת איך לאהוב את הגוף שלי ולהודות לו.","אני יודע/ת שהגוף שלי יודע לרפא את עצמו.","אני יודע/ת איך זה מרגיש לישון שינה עמוקה ומרפאת.","אני יודע/ת איך להזין את גופי במה שטוב עבורו.","אני יודע/ת איך לחיות בלי כאב מהעבר שאגור בגוף.","אני יודע/ת איך זה מרגיש לקום בבוקר עם אנרגיה ושמחה.","אני יודע/ת שמותר לי להיות בריא/ה גם כשסביבי חולי.","אני יודע/ת איך להקשיב לאותות של הגוף שלי בזמן.","אני יודע/ת איך זה מרגיש להזדקן בחן, בבריאות ובשמחה."],
-safe:["אני יודע/ת איך זה מרגיש להיות מוגן/ת ובטוח/ה בעולם.","אני יודע/ת איך לחיות בלי פחד מהעתיד.","אני יודע/ת שאני מוקף/ת באור הבורא בכל רגע.","אני יודע/ת איך זה מרגיש לבטוח בתהליך של החיים.","אני יודע/ת איך להישאר רגוע/ה גם בתוך אי-ודאות.","אני יודע/ת שמותר לי לבלוט ולהיראות בביטחון.","אני יודע/ת איך לחיות בלי צורך להיות דרוך/ה כל הזמן.","אני יודע/ת איך זה מרגיש שהעולם הוא מקום ידידותי עבורי.","אני יודע/ת איך להבחין בין אינטואיציה לבין פחד.","אני יודע/ת שאני יכול/ה לעמוד בכל מה שהחיים מביאים."],
+safe:["אני יודע/ת איך זה מרגיש להיות מוגן/ת ובטוח/ה בעולם.","אני יודע/ת איך לחיות בלי פחד מהעתיד.","אני יודע/ת שאני מוקף/ת באור ובהגנה בכל רגע.","אני יודע/ת איך זה מרגיש לבטוח בתהליך של החיים.","אני יודע/ת איך להישאר רגוע/ה גם בתוך אי-ודאות.","אני יודע/ת שמותר לי לבלוט ולהיראות בביטחון.","אני יודע/ת איך לחיות בלי צורך להיות דרוך/ה כל הזמן.","אני יודע/ת איך זה מרגיש שהעולם הוא מקום ידידותי עבורי.","אני יודע/ת איך להבחין בין אינטואיציה לבין פחד.","אני יודע/ת שאני יכול/ה לעמוד בכל מה שהחיים מביאים."],
 forgive:["אני יודע/ת איך זה מרגיש לסלוח באמת ולהשתחרר.","אני יודע/ת איך לשחרר כעס בלי לפגוע בעצמי או באחרים.","אני יודע/ת שסליחה אינה הסכמה למה שקרה — היא חופש שלי.","אני יודע/ת איך לשחרר את העבר ולחיות בהווה.","אני יודע/ת איך זה מרגיש לחיות בלי טינה.","אני יודע/ת איך לשחרר אשמה ולקחת אחריות מתוך חמלה.","אני יודע/ת איך להשלים עם מה שאי אפשר לשנות.","אני יודע/ת איך זה מרגיש להתחיל דף חדש.","אני יודע/ת איך לשחרר אמונות שירשתי ואינן שלי.","אני יודע/ת איך זה מרגיש להיות קל/ה וחופשי/ה."],
 family:["אני יודע/ת איך זה מרגיש להיות הורה מתוך רוגע ואהבה.","אני יודע/ת איך להציב גבולות לילדיי מתוך חיבור ולא מתוך כעס.","אני יודע/ת שאני הורה טוב/ה גם כשאני טועה.","אני יודע/ת איך לרפא דפוסים משפחתיים ולא להעביר אותם הלאה.","אני יודע/ת איך זה מרגיש לכבד את הוריי ולהישאר נאמן/ה לעצמי.","אני יודע/ת איך לאהוב את משפחתי בלי לשאת את הכאב שלה.","אני יודע/ת איך זה מרגיש בית שקט ומלא אהבה.","אני יודע/ת איך לתת לילדיי שורשים וכנפיים.","אני יודע/ת שמותר לי לבקש עזרה בהורות.","אני יודע/ת איך ליהנות מהרגעים הקטנים עם משפחתי."],
-spirit:["אני יודע/ת איך זה מרגיש להיות מחובר/ת לבורא כל היש.","אני יודע/ת איך לעלות למישור השביעי בקלות ובבהירות.","אני יודע/ת איך להבחין בקול הבורא מבין שאר הקולות.","אני יודע/ת שאני חלק מ\"כל מה שיש\" ולעולם איני לבד.","אני יודע/ת איך לקבל תשובות בבהירות ובאהבה.","אני יודע/ת איך לחיות את היומיום שלי מתוך תדר גבוה.","אני יודע/ת איך זה מרגיש לבטוח בתזמון האלוהי.","אני יודע/ת איך להיות עד/ה לריפוי בענווה ובתודה.","אני יודע/ת שמותר לי לקבל שפע רוחני וגשמי כאחד.","אני יודע/ת איך זה מרגיש לחיות בהשראה יומיומית."]};
+spirit:["אני יודע/ת איך זה מרגיש להיות מחובר/ת לעצמי ולרגע הזה.","אני יודע/ת איך להיכנס לגלי תטא בקלות ובבהירות.","אני יודע/ת איך להקשיב לקול הפנימי שלי מבין שאר הקולות.","אני יודע/ת שאני חלק משלם גדול ולעולם איני לבד.","אני יודע/ת איך לקבל תשובות מתוך שקט.","אני יודע/ת איך לחיות את היומיום שלי מתוך תדר גבוה.","אני יודע/ת איך זה מרגיש לבטוח בתהליך ובתזמון.","אני יודע/ת איך להיות עד/ה לשינוי בענווה ובתודה.","אני יודע/ת שמותר לי לקבל שפע רוחני וגשמי כאחד.","אני יודע/ת איך זה מרגיש לחיות בהשראה יומיומית."]};
 const ALLDL=[];THEMES.forEach(([k])=>DL[k].forEach((t,i)=>ALLDL.push({id:k+'-'+i,theme:k,text:t})));
 
 /* ============ DATA: MEDITATIONS ============ */
 /* steps: [text, seconds] */
 const MEDS=[
-{id:'journey',ic:'🌌',name:'עלייה למישור השביעי — המסע המלא',desc:'המדיטציה המרכזית · הארקה, עלייה, התמזגות',min:12,steps:[
+{id:'journey',ic:'🌌',name:'צלילת תטא — המסע המלא',desc:'המדיטציה המרכזית · הארקה, האטה, אור',min:12,steps:[
 ["שב/י בנוח. כפות הרגליים על הרצפה. עצום/עצמי עיניים... נשימה עמוקה פנימה — ושחרור איטי.",40],
-["עוד נשימה עמוקה... עם כל נשיפה הגוף נרגע יותר ויותר.",35],
-["דמיין/י את התודעה שלך יורדת מטה... דרך כפות הרגליים... עמוק אל תוך מרכז אימא אדמה.",45],
-["מהמרכז — משוך/משכי אנרגיה נקייה מעלה... דרך כפות הרגליים... הרגליים... כל הגוף.",45],
-["האנרגיה עולה ופותחת כל צ׳אקרה בדרכה... עד לכתר הראש.",40],
-["בכדור אור יפהפה — צא/י מהכתר מעלה... מעל החדר... מעל השמיים.",45],
-["ממשיכים לעלות... מעל כדור הארץ... מעבר לכוכבים... מעבר ליקום כולו.",50],
-["עוברים דרך אור לבן גדול... שכבות של אור... אור כהה — רק שכבה בדרך — ממשיכים... ושוב אור בהיר.",50],
-["עוברים דרך אור זהוב זוהר... ממשיכים הלאה.",40],
-["נכנסים לחומר ג׳לטיני בכל צבעי הקשת... הצבעים משתנים סביבך... אלו החוקים. ממשיכים לנוע קדימה.",50],
-["ולפניך — אור לבן-צחור מנצנץ, כמו חלון פנינה... היכנס/י פנימה, עמוק אל תוך האור.",50],
-["האור עובר דרכך... הגבולות נמסים... את/ה חלק מכל מה שיש. שהה/י כאן... באהבה ללא תנאי.",90],
-["מהמקום הזה, אם תרצה/י — בקש/י בלב: שהיום הזה יתגלה בדרך הטובה והמיטבית ביותר... תודה. נעשה, נעשה, נעשה.",60],
+["עוד נשימה עמוקה... עם כל נשיפה הגוף נרגע — והמוח מאט.",35],
+["דמיין/י שורשים יורדים מכפות הרגליים... עמוק אל תוך האדמה. יציבות. ביטחון.",45],
+["מהאדמה עולה אנרגיה נקייה... דרך הרגליים... הגוף... עד קצה הראש.",45],
+["הגוף נעשה כבד ורגוע... המחשבות מאיטות... את/ה גולש/ת אל גלי תטא.",40],
+["דמיין/י את עצמך בכדור אור רך... מתרומם/ת מעלה... מעל החדר... מעל השמיים.",45],
+["עולים עוד... מעל העננים... אל מרחב שקט וזרוע כוכבים.",50],
+["עוברים דרך שכבות של אור... לבן... זהוב... והמרחב נפתח.",50],
+["לפניך אור לבן-צחור, רך ועוטף... היכנס/י פנימה. זה המרחב שלך.",50],
+["האור עובר דרכך... הגבולות מתרככים... שקט עמוק. הישאר/י כאן.",90],
+["מהמקום הזה — כוונה אחת ללב: שהיום הזה יתגלה בדרך הטובה ביותר עבורך... תודה.",60],
 ["שהות שקטה באור... פשוט להיות.",90],
-["לאט לאט... חזור/חזרי עם המודעות אל הגוף... שטיפה עדינה של אור לבן.",40],
+["לאט לאט... חזרה אל הגוף... אל הנשימה... אל החדר.",40],
 ["הרגש/י את כפות הרגליים על האדמה... נשימה עמוקה... ובקצב שלך — פקח/י עיניים. ✨",40]]},
-{id:'quick',ic:'⚡',name:'עלייה מהירה — דחיפת הכתר',desc:'למתרגלים מנוסים',min:4,steps:[
-["עצום/עצמי עיניים. נשימה אחת עמוקה... 'בורא כל היש'...",25],
-["עלה/עלי ישר מעלה — דרך הכתר — אל האור הצחור.",30],
-["שהה/י באור... את/ה חלק מכל מה שיש.",120],
-["כוונה אחת ללב... תודה. נעשה, נעשה, נעשה.",35],
+{id:'quick',ic:'⚡',name:'צלילה מהירה',desc:'למתרגלים מנוסים',min:4,steps:[
+["עצום/עצמי עיניים. נשימה אחת עמוקה... והרפיה.",25],
+["צלול/צללי ישר פנימה — אל האור. הגוף יודע את הדרך.",30],
+["שהה/י באור... שקט עמוק.",120],
+["כוונה אחת ללב... תודה.",35],
 ["נשימה — ופקיחת עיניים. ✨",20]]},
 {id:'sos',ic:'🧿',name:'איפוס SOS',desc:'שלוש דקות של אור באמצע היום',min:3,steps:[
 ["עצור/עצרי הכול לרגע. שאיפה 4 שניות... החזקה 4... נשיפה 8.",35],
 ["שוב: שאיפה... החזקה... נשיפה ארוכה. הכתפיים יורדות.",35],
-["עלייה מהירה — דרך הכתר — אל האור.",30],
-["אמור/אמרי בלב: אני מוקף/ת באור הבורא. אני בטוח/ה. הכול מסתדר בדרך הטובה והמיטבית.",45],
+["צלילה מהירה פנימה — אל האור.",30],
+["אמור/אמרי בלב: אני מוקף/ת באור. אני רגוע/ה. הכול מסתדר בדרך הטובה ביותר.",45],
 ["נשימה אחרונה... חזרה לכאן. ממשיכים את היום מחוברים. 🌟",35]]},
-{id:'heart',ic:'💗',name:'פתיחת הלב ואהבת הבורא',desc:'אהבה ללא תנאי + הורדות אהבה עצמית',min:10,steps:[
+{id:'heart',ic:'💗',name:'פתיחת הלב',desc:'אהבה ללא תנאי + הטמעות אהבה עצמית',min:10,steps:[
 ["התמקם/י בנוח... שלוש נשימות עמוקות ואיטיות.",45],
-["עלה/עלי מעלה במסלול המוכר... דרך האורות... אל האור הצחור.",60],
-["בקש/י לחוות את אהבת הבורא ללא תנאי... תן/תני לה לזרום אליך כמו גל חם.",75],
+["צלול/צללי פנימה במסלול המוכר... דרך השכבות... אל האור הרך.",60],
+["הרשה/הרשי לעצמך להרגיש אהבה ללא תנאי... תן/תני לה לזרום אליך כמו גל חם.",75],
 ["האהבה ממלאת את החזה... הלב מתרחב... אין שום דבר שצריך להוכיח.",75],
 ["אם תרצה/י, קבל/י: 'אני יודע/ת איך זה מרגיש להיות אהוב/ה ללא תנאי'... אמור/אמרי בלב: כן.",50],
 ["'אני יודע/ת שאני ראוי/ה לאהבה בדיוק כפי שאני'... כן.",50],
@@ -491,14 +486,41 @@ const MEDS=[
 /* ============ SPLASH / ONBOARDING ============ */
 const splash=document.getElementById('splash');
 document.getElementById('enterBtn').onclick=()=>{splash.classList.add('gone');
-  if(!S.profile.onboarded){document.getElementById('onb').classList.add('on');}
+  if(!S.profile.onboarded){onbStep=0;onbRender();document.getElementById('onb').classList.add('on');}
   else startApp();};
-document.querySelectorAll('.gBtn').forEach(b=>b.onclick=()=>{document.querySelectorAll('.gBtn').forEach(x=>x.classList.remove('on'));b.classList.add('on');});
-document.getElementById('onbGo').onclick=()=>{
-  S.profile.name=document.getElementById('onbName').value.trim();
-  S.profile.gender=document.querySelector('.gBtn.on').dataset.g;
-  S.profile.onboarded=true;save();
-  document.getElementById('onb').classList.remove('on');startApp();};
+const ONB=[
+ {h:'🌀 ברוכים הבאים ל-ThetaVerse',p:'גלי תטא (4–8 הרץ) הם תדר המוח שבין ערות לחלום — מצב של הרפיה עמוקה, דמיון חי ותובנות.<br><br>ThetaVerse היא מסע יומי קצר אל המצב הזה: להאט, להתמלא — ולחזור בהיר/ה יותר.'},
+ {h:'🗺️ המסלול היומי',p:'☀️ <b>בוקר</b> — צלילת תטא מודרכת + ההטמעה של היום (5–15 ד׳)<br>🌊 <b>במהלך היום</b> — תדרים חיים ואיפוס SOS של 3 דקות<br>🌙 <b>ערב</b> — שלוש תודות ויומן אמונות<br>🎓 <b>ובגדול</b> — מסע מובנה של 21 יום, שער אחר שער'},
+ {h:'✨ מה מייחד אותה',p:'• כל הצלילים נוצרים <b>חיים במכשיר</b> — התדרים מדויקים, בלי הקלטות<br>• עברית מלאה ולשון פנייה אישית<br>• <b>פרטיות מוחלטת</b> — הכול נשמר רק אצלך במכשיר<br>• בלי חשבון, בלי פרסומות, עובד גם בלי אינטרנט'}];
+let onbStep=0;
+function onbRender(){
+  document.getElementById('onbDots').innerHTML=Array.from({length:5},(_,i)=>`<i class="${i<=onbStep?'on':''}"></i>`).join('');
+  const B=document.getElementById('onbBody');
+  if(onbStep<3){const o=ONB[onbStep];
+    B.innerHTML=`<h2>${o.h}</h2><p style="min-height:130px">${G(o.p)}</p>
+    <div class="wizNav">${onbStep>0?'<button class="btn ghost" id="onbBack">→</button>':''}<button class="btn gold" id="onbNext" style="flex:1">המשך ←</button></div>`;}
+  else if(onbStep===3){
+    B.innerHTML=`<h2>נעים להכיר 🌟</h2><p>איך לקרוא לך?</p>
+    <input type="text" id="onbName" placeholder="השם שלך" style="width:100%" value="${esc(S.profile.name||'')}">
+    <p style="margin-top:18px">לשון פנייה:</p>
+    <div class="gRow">
+      <button class="gBtn ${S.profile.gender==='f'?'on':''}" data-g="f">נקבה</button>
+      <button class="gBtn ${S.profile.gender==='m'?'on':''}" data-g="m">זכר</button>
+      <button class="gBtn ${(!S.profile.gender||S.profile.gender==='x')?'on':''}" data-g="x">מעורב</button>
+    </div>
+    <div class="wizNav"><button class="btn ghost" id="onbBack">→</button><button class="btn gold" id="onbNext" style="flex:1">המשך ←</button></div>`;
+    B.querySelectorAll('.gBtn').forEach(b=>b.onclick=()=>{B.querySelectorAll('.gBtn').forEach(x=>x.classList.remove('on'));b.classList.add('on');});}
+  else{
+    B.innerHTML=`<h2>רגע של בהירות 🤍</h2>
+    <p style="font-size:.88rem">ThetaVerse נועדה לרווחה אישית — היא משלימה ואינה מחליפה טיפול רפואי או נפשי. אם יש לך היסטוריה של מצבים נפשיים מורכבים, מומלץ להתייעץ עם איש מקצוע לפני עבודה מדיטטיבית עמוקה. ואין להאזין לתדרי הרפיה בזמן נהיגה.</p>
+    <div class="wizNav"><button class="btn ghost" id="onbBack">→</button><button class="btn gold" id="onbGo" style="flex:1">מתחילים ✨</button></div>`;}
+  const back=document.getElementById('onbBack');if(back)back.onclick=()=>{saveOnbFields();onbStep--;onbRender();};
+  const next=document.getElementById('onbNext');if(next)next.onclick=()=>{saveOnbFields();onbStep++;onbRender();};
+  const go=document.getElementById('onbGo');if(go)go.onclick=()=>{
+    S.profile.onboarded=true;save();
+    document.getElementById('onb').classList.remove('on');startApp();};}
+function saveOnbFields(){const nm=document.getElementById('onbName');if(nm)S.profile.name=nm.value.trim();
+  const g=document.querySelector('#onbBody .gBtn.on');if(g)S.profile.gender=g.dataset.g;save();}
 
 function startApp(){document.getElementById('app').classList.add('on');renderAll();}
 
@@ -510,8 +532,8 @@ document.querySelectorAll('.navBtn').forEach(b=>b.onclick=()=>{
 
 /* ============ TODAY ============ */
 function greet(){const h=new Date().getHours();const n=S.profile.name?', '+S.profile.name:'';
-  if(h<5)return['לילה של אור'+n+' 🌌','המישור השביעי פתוח תמיד'];
-  if(h<12)return['בוקר אור'+n+' ☀️','רגע של עלייה לפני שהיום מתחיל'];
+  if(h<5)return['לילה של אור'+n+' 🌌','שעת תטא עמוקה — הלילה שקט'];
+  if(h<12)return['בוקר אור'+n+' ☀️','רגע של צלילה לפני שהיום מתחיל'];
   if(h<17)return['צהריים טובים'+n+' 🌤️','נשימה אחת — והכול מתארגן מחדש'];
   if(h<22)return['ערב טוב'+n+' 🌙','זמן תודה ושחרור'];
   return['לילה טוב'+n+' 🌌','צלילה רכה אל תוך תטא'];}
@@ -527,7 +549,7 @@ function pickDaily(){const k=todayKey();
     while(ids.length<3){const c=pool[Math.floor(rnd()*pool.length)];if(!ids.includes(c))ids.push(c);}
     S.downloads.todayIds=ids;S.downloads.todayDate=k;S.downloads.todayDone=false;S.downloads.todayIdx=0;save();}}
 function renderDaily(){pickDaily();const el=document.getElementById('dlCard');
-  if(S.downloads.todayDone){el.innerHTML='<div class="dlDone">✓ שלוש ההורדות של היום התקבלו — נעשה, נעשה, נעשה ✨</div>';return;}
+  if(S.downloads.todayDone){el.innerHTML='<div class="dlDone">✓ שלוש ההטמעות של היום נקלטו ✨</div>';return;}
   const idx=S.downloads.todayIdx||0;const dl=ALLDL.find(d=>d.id===S.downloads.todayIds[idx]);
   const theme=THEMES.find(t=>t[0]===dl.theme)[1];
   el.innerHTML=`<div class="dlTheme">${theme} · ${idx+1}/3</div><div class="dlText">${G(dl.text)}</div>
@@ -535,7 +557,7 @@ function renderDaily(){pickDaily();const el=document.getElementById('dlCard');
   document.getElementById('dlYes').onclick=()=>{acceptDl(dl.id);advDaily(true);};
   document.getElementById('dlSkip').onclick=()=>advDaily(false);}
 function advDaily(acc){S.downloads.todayIdx=(S.downloads.todayIdx||0)+1;
-  if(S.downloads.todayIdx>=3){S.downloads.todayDone=true;if(acc)markDay('dl');toast('נעשה, נעשה, נעשה ✨');}
+  if(S.downloads.todayIdx>=3){S.downloads.todayDone=true;if(acc)markDay('dl');toast('הוטמע ✨');}
   else if(acc)markDay('dl');
   save();renderDaily();renderStats();renderDlLib();}
 function acceptDl(id){if(!S.downloads.acceptedIds.includes(id)){S.downloads.acceptedIds.push(id);S.stats.downloadsAccepted++;save();}}
@@ -583,7 +605,7 @@ function tick(){if(P.paused)return;
 function endMed(done){clearInterval(P.timer);if(P.lock)P.lock.release().catch(()=>{});
   document.getElementById('player').classList.remove('on');
   if(done){S.stats.sessions++;markDay('med',P.med.min);save();renderStats();
-    toast(P.med.id==='evening'?'לילה של אור 🌙':'המסע הושלם ✨ '+P.med.min+' דקות בתטא');}}
+    toast(P.med.id==='evening'?'לילה של אור 🌙':'הצלילה הושלמה ✨ '+P.med.min+' דקות בתטא');}}
 document.getElementById('pExit').onclick=()=>{if(P.elapsed>=60){S.stats.sessions++;markDay('med',Math.round(P.elapsed/60));save();renderStats();}endMed(false);};
 document.getElementById('pPause').onclick=e=>{P.paused=!P.paused;e.target.textContent=P.paused?'▶':'⏸';};
 document.getElementById('sosFab').onclick=()=>play(MEDS.find(m=>m.id==='sos'));
@@ -596,9 +618,9 @@ function renderDlLib(){document.getElementById('dlTabs').innerHTML=THEMES.map(([
   document.getElementById('dlCount').textContent=S.stats.downloadsAccepted+' אושרו';
   document.getElementById('dlList').innerHTML=ALLDL.filter(d=>d.theme===dlTheme).map(d=>{
     const acc=S.downloads.acceptedIds.includes(d.id);
-    return `<div class="dlItem ${acc?'acc':''}"><div>${G(d.text)}</div><button data-id="${d.id}" ${acc?'disabled':''}>${acc?'✓ התקבל':'כן'}</button></div>`;}).join('');
+    return `<div class="dlItem ${acc?'acc':''}"><div>${G(d.text)}</div><button data-id="${d.id}" ${acc?'disabled':''}>${acc?'✓ נקלט':'כן'}</button></div>`;}).join('');
   document.querySelectorAll('#dlList button:not([disabled])').forEach(b=>b.onclick=()=>{
-    acceptDl(b.dataset.id);markDay('dl');renderDlLib();toast('נעשה, נעשה, נעשה ✨');});}
+    acceptDl(b.dataset.id);markDay('dl');renderDlLib();toast('הוטמע ✨');});}
 
 /* ============ STATS / SETTINGS ============ */
 function renderStats(){const now=new Date();const pre=now.getFullYear()+'-'+String(now.getMonth()+1).padStart(2,'0');
@@ -659,7 +681,7 @@ function digRender(){digDots();const B=document.getElementById('digBody');const 
   else if(s===7)B.innerHTML=`<div class="wizQ">איך זה מרגיש עכשיו?</div>
     <div class="fqRow"><label>עוצמה ${J.intAfter}/10</label><input type="range" id="wzInt" min="0" max="10" value="${J.intAfter}"></div>
     <div class="wizHint">היה: ${J.intBefore}/10</div>
-    <div class="wizNav"><button class="btn gold full" id="wzDone">נעשה, נעשה, נעשה ✨</button></div>`;
+    <div class="wizNav"><button class="btn gold full" id="wzDone">ההטמעה הושלמה ✨</button></div>`;
   // wire
   const T=document.getElementById('wzT');
   B.querySelectorAll('.emoBtn').forEach(b=>b.onclick=()=>{J.emo=b.dataset.e;J.trigger=T.value;digRender();});
@@ -688,7 +710,7 @@ function digRender(){digDots();const B=document.getElementById('digBody');const 
       bottom:J.bottom,level:J.level,lesson:J.lesson,repl:J.repl,ib:J.intBefore,ia:J.intAfter});
     S.stats.beliefsReplaced=(S.stats.beliefsReplaced||0)+1;save();
     markDay('grat');digClose();renderJournal();renderTodayDig();renderStats();
-    toast('אמונה הוחלפה 🏆 נעשה, נעשה, נעשה');};}
+    toast('אמונה הוחלפה 🏆');};}
 function renderTodayDig(){const el=document.getElementById('digCard');
   const week=S.journal.filter(j=>{const d=new Date(j.date);return (Date.now()-d)/864e5<7;}).length;
   el.innerHTML=`<p class="sub" style="margin-bottom:10px">${week?week+' חפירות בשבוע האחרון · מומלץ 2–3':'ערב פנוי? זה הזמן לרדת לאמונת השורש'}</p>
@@ -708,37 +730,37 @@ function renderJournal(){
     :'<div class="card"><p class="sub" style="margin:0">היומן ריק — פתח/י חפירה ראשונה מהמסך הראשי</p></div>';}
 
 /* ============ 21-DAY PROGRAM ============ */
-const PLANES=[['🪨','מינרלים'],['🌿','צמחים'],['🐾','חיים'],['🕊️','רוח'],['👼','מלאכים'],['📐','חוקים'],['✨','הבורא']];
+const PLANES=[['🌍','הארקה'],['🌬️','נשימה'],['💗','לב'],['🧠','תודעה'],['🌌','דמיון'],['🌊','תטא'],['✨','אור']];
 const PROG21=[
- {t:'נשימה והארקה',med:'ground',th:'<b>מה זה מצב תטא?</b> גלי מוח של 4–8 הרץ — המצב שבין ערות לחלום: נמנום, חלימה, מדיטציה עמוקה. שם, על פי השיטה, התת-מודע קשוב ביותר.'},
- {t:'שורשים לאדמה',med:'ground',th:'<b>שבעת מישורי הקיום.</b> מינרלים, צמחים, בעלי חיים ואדם, עולם הרוח, מלאכים, החוקים — והשביעי: בורא כל היש. המסע שלנו עולה דרך כולם.'},
- {t:'המסע המלא — פעם ראשונה',med:'journey',th:'<b>המישור השביעי.</b> אור לבן-צחור מנצנץ, אהבה ללא תנאי, בלי חובות ובלי תנאים. לשם עולים — ומשם עובדים.'},
- {t:'המסע המלא — מעמיקים',med:'journey',th:'<b>הפקודה.</b> "בורא כל היש, מצוּוה/מתבקש ש... בדרך הטובה והמיטבית ביותר. תודה. נעשה, נעשה, נעשה." הציווי מיועד לתת-מודע שלך — לעקוף את הספק.'},
- {t:'המסע המלא — בשלישית',med:'journey',th:'<b>עדות.</b> בשיטה, שינוי "לא קרה" עד שהיית עד/ה לו בעיני הרוח. לכן לא ממהרים לצאת — רואים את האור עד הסוף.'},
- {t:'בוחן שריר — כיול',med:'quick',th:'<b>בוחן שריר.</b> עמידה יציבה, עיניים עצומות: אמור/אמרי "כן, כן, כן" — הגוף נוטה קדימה; "לא, לא, לא" — אחורה. כיילו עם "שמי X". וחשוב: לשתות מים קודם!'},
- {t:'הורדות ראשונות',dl:1,th:'<b>כלל הרשות.</b> שום שינוי לא נכנס בלי "כן" מילולי — גם לא חיובי. לכן כל הורדה באפליקציה מחכה לאישור שלך.'},
- {t:'ארבע רמות האמונה',med:'quick',th:'<b>4 הרמות:</b> גרעין (מהחיים האלה), גנטי (מהמשפחה), היסטורי (עמוק/ישן), נשמתי (כל-כולי). אמונה יכולה לשבת בכמה רמות במקביל.'},
- {t:'חפירה ראשונה',dig:1,th:'<b>מהי חפירה?</b> ירידה בסולם שאלות מאמונת פני-השטח לאמונת התחתית — זו שמחזיקה את כל הערימה. מושכים אותה — והכול נופל איתה.'},
- {t:'פתיחת הלב',med:'heart',th:'<b>סליחה.</b> בשיטה — סליחה אינה הסכמה למה שקרה. היא שחרור המטען שאת/ה נושא/ת. החופש שלך.'},
- {t:'הורדות אהבה עצמית',dl:1,th:'<b>עבודת תחושות.</b> יש דברים שלא "חסומים" — פשוט מעולם לא הרגשנו אותם. הורדה משלימה את החוסר: ללמוד בשניות איך זה מרגיש.'},
- {t:'חפירה שנייה',dig:1,th:'<b>אמונת מפתח ≠ תחתית.</b> המשפט הרגשי הראשון הוא לרוב שלב בדרך. ממשיכים לשאול "ואז מה?" עד שהתשובות מתחילות להסתובב במעגל.'},
- {t:'מדיטציית ערב',med:'evening',th:'<b>תטא לפני שינה.</b> הדקות שלפני ההירדמות הן חלון תטא טבעי — הזמן הכי רך לתודה ולשחרור.'},
- {t:'סיכום שבוע — עלייה מהירה',med:'quick',th:'<b>תזמון אלוהי.</b> לא הכול מגיע מתי שביקשנו — בשיטה סומכים על "בדרך ובזמן הטובים ביותר" ומשחררים את הלחץ על השעון.'},
- {t:'מניפסטציה ראשונה',med:'journey',th:'<b>מניפסטציה מהמישור השביעי.</b> מנסחים בזמן הווה, רואים את זה כמושלם, אומרים תודה — ומשחררים.'},
- {t:'הורדות שפע',dl:1,th:'<b>"בדרך הטובה והמיטבית ביותר".</b> שסתום הביטחון של כל בקשה — כדי שהתוצאה תבוא בצורה שמיטיבה באמת.'},
+ {t:'נשימה והארקה',med:'ground',th:'<b>מה הם גלי מוח?</b> המוח פועל בתדרים: דלתא (שינה), תטא (4–8 הרץ — בין ערות לחלום), אלפא (רוגע), בטא (ערנות). המסע שלנו: ללמוד להגיע לתטא בכוונה.'},
+ {t:'שורשים לאדמה',med:'ground',th:'<b>למה הארקה עובדת?</b> נשיפה ארוכה ותחושת יציבות מפעילות את מערכת העצבים המרגיעה. הגוף נרגע קודם — המוח מאט אחריו.'},
+ {t:'הצלילה המלאה — פעם ראשונה',med:'journey',th:'<b>מהי כניסה לתטא?</b> זה המצב שמרגישים רגע לפני ההירדמות — הגוף כבד, הדמיון חי. במדיטציה לומדים להישאר שם ערים.'},
+ {t:'הצלילה המלאה — מעמיקים',med:'journey',th:'<b>נשימה 4-4-8.</b> נשיפה ארוכה מהשאיפה מאותתת לגוף "הכול בסדר". זה המתג הפיזיולוגי הפשוט ביותר להאטה.'},
+ {t:'הצלילה המלאה — בשלישית',med:'journey',th:'<b>למה דמיון מודרך עובד?</b> המוח מגיב לתמונה מדומיינת חיה כמעט כמו לחוויה אמיתית — לכן מסע האור מרגיע באמת.'},
+ {t:'סריקת גוף',med:'quick',th:'<b>הקשבה לגוף.</b> סריקה איטית מכף רגל לראש מלמדת לזהות מתח לפני שהוא מצטבר. הגוף תמיד מספר איפה אנחנו.'},
+ {t:'הטמעות ראשונות',dl:1,th:'<b>איך הטמעות עובדות?</b> משפט חיובי שמאושר בכוונה ("כן") בזמן רגיעה נקלט טוב יותר. לכן כל הטמעה מחכה לאישור שלך.'},
+ {t:'אמונות — איך נוצר דפוס',med:'quick',th:'<b>מחשבה שחוזרת הופכת לדפוס.</b> אמונות כמו "אני לא מספיק" הן הרגלי חשיבה שנלמדו — ומה שנלמד אפשר ללמוד מחדש.'},
+ {t:'חפירה ראשונה',dig:1,th:'<b>מהי חפירה?</b> ירידה בסולם שאלות ("ואז מה?") מהמחשבה שעל פני השטח אל אמונת השורש שמחזיקה אותה. מטפלים בשורש — לא בעלים.'},
+ {t:'פתיחת הלב',med:'heart',th:'<b>סליחה.</b> סליחה אינה הסכמה למה שקרה — היא הנחת המשא. את/ה זה שנושא אותו; לך מותר להניח.'},
+ {t:'הטמעות אהבה עצמית',dl:1,th:'<b>עבודת תחושות.</b> יש דברים שלא "חסומים" — פשוט מעולם לא הרגשנו אותם מספיק. חוזרים עליהם עד שהגוף לומד איך זה מרגיש.'},
+ {t:'חפירה שנייה',dig:1,th:'<b>המשפט הרגשי הראשון הוא לא הסוף.</b> ממשיכים לשאול "ומה הכי גרוע בזה?" עד שהתשובות מתחילות להסתובב במעגל — שם השורש.'},
+ {t:'מדיטציית ערב',med:'evening',th:'<b>תטא לפני שינה.</b> הדקות שלפני ההירדמות הן חלון תטא טבעי — הזמן הרך ביותר לתודה ולשחרור.'},
+ {t:'סיכום שבועיים — צלילה מהירה',med:'quick',th:'<b>הרגל מנצח מוטיבציה.</b> דקה אחת ביום רע שווה יותר מ-20 דקות פעם בשבוע. הרצף שלך כאן עדין בכוונה.'},
+ {t:'כוונה וויזואליזציה',med:'journey',th:'<b>לראות את זה קורה.</b> ניסוח כוונה בזמן הווה + לראות אותה מתממשת בדמיון — מכינים את המוח לזהות הזדמנויות.'},
+ {t:'הטמעות שפע',dl:1,th:'<b>מיינדסט של שפע.</b> ההבדל בין "אין מספיק" ל"יש דרך" הוא הרגל חשיבה — ומתאמנים עליו כמו על שריר.'},
  {t:'היום המושלם שלי',med:'quick',th:'<b>בריאת היום מראש.</b> 5 דקות בבוקר לראות את היום מתגלגל בדיוק כמו שטוב לך — ואז לצאת אליו.'},
- {t:'עלייה עצמאית',med:'quick',th:'<b>דחיפת הכתר.</b> עם הזמן, מפת הדרכים מתקצרת לכוונה אחת: "אני שם". המישור השביעי בכל מקום — וגם בך.'},
- {t:'חפירה שלישית',dig:1,th:'<b>איך זה משרת אותי?</b> השאלה הכי חזקה בחפירה. לכל דפוס יש רווח נסתר — מזהים אותו, שומרים את הטוב, משחררים את הפחד.'},
- {t:'תודה והכנה לסיום',med:'evening',th:'<b>הכרת תודה.</b> העוגן המחקרי החזק ביותר של כל התרגול — ובשיטה: התדר שממנו בוראים.'},
- {t:'טקס סיום 🎓',med:'journey',th:'<b>יום 21.</b> שלושה שבועות של עלייה יומית. מהיום — המסע שלך, בקצב שלך. נעשה, נעשה, נעשה.'}];
+ {t:'צלילה עצמאית',med:'quick',th:'<b>עצמאות בתרגול.</b> עם הזמן, המסע המלא מתקצר לנשימה אחת וכוונה: "אני שם". תטא הוא מיומנות — והיא כבר שלך.'},
+ {t:'חפירה שלישית',dig:1,th:'<b>איך זה משרת אותי?</b> השאלה החזקה ביותר. לכל דפוס יש רווח נסתר — מזהים אותו, שומרים את הטוב, משחררים את הפחד.'},
+ {t:'תודה והכנה לסיום',med:'evening',th:'<b>הכרת תודה.</b> התרגול עם הגיבוי המחקרי החזק ביותר לרווחה נפשית — שלוש תודות בערב משנות את מה שהמוח מחפש ביום.'},
+ {t:'טקס סיום 🎓',med:'journey',th:'<b>יום 21.</b> שלושה שבועות של צלילה יומית אל תטא. מהיום — המסע שלך, בקצב שלך. המשך/המשיכי לצלול.'}];
 function progState(){S.program=S.program||{day:1,completed:[]};return S.program;}
 function renderProgCard(){const p=progState();const el=document.getElementById('progCard');
-  if(p.completed.length>=21){el.innerHTML='<div class="dlDone">🎓 השלמת את המסע! 21 ימים למישור השביעי</div>';return;}
+  if(p.completed.length>=21){el.innerHTML='<div class="dlDone">🎓 השלמת את המסע! 21 ימים אל גלי תטא</div>';return;}
   const d=PROG21[p.day-1];
   el.innerHTML=`<div style="display:flex;align-items:center;gap:12px">
     <div class="medIc">${PLANES[Math.min(6,Math.floor((p.day-1)/3))][0]}</div>
     <div><h4 style="font-weight:500">יום ${p.day} מתוך 21 — ${d.t}</h4>
-    <p class="sub" style="margin:2px 0 0;font-size:.78rem">מישור ${Math.min(7,Math.ceil(p.day/3))}: ${PLANES[Math.min(6,Math.floor((p.day-1)/3))][1]} · ${p.completed.length} ימים הושלמו</p></div></div>
+    <p class="sub" style="margin:2px 0 0;font-size:.78rem">שער ${Math.min(7,Math.ceil(p.day/3))}: ${PLANES[Math.min(6,Math.floor((p.day-1)/3))][1]} · ${p.completed.length} ימים הושלמו</p></div></div>
     <button class="btn full" id="progOpen" style="margin-top:12px">ליום שלי במסע ←</button>`;
   document.getElementById('progOpen').onclick=progShow;}
 function progShow(){document.getElementById('prog').classList.add('on');renderProg();}
@@ -753,10 +775,10 @@ function renderProg(){const p=progState();
   document.getElementById('progDay').innerHTML=doneAll?
     `<div class="card glow" style="text-align:center;padding:26px"><div style="font-size:2.6rem">🎓</div>
      <h4 style="font-family:'Rubik','Heebo',sans-serif;font-size:1.2rem;margin:10px 0 4px">תעודת מסע</h4>
-     <p class="sub">${esc(S.profile.name||'')} — 21 ימים למישור השביעי · ${new Date().toLocaleDateString('he-IL')}</p></div>`:
+     <p class="sub">${esc(S.profile.name||'')} — 21 ימים אל גלי תטא · ${new Date().toLocaleDateString('he-IL')}</p></div>`:
     `<div class="card glow" style="margin-top:14px"><h4 style="font-weight:500">יום ${p.day}: ${day.t}</h4>
      <div class="theory">${day.th}</div>
-     <button class="btn full" id="progTask">${day.dig?'לחפירה מודרכת ⛏️':day.dl?'להורדת היום 💫':'לתרגול היום 🌌'}</button>
+     <button class="btn full" id="progTask">${day.dig?'לחפירה מודרכת ⛏️':day.dl?'להטמעת היום 💫':'לתרגול היום 🌌'}</button>
      <button class="btn gold full" id="progDone" style="margin-top:10px">סיימתי את יום ${p.day} ✓</button></div>`;
   const task=document.getElementById('progTask');
   if(task)task.onclick=()=>{document.getElementById('prog').classList.remove('on');
@@ -784,13 +806,41 @@ const FQ_PRESETS=[
   ent:{type:'iso',carrier:110,beat:4.5,lvl:.24,hard:true},amb:{type:'brown',lp:500,lvl:.16}}];
 const SOLF=[[174,'שחרור כאב'],[285,'התחדשות'],[396,'שחרור פחד'],[417,'שינוי'],[528,'אהבה'],[639,'יחסים'],[741,'ניקוי'],[852,'אינטואיציה'],[963,'הארה']];
 
-let AC=null,AMaster=null,FQ={on:false,nodes:[],preset:null,solo:null,start:0,timer:null,mode:null};
+let AC=null,AMaster=null,FQ={on:false,nodes:[],preset:null,solo:null,start:0,timer:null,mode:null,lock:null};
+let bgKeep=null;
+function silentWavURL(){const sr=8000,len=sr;const buf=new ArrayBuffer(44+len);const v=new DataView(buf);
+  const w=(o,t)=>{for(let i=0;i<t.length;i++)v.setUint8(o+i,t.charCodeAt(i));};
+  w(0,'RIFF');v.setUint32(4,36+len,true);w(8,'WAVE');w(12,'fmt ');v.setUint32(16,16,true);
+  v.setUint16(20,1,true);v.setUint16(22,1,true);v.setUint32(24,sr,true);v.setUint32(28,sr,true);
+  v.setUint16(32,1,true);v.setUint16(34,8,true);w(36,'data');v.setUint32(40,len,true);
+  for(let i=0;i<len;i++)v.setUint8(44+i,128);
+  return URL.createObjectURL(new Blob([buf],{type:'audio/wav'}));}
+function keepAlive(on,title){
+  if(on){
+    if(!bgKeep){bgKeep=document.createElement('audio');bgKeep.loop=true;
+      bgKeep.setAttribute('playsinline','');bgKeep.src=silentWavURL();bgKeep.volume=.01;
+      document.body.appendChild(bgKeep);}
+    bgKeep.play().catch(()=>{});
+    if('mediaSession' in navigator){try{
+      navigator.mediaSession.metadata=new MediaMetadata({title:title||'ThetaVerse',artist:'ThetaVerse — גלי תטא'});
+      navigator.mediaSession.playbackState='playing';
+      navigator.mediaSession.setActionHandler('play',()=>{if(AC)AC.resume();if(bgKeep)bgKeep.play().catch(()=>{});});
+      navigator.mediaSession.setActionHandler('pause',()=>{fqStop(true);});}catch(e){}}
+    if(navigator.wakeLock)navigator.wakeLock.request('screen').then(l=>{FQ.lock=l;}).catch(()=>{});
+  }else{
+    if(bgKeep)bgKeep.pause();
+    if('mediaSession' in navigator){try{navigator.mediaSession.playbackState='paused';}catch(e){}}
+    if(FQ.lock){FQ.lock.release().catch(()=>{});FQ.lock=null;}}}
 function acInit(){if(AC){AC.resume();return;}
   AC=new (window.AudioContext||window.webkitAudioContext)({latencyHint:'playback'});
   const lim=AC.createDynamicsCompressor();
   lim.threshold.value=-12;lim.knee.value=30;lim.ratio.value=12;lim.attack.value=.003;lim.release.value=.25;
   AMaster=AC.createGain();AMaster.gain.value=.8;AMaster.connect(lim).connect(AC.destination);}
-document.addEventListener('visibilitychange',()=>{if(!document.hidden&&AC&&AC.state!=='running')AC.resume();});
+document.addEventListener('visibilitychange',()=>{
+  if(!document.hidden){
+    if(AC&&AC.state!=='running')AC.resume();
+    if(FQ.on){if(bgKeep)bgKeep.play().catch(()=>{});
+      if(navigator.wakeLock&&!FQ.lock)navigator.wakeLock.request('screen').then(l=>{FQ.lock=l;}).catch(()=>{});}}});
 
 function mkGain(v){const g=AC.createGain();g.gain.value=v;g.connect(AMaster);return g;}
 function fadeIn(g,v,s=3){g.gain.setValueAtTime(.0001,AC.currentTime);g.gain.exponentialRampToValueAtTime(Math.max(v,.0002),AC.currentTime+s);}
@@ -853,11 +903,11 @@ function bowl(when,base=440,lvl=.4){const out=mkGain(lvl);
     o.connect(g).connect(out);o.start(when);o.stop(when+dec+1);});}
 
 function fqStop(count=true){if(!FQ.on)return;
-  clearInterval(FQ.timer);
+  clearInterval(FQ.timer);keepAlive(false);
   if(AMaster){AMaster.gain.setTargetAtTime(.0001,AC.currentTime,1.2);}
   const nodes=FQ.nodes;
   setTimeout(()=>{nodes.forEach(n=>{try{n.stop&&n.stop()}catch(e){}try{n.disconnect&&n.disconnect()}catch(e){}});
-    if(AMaster)AMaster.gain.setValueAtTime(.8,AC.currentTime);},4000);
+    if(AMaster&&!FQ.on)AMaster.gain.setValueAtTime(.8,AC.currentTime);},4000);
   const mins=Math.round((Date.now()-FQ.start)/60000);
   if(count&&mins>=1){S.stats.totalMinutes+=mins;markDay('med');save();renderStats();toast(mins+' דקות בתדר ✨');}
   FQ={on:false,nodes:[],preset:null,solo:null,start:0,timer:null,mode:null};renderFreq();}
@@ -869,12 +919,12 @@ function fqPlayPreset(p,forceIso){acInit();fqStop(false);
   if(p.sol)nodes.push(...mkSol(p.sol.f,p.sol.lvl));
   if(p.amb)nodes.push(...mkAmbient(p.amb));
   bowl(AC.currentTime+.1,432,.35);
-  FQ={on:true,nodes,preset:p,solo:null,start:Date.now(),mode,timer:setInterval(renderFqNow,1000)};
-  renderFreq();}
+  FQ={on:true,nodes,preset:p,solo:null,start:Date.now(),mode,lock:null,timer:setInterval(renderFqNow,1000)};
+  keepAlive(true,p.name);renderFreq();}
 function fqPlaySol(f){acInit();fqStop(false);
   const nodes=[...mkSol(f,.2),...mkAmbient({type:'brown',lp:900,lvl:.12})];
-  FQ={on:true,nodes,preset:null,solo:f,start:Date.now(),mode:'sol',timer:setInterval(renderFqNow,1000)};
-  renderFreq();}
+  FQ={on:true,nodes,preset:null,solo:f,start:Date.now(),mode:'sol',lock:null,timer:setInterval(renderFqNow,1000)};
+  keepAlive(true,'סולפג׳יו '+f+'Hz');renderFreq();}
 
 function renderFqNow(){const el=document.getElementById('freqNow');if(!FQ.on){el.style.display='none';return;}
   el.style.display='block';el.classList.add('glow');
