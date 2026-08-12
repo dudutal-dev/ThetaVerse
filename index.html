@@ -114,9 +114,10 @@ h3.sec{font-family:'Rubik','Heebo',sans-serif;font-size:1.02rem;font-weight:500;
 .pRing svg{width:100%;height:100%;transform:rotate(-90deg)}
 .pRing .track{fill:none;stroke:rgba(255,255,255,.07);stroke-width:5}
 .pRing .prog{fill:none;stroke:url(#pgrad);stroke-width:5;stroke-linecap:round;transition:stroke-dashoffset 1s linear}
-.pCore{position:absolute;inset:13%;border-radius:50%;background:radial-gradient(circle at 40% 32%,rgba(255,255,255,.92),#d9c8ff 34%,rgba(139,92,246,.3) 68%,transparent);box-shadow:0 0 70px 24px rgba(190,170,255,.22);transform:scale(.8);transition:transform 4s cubic-bezier(.45,0,.55,1)}
-.pBreath{position:absolute;left:0;right:0;top:63%;text-align:center;font-size:.92rem;color:var(--cyan);letter-spacing:.5px;font-weight:300;text-shadow:0 0 14px rgba(0,0,0,.7)}
-.pTime{position:absolute;inset:0;display:grid;place-items:center;font-family:'Rubik','Heebo',sans-serif;font-size:1.7rem;font-weight:300;direction:ltr;color:var(--pearl);text-shadow:0 0 24px rgba(0,0,0,.6)}
+.pCore{position:absolute;inset:14%;display:grid;place-items:center;transform:scale(.8);transition:transform 4s cubic-bezier(.45,0,.55,1),opacity 4s ease;filter:drop-shadow(0 0 24px rgba(139,92,246,.5)) drop-shadow(0 0 60px rgba(103,232,249,.22))}
+.pCore svg{width:82%;height:auto;transform:none}
+.pBreath{position:absolute;left:0;right:0;top:80%;text-align:center;font-size:.95rem;color:var(--cyan);letter-spacing:.5px;font-weight:300;text-shadow:0 0 14px rgba(0,0,0,.7)}
+.pTime{position:absolute;left:0;right:0;top:7%;text-align:center;font-family:'Rubik','Heebo',sans-serif;font-size:1.25rem;font-weight:300;direction:ltr;color:var(--pearlDim);text-shadow:0 0 24px rgba(0,0,0,.6)}
 #pStep{max-width:34ch;font-size:1.22rem;font-weight:300;line-height:1.85;min-height:5.6em;color:var(--pearl);animation:fadeUp .8s ease}
 #pTitle{color:var(--gold);font-size:.85rem;letter-spacing:.6px;margin-bottom:16px}
 .pCtl{display:flex;gap:14px;margin-top:34px}
@@ -389,7 +390,23 @@ textarea{width:100%;min-height:90px;background:var(--bg3);border:1px solid var(-
       <circle class="track" cx="50" cy="50" r="46"/>
       <circle class="prog" id="pProg" cx="50" cy="50" r="46"/>
     </svg>
-    <div class="pCore"></div>
+    <div class="pCore"><svg viewBox="0 0 200 172">
+      <defs>
+        <linearGradient id="lungG" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#9feafc"/><stop offset=".55" stop-color="#9d8bfa"/><stop offset="1" stop-color="#7c5cf0"/>
+        </linearGradient>
+        <linearGradient id="lungG2" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#e6f9ff" stop-opacity=".55"/><stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
+        </linearGradient>
+      </defs>
+      <rect x="93" y="6" width="14" height="38" rx="7" fill="#cdbcff"/>
+      <path d="M100 42 C100 58 88 62 76 68" stroke="#cdbcff" stroke-width="11" fill="none" stroke-linecap="round"/>
+      <path d="M100 42 C100 58 112 62 124 68" stroke="#cdbcff" stroke-width="11" fill="none" stroke-linecap="round"/>
+      <path d="M86 60 C58 52 28 80 24 114 C20 146 40 166 62 162 C84 158 92 134 92 106 L92 72 C92 64 90 61 86 60 Z" fill="url(#lungG)" opacity=".92"/>
+      <path d="M114 60 C142 52 172 80 176 114 C180 146 160 166 138 162 C116 158 108 134 108 106 L108 72 C108 64 110 61 114 60 Z" fill="url(#lungG)" opacity=".92"/>
+      <path d="M86 60 C58 52 28 80 24 114 C22 130 27 143 36 151 C30 128 38 88 62 72 C74 64 84 62 86 60 Z" fill="url(#lungG2)"/>
+      <path d="M114 60 C142 52 172 80 176 114 C178 130 173 143 164 151 C170 128 162 88 138 72 C126 64 116 62 114 60 Z" fill="url(#lungG2)"/>
+    </svg></div>
     <div class="pTime" id="pTime">00:00</div>
     <div class="pBreath" id="pBreath"></div>
   </div>
@@ -736,8 +753,9 @@ function breathTick(){if(!BR.on)return;
   const lbl=document.getElementById('pBreath');
   const lang=S.settings.guideLang==='en'?'en':'he';
   if(lbl)lbl.textContent=BR_LBL[lang][ph];
-  if(core){core.style.transition='transform '+dur+'s cubic-bezier(.45,0,.55,1)';
-    core.style.transform=(ph===2)?'scale(.8)':'scale(1.14)';}
+  if(core){core.style.transition='transform '+dur+'s cubic-bezier(.45,0,.55,1),opacity '+dur+'s ease';
+    core.style.transform=(ph===2)?'scale(.8)':'scale(1.14)';
+    core.style.opacity=(ph===2)?'.68':'1';}
   BR.t=setTimeout(()=>{BR.phase++;breathTick();},dur*1000);}
 function breathStop(){BR.on=false;clearTimeout(BR.t);
   const lbl=document.getElementById('pBreath');if(lbl)lbl.textContent='';}
