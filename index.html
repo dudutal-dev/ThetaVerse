@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no,maximum-scale=1">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="ThetaVerse">
+<meta name="theme-color" content="#05060f">
+<meta name="description" content="ThetaVerse — תרגול תטא יומי">
+<link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%230f1226'/><text y='.9em' font-size='68' x='50%' text-anchor='middle'>🌀</text></svg>">
+<title>ThetaVerse — תרגול תטא יומי</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700&family=Heebo:wght@200;300;400;500;700&display=swap');
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+:root{
+  --bg0:#05060f;--bg1:#0a0d1f;--bg2:#0f1226;--bg3:#161b38;
+  --card:rgba(22,27,56,.55);--cardB:rgba(124,140,255,.14);--cardBH:rgba(160,175,255,.35);
+  --pearl:#e8ecf7;--pearlDim:#aab3d0;--muted:#5d6788;
+  --gold:#e2b96a;--goldGlow:rgba(226,185,106,.45);
+  --violet:#8b5cf6;--violetD:#6d28d9;--nebula:#c084fc;
+  --cyan:#67e8f9;--rose:#f0abfc;
+  --green:#34d399;
+  --sbot:env(safe-area-inset-bottom,0px);--stop:env(safe-area-inset-top,0px);
+  --r:22px;
+}
+html,body{height:100%;background:var(--bg0);color:var(--pearl);font-family:'Heebo','Rubik',sans-serif;direction:rtl;font-size:17px;overflow:hidden;-webkit-font-smoothing:antialiased}
+#stars{position:fixed;inset:0;z-index:0;pointer-events:none}
+.nebula{position:fixed;border-radius:50%;filter:blur(90px);opacity:.5;z-index:0;pointer-events:none;animation:drift 26s ease-in-out infinite alternate}
+.nb1{width:60vmax;height:60vmax;background:radial-gradient(circle,#3b1d78 0%,transparent 65%);top:-25vmax;right:-20vmax}
+.nb2{width:50vmax;height:50vmax;background:radial-gradient(circle,#12365e 0%,transparent 65%);bottom:-18vmax;left:-15vmax;animation-delay:-9s}
+.nb3{width:34vmax;height:34vmax;background:radial-gradient(circle,rgba(226,185,106,.16) 0%,transparent 60%);top:38%;left:22%;animation-delay:-17s}
+@keyframes drift{from{transform:translate(0,0) scale(1)}to{transform:translate(4vmax,-3vmax) scale(1.12)}}
+
+/* ---------- SPLASH ---------- */
+#splash{position:fixed;inset:0;z-index:100;display:flex;flex-direction:column;align-items:center;justify-content:center;background:transparent;transition:opacity 1.1s ease,visibility 1.1s}
+#splash.gone{opacity:0;visibility:hidden;pointer-events:none}
+.portal{position:relative;width:min(64vw,270px);height:min(64vw,270px);display:grid;place-items:center}
+.ring{position:absolute;inset:0;border-radius:50%;border:1.5px solid transparent;animation:spin linear infinite}
+.r1{border-top-color:rgba(226,185,106,.85);border-left-color:rgba(226,185,106,.15);animation-duration:9s;box-shadow:0 0 42px rgba(226,185,106,.18)}
+.r2{inset:9%;border-top-color:rgba(192,132,252,.8);border-right-color:rgba(192,132,252,.12);animation-duration:7s;animation-direction:reverse}
+.r3{inset:19%;border-top-color:rgba(103,232,249,.7);animation-duration:12s}
+@keyframes spin{to{transform:rotate(360deg)}}
+.core{width:44%;height:44%;border-radius:50%;background:radial-gradient(circle at 38% 32%,#fff 0%,#f2e8ff 22%,#cbb6ff 46%,rgba(139,92,246,.35) 72%,transparent 100%);animation:breathe 3.6s ease-in-out infinite;box-shadow:0 0 60px 18px rgba(210,190,255,.35),0 0 140px 60px rgba(139,92,246,.18)}
+@keyframes breathe{0%,100%{transform:scale(.92);opacity:.9}50%{transform:scale(1.06);opacity:1}}
+.orbit{position:absolute;inset:-6%;animation:spin 16s linear infinite}
+.orbit i{position:absolute;top:0;left:50%;width:7px;height:7px;margin-left:-3.5px;border-radius:50%;background:var(--gold);box-shadow:0 0 14px 3px var(--goldGlow)}
+.orbit.o2{inset:2%;animation-duration:11s;animation-direction:reverse}
+.orbit.o2 i{background:var(--cyan);box-shadow:0 0 12px 3px rgba(103,232,249,.5);width:5px;height:5px}
+#splash h1{margin-top:42px;font-family:'Rubik';font-weight:600;font-size:2.35rem;letter-spacing:.5px;background:linear-gradient(100deg,#f6ead0 10%,var(--gold) 32%,#fff 50%,var(--nebula) 72%,#9db4ff 95%);-webkit-background-clip:text;background-clip:text;color:transparent;background-size:220% 100%;animation:shimmer 5s linear infinite;opacity:0;animation:shimmer 5s linear infinite,riseIn 1.4s .5s ease forwards}
+@keyframes shimmer{to{background-position:-220% 0}}
+@keyframes riseIn{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+#splash p{margin-top:12px;color:var(--pearlDim);font-weight:300;font-size:1.02rem;letter-spacing:.3px;opacity:0;animation:riseIn 1.4s 1.1s ease forwards}
+#enterBtn{margin-top:52px;padding:15px 62px;border-radius:999px;border:1px solid rgba(226,185,106,.5);background:linear-gradient(135deg,rgba(226,185,106,.16),rgba(139,92,246,.16));color:var(--pearl);font-family:'Heebo';font-size:1.12rem;font-weight:500;letter-spacing:.4px;cursor:pointer;opacity:0;animation:riseIn 1.2s 1.8s ease forwards,pulseGlow 2.8s 2.4s ease-in-out infinite;backdrop-filter:blur(6px)}
+@keyframes pulseGlow{0%,100%{box-shadow:0 0 18px rgba(226,185,106,.25)}50%{box-shadow:0 0 44px rgba(226,185,106,.55),0 0 90px rgba(139,92,246,.25)}}
+
+/* ---------- APP SHELL ---------- */
+#app{position:relative;z-index:2;display:none;flex-direction:column;height:100dvh;max-width:560px;margin:0 auto}
+#app.on{display:flex}
+main{flex:1;overflow-y:auto;overscroll-behavior:contain;padding:calc(14px + var(--stop)) 18px 110px;scrollbar-width:none}
+main::-webkit-scrollbar{display:none}
+.view{display:none;animation:fadeUp .45s ease}
+.view.on{display:block}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+
+/* nav */
+nav{position:fixed;bottom:0;left:0;right:0;z-index:20;display:flex;justify-content:center}
+.navIn{display:flex;gap:4px;margin:0 auto calc(12px + var(--sbot));padding:7px;border-radius:999px;background:rgba(10,13,31,.72);border:1px solid var(--cardB);backdrop-filter:blur(18px);box-shadow:0 8px 40px rgba(0,0,0,.5)}
+.navBtn{display:flex;flex-direction:column;align-items:center;gap:2px;padding:9px 17px;border:none;background:none;color:var(--muted);font-family:inherit;font-size:.68rem;border-radius:999px;cursor:pointer;transition:.25s}
+.navBtn span{font-size:1.25rem;line-height:1}
+.navBtn.on{color:var(--pearl);background:linear-gradient(135deg,rgba(139,92,246,.35),rgba(226,185,106,.18));box-shadow:0 0 22px rgba(139,92,246,.3)}
+
+/* cards */
+.card{position:relative;background:var(--card);border:1px solid var(--cardB);border-radius:var(--r);padding:18px;margin-bottom:14px;backdrop-filter:blur(14px);transition:border-color .3s}
+.card.glow{border-color:rgba(226,185,106,.35);box-shadow:0 0 34px rgba(226,185,106,.09),inset 0 0 34px rgba(139,92,246,.05)}
+.hello{font-family:'Rubik';font-size:1.5rem;font-weight:600;margin:6px 2px 2px}
+.sub{color:var(--pearlDim);font-weight:300;font-size:.95rem;margin:0 2px 16px}
+h3.sec{font-family:'Rubik';font-size:1.02rem;font-weight:500;color:var(--gold);margin:20px 2px 10px;letter-spacing:.3px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:13px 26px;border-radius:16px;border:1px solid rgba(226,185,106,.4);background:linear-gradient(135deg,rgba(226,185,106,.2),rgba(139,92,246,.22));color:var(--pearl);font-family:inherit;font-size:1rem;font-weight:500;cursor:pointer;transition:.25s}
+.btn:active{transform:scale(.97)}
+.btn.full{width:100%}
+.btn.ghost{background:rgba(255,255,255,.04);border-color:var(--cardB);color:var(--pearlDim)}
+.btn.gold{background:linear-gradient(135deg,var(--gold),#c99a45);color:#141021;border:none;font-weight:600;box-shadow:0 4px 26px var(--goldGlow)}
+.chip{display:inline-block;padding:4px 12px;border-radius:999px;font-size:.72rem;background:rgba(139,92,246,.16);border:1px solid rgba(139,92,246,.3);color:var(--nebula)}
+
+/* today loop */
+.loop{display:flex;gap:10px}
+.loopIt{flex:1;text-align:center;padding:13px 6px;border-radius:18px;background:rgba(255,255,255,.03);border:1px solid var(--cardB);transition:.3s}
+.loopIt .ic{font-size:1.45rem}
+.loopIt .lb{font-size:.7rem;color:var(--pearlDim);margin-top:4px}
+.loopIt.done{background:linear-gradient(160deg,rgba(52,211,153,.14),rgba(52,211,153,.04));border-color:rgba(52,211,153,.4)}
+.loopIt.done .lb{color:var(--green)}
+/* download card */
+.dlText{font-size:1.13rem;font-weight:400;line-height:1.75;min-height:64px;display:flex;align-items:center}
+.dlTheme{color:var(--nebula);font-size:.78rem;margin-bottom:8px}
+.dlRow{display:flex;gap:10px;margin-top:14px}
+.yesBtn{flex:1;padding:13px;border-radius:16px;border:none;background:linear-gradient(135deg,var(--gold),#cf9f4b);color:#141021;font-family:inherit;font-size:1.05rem;font-weight:700;cursor:pointer;box-shadow:0 4px 22px var(--goldGlow)}
+.skipBtn{padding:13px 20px;border-radius:16px;border:1px solid var(--cardB);background:none;color:var(--muted);font-family:inherit;cursor:pointer}
+.dlDone{text-align:center;padding:16px 4px;color:var(--green);font-size:1rem}
+/* SOS */
+#sosFab{position:fixed;left:16px;bottom:calc(96px + var(--sbot));z-index:21;width:58px;height:58px;border-radius:50%;border:1px solid rgba(103,232,249,.4);background:rgba(10,13,31,.8);color:var(--cyan);font-size:.72rem;font-family:inherit;cursor:pointer;backdrop-filter:blur(10px);box-shadow:0 0 26px rgba(103,232,249,.2);line-height:1.15;font-weight:600}
+/* meditation cards */
+.medCard{display:flex;align-items:center;gap:14px;cursor:pointer}
+.medIc{width:52px;height:52px;border-radius:16px;display:grid;place-items:center;font-size:1.5rem;background:linear-gradient(150deg,rgba(139,92,246,.28),rgba(226,185,106,.14));border:1px solid rgba(139,92,246,.3);flex-shrink:0}
+.medCard h4{font-weight:500;font-size:1.02rem}
+.medCard p{color:var(--pearlDim);font-size:.8rem;font-weight:300;margin-top:3px}
+.medDur{margin-inline-start:auto;color:var(--gold);font-size:.8rem;white-space:nowrap}
+/* player */
+#player{position:fixed;inset:0;z-index:60;display:none;flex-direction:column;align-items:center;justify-content:center;background:radial-gradient(120% 100% at 50% 0%,#141a3a 0%,#070a18 60%,#04050d 100%);padding:24px;text-align:center}
+#player.on{display:flex}
+.pRing{position:relative;width:min(62vw,250px);height:min(62vw,250px);margin-bottom:34px}
+.pRing svg{width:100%;height:100%;transform:rotate(-90deg)}
+.pRing .track{fill:none;stroke:rgba(255,255,255,.07);stroke-width:5}
+.pRing .prog{fill:none;stroke:url(#pgrad);stroke-width:5;stroke-linecap:round;transition:stroke-dashoffset 1s linear}
+.pCore{position:absolute;inset:13%;border-radius:50%;background:radial-gradient(circle at 40% 32%,rgba(255,255,255,.92),#d9c8ff 34%,rgba(139,92,246,.3) 68%,transparent);animation:breathe 5.5s ease-in-out infinite;box-shadow:0 0 70px 24px rgba(190,170,255,.22)}
+.pTime{position:absolute;inset:0;display:grid;place-items:center;font-family:'Rubik';font-size:1.7rem;font-weight:300;direction:ltr;color:var(--pearl);text-shadow:0 0 24px rgba(0,0,0,.6)}
+#pStep{max-width:34ch;font-size:1.22rem;font-weight:300;line-height:1.85;min-height:5.6em;color:var(--pearl);animation:fadeUp .8s ease}
+#pTitle{color:var(--gold);font-size:.85rem;letter-spacing:.6px;margin-bottom:16px}
+.pCtl{display:flex;gap:14px;margin-top:34px}
+.pBtn{width:58px;height:58px;border-radius:50%;border:1px solid var(--cardB);background:rgba(255,255,255,.05);color:var(--pearl);font-size:1.3rem;cursor:pointer}
+.pBtn.main{width:74px;height:74px;background:linear-gradient(135deg,rgba(226,185,106,.3),rgba(139,92,246,.3));border-color:rgba(226,185,106,.45);font-size:1.6rem}
+/* downloads view */
+.themeTabs{display:flex;gap:8px;overflow-x:auto;padding:2px 2px 12px;scrollbar-width:none}
+.themeTabs::-webkit-scrollbar{display:none}
+.tTab{white-space:nowrap;padding:8px 16px;border-radius:999px;border:1px solid var(--cardB);background:rgba(255,255,255,.03);color:var(--pearlDim);font-family:inherit;font-size:.82rem;cursor:pointer}
+.tTab.on{background:linear-gradient(135deg,rgba(139,92,246,.3),rgba(226,185,106,.16));color:var(--pearl);border-color:rgba(139,92,246,.45)}
+.dlItem{display:flex;align-items:center;gap:12px;padding:13px 14px;border-radius:16px;background:rgba(255,255,255,.03);border:1px solid var(--cardB);margin-bottom:9px;font-size:.94rem;font-weight:300;line-height:1.6}
+.dlItem button{margin-inline-start:auto;flex-shrink:0;padding:7px 15px;border-radius:12px;border:1px solid rgba(226,185,106,.4);background:none;color:var(--gold);font-family:inherit;font-size:.85rem;cursor:pointer}
+.dlItem.acc{border-color:rgba(52,211,153,.35)}
+.dlItem.acc button{border-color:transparent;color:var(--green)}
+/* stats */
+.statGrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.stat{padding:18px 14px;border-radius:18px;background:var(--card);border:1px solid var(--cardB);text-align:center}
+.stat b{display:block;font-family:'Rubik';font-size:1.8rem;font-weight:600;background:linear-gradient(120deg,var(--gold),var(--nebula));-webkit-background-clip:text;background-clip:text;color:transparent}
+.stat span{font-size:.76rem;color:var(--pearlDim)}
+/* settings */
+.setRow{display:flex;align-items:center;gap:12px;padding:14px 4px;border-bottom:1px solid rgba(255,255,255,.05)}
+.setRow label{flex:1;font-weight:300}
+select,input[type=text]{background:var(--bg3);border:1px solid var(--cardB);color:var(--pearl);font-family:inherit;font-size:.95rem;padding:9px 12px;border-radius:12px;outline:none}
+.disc{font-size:.78rem;color:var(--muted);line-height:1.7;margin-top:16px}
+/* frequencies */
+.solGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.solChip{padding:11px 6px;border-radius:14px;border:1px solid var(--cardB);background:rgba(255,255,255,.03);color:var(--pearlDim);font-family:inherit;font-size:.8rem;cursor:pointer;text-align:center;transition:.25s}
+.solChip b{display:block;font-family:'Rubik';font-size:1.02rem;color:var(--pearl);direction:ltr}
+.solChip.on{border-color:var(--gold);background:rgba(226,185,106,.12);box-shadow:0 0 20px rgba(226,185,106,.25)}
+.solChip.on b{color:var(--gold)}
+.fqRow{display:flex;align-items:center;gap:10px;margin:10px 0}
+.fqRow label{font-size:.78rem;color:var(--pearlDim);width:64px;flex-shrink:0}
+input[type=range]{flex:1;appearance:none;-webkit-appearance:none;height:4px;border-radius:4px;background:linear-gradient(90deg,var(--violet),var(--gold));outline:none}
+input[type=range]::-webkit-slider-thumb{appearance:none;-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:#fff;box-shadow:0 0 12px rgba(226,185,106,.6);cursor:pointer}
+.fqWave{display:flex;align-items:flex-end;gap:3px;height:26px;margin:2px 0 8px}
+.fqWave i{flex:1;background:linear-gradient(180deg,var(--gold),var(--violet));border-radius:3px;animation:wv 1.2s ease-in-out infinite;opacity:.85}
+@keyframes wv{0%,100%{height:22%}50%{height:100%}}
+.hpBanner{font-size:.78rem;color:var(--cyan);margin-top:8px}
+/* toast */
+#toast{position:fixed;top:calc(18px + var(--stop));left:50%;transform:translate(-50%,-140%);z-index:80;padding:12px 24px;border-radius:999px;background:rgba(15,18,38,.92);border:1px solid rgba(226,185,106,.4);backdrop-filter:blur(12px);font-size:.9rem;transition:transform .5s cubic-bezier(.2,.9,.3,1.2);box-shadow:0 8px 34px rgba(0,0,0,.5)}
+#toast.on{transform:translate(-50%,0)}
+/* onboarding */
+#onb{position:fixed;inset:0;z-index:90;display:none;align-items:center;justify-content:center;padding:26px;background:rgba(4,5,13,.86);backdrop-filter:blur(8px)}
+#onb.on{display:flex}
+.onbCard{width:100%;max-width:400px;background:var(--bg2);border:1px solid var(--cardBH);border-radius:26px;padding:28px;box-shadow:0 0 80px rgba(139,92,246,.2)}
+.onbCard h2{font-family:'Rubik';font-weight:600;font-size:1.3rem;margin-bottom:8px}
+.onbCard p{color:var(--pearlDim);font-weight:300;font-size:.92rem;line-height:1.7;margin-bottom:18px}
+.gRow{display:flex;gap:8px;margin:8px 0 18px}
+.gBtn{flex:1;padding:11px;border-radius:14px;border:1px solid var(--cardB);background:rgba(255,255,255,.03);color:var(--pearlDim);font-family:inherit;cursor:pointer}
+.gBtn.on{border-color:var(--gold);color:var(--gold);background:rgba(226,185,106,.08)}
+</style>
+</head>
+<body>
+<canvas id="stars"></canvas>
+<div class="nebula nb1"></div><div class="nebula nb2"></div><div class="nebula nb3"></div>
+
+<!-- SPLASH -->
+<div id="splash">
+  <div class="portal">
+    <div class="ring r1"></div><div class="ring r2"></div><div class="ring r3"></div>
+    <div class="orbit"><i></i></div><div class="orbit o2"><i></i></div>
+    <div class="core"></div>
+  </div>
+  <h1>ThetaVerse</h1>
+  <p>המסע היומי שלך אל המישור השביעי</p>
+  <button id="enterBtn">כניסה למרחב ✨</button>
+</div>
+
+<!-- ONBOARDING -->
+<div id="onb"><div class="onbCard">
+  <h2>ברוכים הבאים 🌀</h2>
+  <p>איך לקרוא לך?</p>
+  <input type="text" id="onbName" placeholder="השם שלך" style="width:100%">
+  <p style="margin-top:18px">לשון פנייה:</p>
+  <div class="gRow">
+    <button class="gBtn" data-g="f">נקבה</button>
+    <button class="gBtn" data-g="m">זכר</button>
+    <button class="gBtn on" data-g="x">מעורב</button>
+  </div>
+  <p style="font-size:.78rem;color:var(--muted)">ThetaVerse היא אפליקציית תרגול רוחני עצמאית (אינה קשורה ל-THInK / ThetaHealing®). התרגול משלים ואינו מחליף טיפול רפואי או נפשי מקצועי.</p>
+  <button class="btn gold full" id="onbGo" style="margin-top:16px">מתחילים ✨</button>
+</div></div>
+
+<!-- APP -->
+<div id="app">
+<main>
+
+  <!-- TODAY -->
+  <section class="view on" id="v-today">
+    <div class="hello" id="greet"></div>
+    <p class="sub" id="greetSub"></p>
+
+    <div class="card glow">
+      <div class="loop" id="loopRow">
+        <div class="loopIt" data-k="med"><div class="ic">🌌</div><div class="lb">עלייה</div></div>
+        <div class="loopIt" data-k="dl"><div class="ic">💫</div><div class="lb">הורדה</div></div>
+        <div class="loopIt" data-k="grat"><div class="ic">🙏</div><div class="lb">תודה</div></div>
+      </div>
+    </div>
+
+    <h3 class="sec">💫 הורדת היום</h3>
+    <div class="card" id="dlCard"></div>
+
+    <h3 class="sec">🌌 התרגול הבא</h3>
+    <div class="card medCard glow" id="nextMed"></div>
+
+    <h3 class="sec">🙏 תודה של ערב</h3>
+    <div class="card" id="gratCard"></div>
+  </section>
+
+  <!-- MEDITATIONS -->
+  <section class="view" id="v-med">
+    <div class="hello">מדיטציות</div>
+    <p class="sub">בחר/י מסע — הטקסט מתקדם לבדו, רק לעצום עיניים בין שורות</p>
+    <div id="medList"></div>
+  </section>
+
+  <!-- DOWNLOADS -->
+  <section class="view" id="v-dl">
+    <div class="hello">ספריית ההורדות</div>
+    <p class="sub">אישור ב"כן" — כמסורת הרשות המילולית · <span id="dlCount" class="chip"></span></p>
+    <div class="themeTabs" id="dlTabs"></div>
+    <div id="dlList"></div>
+  </section>
+
+  <!-- FREQUENCIES -->
+  <section class="view" id="v-freq">
+    <div class="hello">תדרים</div>
+    <p class="sub">גלי תטא, סולפג'יו וצלילי רקע — הכול נוצר חי בתוך המכשיר 🌊</p>
+
+    <div class="card" id="freqNow" style="display:none"></div>
+
+    <h3 class="sec">🌀 מצבים</h3>
+    <div id="freqPresets"></div>
+
+    <h3 class="sec">🎵 סולפג'יו</h3>
+    <div class="card">
+      <p class="sub" style="margin-bottom:10px">על פי המסורת — בחר/י תדר, והוא יתנגן כדרון רך:</p>
+      <div class="solGrid" id="solGrid"></div>
+    </div>
+
+    <p class="disc">🎧 אפקט בינאורלי דורש אוזניות סטריאו — בלעדיהן נעבור אוטומטית לגלים איזוכרוניים · אין להאזין לתדרי הרפיה בזמן נהיגה · אם מופיעה אי-נוחות או צפצוף — הפסיקו · המסורת מספרת על משמעויות התדרים; המחקר תומך בעיקר בהרפיה, בצלילי טבע ובמוזיקה איטית — וזה בדיוק מה שיש כאן.</p>
+  </section>
+
+  <!-- ME -->
+  <section class="view" id="v-me">
+    <div class="hello">המסע שלי</div>
+    <p class="sub" id="meSub"></p>
+    <div class="statGrid">
+      <div class="stat"><b id="stDays">0</b><span>ימי תרגול החודש</span></div>
+      <div class="stat"><b id="stMin">0</b><span>דקות בתטא</span></div>
+      <div class="stat"><b id="stDl">0</b><span>הורדות שאושרו</span></div>
+      <div class="stat"><b id="stSes">0</b><span>מסעות למישור השביעי</span></div>
+    </div>
+    <h3 class="sec">⚙️ הגדרות</h3>
+    <div class="card">
+      <div class="setRow"><label>שם</label><input type="text" id="setName" style="width:150px"></div>
+      <div class="setRow"><label>לשון פנייה</label>
+        <select id="setGender"><option value="x">מעורב (יודע/ת)</option><option value="f">נקבה</option><option value="m">זכר</option></select></div>
+      <div class="setRow" style="border:none;gap:8px">
+        <button class="btn ghost" id="expBtn" style="flex:1">ייצוא נתונים</button>
+        <button class="btn ghost" id="impBtn" style="flex:1">ייבוא</button>
+        <input type="file" id="impFile" accept=".json" hidden>
+      </div>
+    </div>
+    <p class="disc">ThetaVerse — אפליקציית תרגול רוחני עצמאית בהשראת עולם התטא הילינג. אינה קשורה ל-THInK או לויאנה סטיבל; ThetaHealing® הוא סימן מסחרי רשום. התכנים לרווחה אישית בלבד — משלימים ואינם מחליפים טיפול רפואי או נפשי. אם יש היסטוריה של מצבים נפשיים מורכבים, מומלץ להתייעץ עם איש מקצוע לפני עבודה מדיטטיבית עמוקה.</p>
+  </section>
+
+</main>
+
+<button id="sosFab">SOS<br>3 ד׳</button>
+
+<nav><div class="navIn">
+  <button class="navBtn on" data-v="today"><span>🌅</span>היום</button>
+  <button class="navBtn" data-v="med"><span>🌌</span>מדיטציות</button>
+  <button class="navBtn" data-v="dl"><span>💫</span>הורדות</button>
+  <button class="navBtn" data-v="freq"><span>🌊</span>תדרים</button>
+  <button class="navBtn" data-v="me"><span>🪐</span>המסע שלי</button>
+</div></nav>
+</div>
+
+<!-- PLAYER -->
+<div id="player">
+  <div id="pTitle"></div>
+  <div class="pRing">
+    <svg viewBox="0 0 100 100">
+      <defs><linearGradient id="pgrad" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0%" stop-color="#e2b96a"/><stop offset="100%" stop-color="#8b5cf6"/>
+      </linearGradient></defs>
+      <circle class="track" cx="50" cy="50" r="46"/>
+      <circle class="prog" id="pProg" cx="50" cy="50" r="46"/>
+    </svg>
+    <div class="pCore"></div>
+    <div class="pTime" id="pTime">00:00</div>
+  </div>
+  <div id="pStep"></div>
+  <div class="pCtl">
+    <button class="pBtn" id="pExit">✕</button>
+    <button class="pBtn main" id="pPause">⏸</button>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+'use strict';
+/* ============ STARFIELD ============ */
+const cv=document.getElementById('stars'),cx=cv.getContext('2d');let stars=[];
+function initStars(){cv.width=innerWidth*devicePixelRatio;cv.height=innerHeight*devicePixelRatio;
+  stars=Array.from({length:Math.min(180,innerWidth/3)},()=>({x:Math.random()*cv.width,y:Math.random()*cv.height,r:Math.random()*1.4+.3,tw:Math.random()*Math.PI*2,sp:.02+Math.random()*.05,dx:(Math.random()-.5)*.06}));}
+function drawStars(t){cx.clearRect(0,0,cv.width,cv.height);
+  for(const s of stars){s.tw+=s.sp;s.x+=s.dx;if(s.x<0)s.x=cv.width;if(s.x>cv.width)s.x=0;
+    const a=.25+Math.abs(Math.sin(s.tw))*.6;cx.beginPath();cx.arc(s.x,s.y,s.r*devicePixelRatio,0,7);cx.fillStyle=`rgba(232,236,247,${a})`;cx.fill();}
+  requestAnimationFrame(drawStars);}
+initStars();addEventListener('resize',initStars);requestAnimationFrame(drawStars);
+
+/* ============ STATE ============ */
+const KEY='thetaverse.v1';
+const todayKey=()=>{const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');};
+let S=load();
+function load(){try{const s=JSON.parse(localStorage.getItem(KEY));if(s&&s.schemaVersion===1)return s;}catch(e){}
+  return {schemaVersion:1,profile:{name:'',gender:'x',onboarded:false},
+    stats:{totalMinutes:0,sessions:0,downloadsAccepted:0},
+    practice:{days:{}},downloads:{acceptedIds:[],todayIds:[],todayDate:'',todayDone:false},gratitude:{}};}
+function save(){localStorage.setItem(KEY,JSON.stringify(S));}
+function markDay(kind,minutes=0){const k=todayKey();const d=S.practice.days[k]||(S.practice.days[k]={items:[]});
+  if(!d.items.includes(kind))d.items.push(kind);
+  if(minutes){S.stats.totalMinutes+=minutes;}save();renderLoop();renderStats();}
+
+/* gender */
+function G(t){const g=S.profile.gender;if(g==='x')return t;
+  return t.replace(/([֐-׿]+)\/([֐-׿]+)/g,(m,a,b)=>g==='m'?a:a+b);}
+
+/* ============ DATA: DOWNLOADS ============ */
+const THEMES=[['love','💗 אהבה עצמית'],['abund','💰 שפע'],['rel','💞 זוגיות ויחסים'],['health','🌿 בריאות'],['safe','🛡️ ביטחון'],['forgive','🕊️ סליחה ושחרור'],['family','👨‍👩‍👧 משפחה'],['spirit','✨ חיבור לבורא']];
+const DL={
+love:["אני יודע/ת איך זה מרגיש לאהוב את עצמי ללא תנאי.","אני יודע/ת איך לחיות את היומיום שלי מתוך אהבה עצמית.","אני יודע/ת שאני ראוי/ה לאהבה בדיוק כפי שאני.","אני יודע/ת איך זה מרגיש להיות שלם/ה עם מי שאני.","אני יודע/ת איך להציב גבולות מתוך אהבה, בלי אשמה.","אני יודע/ת איך זה מרגיש לסלוח לעצמי בקלות.","אני יודע/ת שמותר לי לנוח בלי להרגיש אשמה.","אני יודע/ת איך לראות את עצמי דרך עיני הבורא.","אני יודע/ת איך זה מרגיש להיות גאה בדרך שעברתי.","אני יודע/ת שאני מספיק/ה, בדיוק כמו שאני."],
+abund:["אני יודע/ת איך זה מרגיש לחיות בשפע בכל תחומי חיי.","אני יודע/ת איך לקבל כסף בשמחה ובקלות.","אני יודע/ת שאפשר להרוויח בשפע מעשייה שאני אוהב/ת.","אני יודע/ת איך זה מרגיש שכל צרכיי מסופקים תמיד.","אני יודע/ת איך לחיות בלי פחד ממחסור.","אני יודע/ת שכסף הוא אנרגיה נקייה, ומותר לי ליהנות ממנו.","אני יודע/ת איך זה מרגיש להיות ראוי/ה להצלחה.","אני יודע/ת איך לזהות הזדמנויות שהבורא שולח לי.","אני יודע/ת איך לתת ולקבל בזרימה מאוזנת.","אני יודע/ת שהשפע שלי אינו בא על חשבון איש."],
+rel:["אני יודע/ת איך זה מרגיש לאהוב ולהיות נאהב/ת בביטחון מלא.","אני יודע/ת איך לחיות בזוגיות מתוך כבוד הדדי.","אני יודע/ת איך זה מרגיש לסמוך על בן/בת הזוג שלי.","אני יודע/ת שאפשר לאהוב בלי לאבד את עצמי.","אני יודע/ת איך לתקשר את צרכיי בבהירות וברוך.","אני יודע/ת איך זה מרגיש להיות מובן/ת ומוערך/ת.","אני יודע/ת איך לשחרר קשרים שאינם משרתים אותי, באהבה.","אני יודע/ת שמגיעה לי אהבה נאמנה ויציבה.","אני יודע/ת איך זה מרגיש לחיות בלי פחד מנטישה.","אני יודע/ת איך לראות את הטוב באנשים ולשמור על עצמי בו-זמנית."],
+health:["אני יודע/ת איך זה מרגיש לחיות בגוף בריא ומלא חיות.","אני יודע/ת איך לאהוב את הגוף שלי ולהודות לו.","אני יודע/ת שהגוף שלי יודע לרפא את עצמו.","אני יודע/ת איך זה מרגיש לישון שינה עמוקה ומרפאת.","אני יודע/ת איך להזין את גופי במה שטוב עבורו.","אני יודע/ת איך לחיות בלי כאב מהעבר שאגור בגוף.","אני יודע/ת איך זה מרגיש לקום בבוקר עם אנרגיה ושמחה.","אני יודע/ת שמותר לי להיות בריא/ה גם כשסביבי חולי.","אני יודע/ת איך להקשיב לאותות של הגוף שלי בזמן.","אני יודע/ת איך זה מרגיש להזדקן בחן, בבריאות ובשמחה."],
+safe:["אני יודע/ת איך זה מרגיש להיות מוגן/ת ובטוח/ה בעולם.","אני יודע/ת איך לחיות בלי פחד מהעתיד.","אני יודע/ת שאני מוקף/ת באור הבורא בכל רגע.","אני יודע/ת איך זה מרגיש לבטוח בתהליך של החיים.","אני יודע/ת איך להישאר רגוע/ה גם בתוך אי-ודאות.","אני יודע/ת שמותר לי לבלוט ולהיראות בביטחון.","אני יודע/ת איך לחיות בלי צורך להיות דרוך/ה כל הזמן.","אני יודע/ת איך זה מרגיש שהעולם הוא מקום ידידותי עבורי.","אני יודע/ת איך להבחין בין אינטואיציה לבין פחד.","אני יודע/ת שאני יכול/ה לעמוד בכל מה שהחיים מביאים."],
+forgive:["אני יודע/ת איך זה מרגיש לסלוח באמת ולהשתחרר.","אני יודע/ת איך לשחרר כעס בלי לפגוע בעצמי או באחרים.","אני יודע/ת שסליחה אינה הסכמה למה שקרה — היא חופש שלי.","אני יודע/ת איך לשחרר את העבר ולחיות בהווה.","אני יודע/ת איך זה מרגיש לחיות בלי טינה.","אני יודע/ת איך לשחרר אשמה ולקחת אחריות מתוך חמלה.","אני יודע/ת איך להשלים עם מה שאי אפשר לשנות.","אני יודע/ת איך זה מרגיש להתחיל דף חדש.","אני יודע/ת איך לשחרר אמונות שירשתי ואינן שלי.","אני יודע/ת איך זה מרגיש להיות קל/ה וחופשי/ה."],
+family:["אני יודע/ת איך זה מרגיש להיות הורה מתוך רוגע ואהבה.","אני יודע/ת איך להציב גבולות לילדיי מתוך חיבור ולא מתוך כעס.","אני יודע/ת שאני הורה טוב/ה גם כשאני טועה.","אני יודע/ת איך לרפא דפוסים משפחתיים ולא להעביר אותם הלאה.","אני יודע/ת איך זה מרגיש לכבד את הוריי ולהישאר נאמן/ה לעצמי.","אני יודע/ת איך לאהוב את משפחתי בלי לשאת את הכאב שלה.","אני יודע/ת איך זה מרגיש בית שקט ומלא אהבה.","אני יודע/ת איך לתת לילדיי שורשים וכנפיים.","אני יודע/ת שמותר לי לבקש עזרה בהורות.","אני יודע/ת איך ליהנות מהרגעים הקטנים עם משפחתי."],
+spirit:["אני יודע/ת איך זה מרגיש להיות מחובר/ת לבורא כל היש.","אני יודע/ת איך לעלות למישור השביעי בקלות ובבהירות.","אני יודע/ת איך להבחין בקול הבורא מבין שאר הקולות.","אני יודע/ת שאני חלק מ\"כל מה שיש\" ולעולם איני לבד.","אני יודע/ת איך לקבל תשובות בבהירות ובאהבה.","אני יודע/ת איך לחיות את היומיום שלי מתוך תדר גבוה.","אני יודע/ת איך זה מרגיש לבטוח בתזמון האלוהי.","אני יודע/ת איך להיות עד/ה לריפוי בענווה ובתודה.","אני יודע/ת שמותר לי לקבל שפע רוחני וגשמי כאחד.","אני יודע/ת איך זה מרגיש לחיות בהשראה יומיומית."]};
+const ALLDL=[];THEMES.forEach(([k])=>DL[k].forEach((t,i)=>ALLDL.push({id:k+'-'+i,theme:k,text:t})));
+
+/* ============ DATA: MEDITATIONS ============ */
+/* steps: [text, seconds] */
+const MEDS=[
+{id:'journey',ic:'🌌',name:'עלייה למישור השביעי — המסע המלא',desc:'המדיטציה המרכזית · הארקה, עלייה, התמזגות',min:12,steps:[
+["שב/י בנוח. כפות הרגליים על הרצפה. עצום/עצמי עיניים... נשימה עמוקה פנימה — ושחרור איטי.",40],
+["עוד נשימה עמוקה... עם כל נשיפה הגוף נרגע יותר ויותר.",35],
+["דמיין/י את התודעה שלך יורדת מטה... דרך כפות הרגליים... עמוק אל תוך מרכז אימא אדמה.",45],
+["מהמרכז — משוך/משכי אנרגיה נקייה מעלה... דרך כפות הרגליים... הרגליים... כל הגוף.",45],
+["האנרגיה עולה ופותחת כל צ׳אקרה בדרכה... עד לכתר הראש.",40],
+["בכדור אור יפהפה — צא/י מהכתר מעלה... מעל החדר... מעל השמיים.",45],
+["ממשיכים לעלות... מעל כדור הארץ... מעבר לכוכבים... מעבר ליקום כולו.",50],
+["עוברים דרך אור לבן גדול... שכבות של אור... אור כהה — רק שכבה בדרך — ממשיכים... ושוב אור בהיר.",50],
+["עוברים דרך אור זהוב זוהר... ממשיכים הלאה.",40],
+["נכנסים לחומר ג׳לטיני בכל צבעי הקשת... הצבעים משתנים סביבך... אלו החוקים. ממשיכים לנוע קדימה.",50],
+["ולפניך — אור לבן-צחור מנצנץ, כמו חלון פנינה... היכנס/י פנימה, עמוק אל תוך האור.",50],
+["האור עובר דרכך... הגבולות נמסים... את/ה חלק מכל מה שיש. שהה/י כאן... באהבה ללא תנאי.",90],
+["מהמקום הזה, אם תרצה/י — בקש/י בלב: שהיום הזה יתגלה בדרך הטובה והמיטבית ביותר... תודה. נעשה, נעשה, נעשה.",60],
+["שהות שקטה באור... פשוט להיות.",90],
+["לאט לאט... חזור/חזרי עם המודעות אל הגוף... שטיפה עדינה של אור לבן.",40],
+["הרגש/י את כפות הרגליים על האדמה... נשימה עמוקה... ובקצב שלך — פקח/י עיניים. ✨",40]]},
+{id:'quick',ic:'⚡',name:'עלייה מהירה — דחיפת הכתר',desc:'למתרגלים מנוסים',min:4,steps:[
+["עצום/עצמי עיניים. נשימה אחת עמוקה... 'בורא כל היש'...",25],
+["עלה/עלי ישר מעלה — דרך הכתר — אל האור הצחור.",30],
+["שהה/י באור... את/ה חלק מכל מה שיש.",120],
+["כוונה אחת ללב... תודה. נעשה, נעשה, נעשה.",35],
+["נשימה — ופקיחת עיניים. ✨",20]]},
+{id:'sos',ic:'🧿',name:'איפוס SOS',desc:'שלוש דקות של אור באמצע היום',min:3,steps:[
+["עצור/עצרי הכול לרגע. שאיפה 4 שניות... החזקה 4... נשיפה 8.",35],
+["שוב: שאיפה... החזקה... נשיפה ארוכה. הכתפיים יורדות.",35],
+["עלייה מהירה — דרך הכתר — אל האור.",30],
+["אמור/אמרי בלב: אני מוקף/ת באור הבורא. אני בטוח/ה. הכול מסתדר בדרך הטובה והמיטבית.",45],
+["נשימה אחרונה... חזרה לכאן. ממשיכים את היום מחוברים. 🌟",35]]},
+{id:'heart',ic:'💗',name:'פתיחת הלב ואהבת הבורא',desc:'אהבה ללא תנאי + הורדות אהבה עצמית',min:10,steps:[
+["התמקם/י בנוח... שלוש נשימות עמוקות ואיטיות.",45],
+["עלה/עלי מעלה במסלול המוכר... דרך האורות... אל האור הצחור.",60],
+["בקש/י לחוות את אהבת הבורא ללא תנאי... תן/תני לה לזרום אליך כמו גל חם.",75],
+["האהבה ממלאת את החזה... הלב מתרחב... אין שום דבר שצריך להוכיח.",75],
+["אם תרצה/י, קבל/י: 'אני יודע/ת איך זה מרגיש להיות אהוב/ה ללא תנאי'... אמור/אמרי בלב: כן.",50],
+["'אני יודע/ת שאני ראוי/ה לאהבה בדיוק כפי שאני'... כן.",50],
+["עגן/עגני את התחושה בלב... היא נשארת איתך.",60],
+["נשימה עמוקה... חזרה עדינה... פקיחת עיניים. 💗",45]]},
+{id:'evening',ic:'🌙',name:'מדיטציית ערב — תודה ושחרור',desc:'סקירת היום, שלוש תודות, שחרור',min:8,steps:[
+["סוף היום... שב/י או שכב/י בנוח. נשימות איטיות.",45],
+["התבונן/י ביום שעבר... כאילו מלמעלה, בעיניים רכות, בלי שיפוט.",60],
+["מצא/י דבר ראשון להודות עליו... קטן או גדול... תודה.",50],
+["דבר שני... תודה.",45],
+["ודבר שלישי... תודה מכל הלב.",45],
+["אם משהו הכביד היום — הנח/י אותו עכשיו בעדינות באור... הוא לא חייב לבוא איתך אל הלילה.",70],
+["הגוף כבד ורגוע... הלב שקט... הלילה שומר עליך.",60],
+["לילה טוב... שינה מתוקה ומרפאת. 🌙",40]]},
+{id:'ground',ic:'🌳',name:'הארקה ומרכוז',desc:'שורשים, איסוף אנרגיה, איזון',min:6,steps:[
+["עמוד/עמדי או שב/י יציב... נשימה עמוקה.",35],
+["דמיין/י שורשים צומחים מכפות הרגליים... מעמיקים אל מרכז האדמה.",60],
+["דרך השורשים — כל מה שכבד יורד ומתנקז לאדמה... היא יודעת מה לעשות עם זה.",60],
+["ועכשיו — קרא/י בחזרה אליך את כל האנרגיה שהשארת היום במקומות אחרים... היא חוזרת כאור נקי.",70],
+["האור ממלא אותך מכף רגל עד ראש... מאוזן/ת, יציב/ה, נוכח/ת.",60],
+["נשימה אחרונה... כאן ועכשיו. 🌳",35]]}];
+
+/* ============ SPLASH / ONBOARDING ============ */
+const splash=document.getElementById('splash');
+document.getElementById('enterBtn').onclick=()=>{splash.classList.add('gone');
+  if(!S.profile.onboarded){document.getElementById('onb').classList.add('on');}
+  else startApp();};
+document.querySelectorAll('.gBtn').forEach(b=>b.onclick=()=>{document.querySelectorAll('.gBtn').forEach(x=>x.classList.remove('on'));b.classList.add('on');});
+document.getElementById('onbGo').onclick=()=>{
+  S.profile.name=document.getElementById('onbName').value.trim();
+  S.profile.gender=document.querySelector('.gBtn.on').dataset.g;
+  S.profile.onboarded=true;save();
+  document.getElementById('onb').classList.remove('on');startApp();};
+
+function startApp(){document.getElementById('app').classList.add('on');renderAll();}
+
+/* ============ NAV ============ */
+document.querySelectorAll('.navBtn').forEach(b=>b.onclick=()=>{
+  document.querySelectorAll('.navBtn').forEach(x=>x.classList.toggle('on',x===b));
+  document.querySelectorAll('.view').forEach(v=>v.classList.toggle('on',v.id==='v-'+b.dataset.v));
+  document.querySelector('main').scrollTo(0,0);});
+
+/* ============ TODAY ============ */
+function greet(){const h=new Date().getHours();const n=S.profile.name?', '+S.profile.name:'';
+  if(h<5)return['לילה של אור'+n+' 🌌','המישור השביעי פתוח תמיד'];
+  if(h<12)return['בוקר אור'+n+' ☀️','רגע של עלייה לפני שהיום מתחיל'];
+  if(h<17)return['צהריים טובים'+n+' 🌤️','נשימה אחת — והכול מתארגן מחדש'];
+  if(h<22)return['ערב טוב'+n+' 🌙','זמן תודה ושחרור'];
+  return['לילה טוב'+n+' 🌌','צלילה רכה אל תוך תטא'];}
+function renderToday(){const[g,s]=greet();document.getElementById('greet').textContent=g;document.getElementById('greetSub').textContent=s;
+  renderLoop();renderDaily();renderNextMed();renderGrat();}
+function renderLoop(){const d=S.practice.days[todayKey()];const items=d?d.items:[];
+  document.querySelectorAll('.loopIt').forEach(el=>el.classList.toggle('done',items.includes(el.dataset.k)));}
+
+/* daily download: 3 per day */
+function pickDaily(){const k=todayKey();
+  if(S.downloads.todayDate!==k){const pool=ALLDL.map(d=>d.id);const ids=[];
+    let seed=k.split('-').join('');let rnd=()=>{seed=(seed*9301+49297)%233280;return seed/233280;};
+    while(ids.length<3){const c=pool[Math.floor(rnd()*pool.length)];if(!ids.includes(c))ids.push(c);}
+    S.downloads.todayIds=ids;S.downloads.todayDate=k;S.downloads.todayDone=false;S.downloads.todayIdx=0;save();}}
+function renderDaily(){pickDaily();const el=document.getElementById('dlCard');
+  if(S.downloads.todayDone){el.innerHTML='<div class="dlDone">✓ שלוש ההורדות של היום התקבלו — נעשה, נעשה, נעשה ✨</div>';return;}
+  const idx=S.downloads.todayIdx||0;const dl=ALLDL.find(d=>d.id===S.downloads.todayIds[idx]);
+  const theme=THEMES.find(t=>t[0]===dl.theme)[1];
+  el.innerHTML=`<div class="dlTheme">${theme} · ${idx+1}/3</div><div class="dlText">${G(dl.text)}</div>
+  <div class="dlRow"><button class="yesBtn" id="dlYes">כן ✓</button><button class="skipBtn" id="dlSkip">דלג/י</button></div>`;
+  document.getElementById('dlYes').onclick=()=>{acceptDl(dl.id);advDaily(true);};
+  document.getElementById('dlSkip').onclick=()=>advDaily(false);}
+function advDaily(acc){S.downloads.todayIdx=(S.downloads.todayIdx||0)+1;
+  if(S.downloads.todayIdx>=3){S.downloads.todayDone=true;if(acc)markDay('dl');toast('נעשה, נעשה, נעשה ✨');}
+  else if(acc)markDay('dl');
+  save();renderDaily();renderStats();renderDlLib();}
+function acceptDl(id){if(!S.downloads.acceptedIds.includes(id)){S.downloads.acceptedIds.push(id);S.stats.downloadsAccepted++;save();}}
+
+function renderNextMed(){const h=new Date().getHours();
+  const m=h<12?MEDS[0]:(h<17?MEDS[2]:MEDS[4]);
+  const el=document.getElementById('nextMed');
+  el.innerHTML=`<div class="medIc">${m.ic}</div><div><h4>${m.name}</h4><p>${m.desc}</p></div><div class="medDur">${m.min} ד׳</div>`;
+  el.onclick=()=>play(m);}
+function renderGrat(){const k=todayKey();const done=S.gratitude[k];const el=document.getElementById('gratCard');
+  if(done&&done.length){el.innerHTML='<div class="dlDone">🙏 '+done.map(x=>'<div style="color:var(--pearl);font-weight:300;margin:4px 0">• '+esc(x)+'</div>').join('')+'</div>';return;}
+  el.innerHTML=`<p class="sub" style="margin-bottom:10px">שלושה דברים להודות עליהם היום:</p>
+  <input type="text" class="gIn" placeholder="1." style="width:100%;margin-bottom:8px">
+  <input type="text" class="gIn" placeholder="2." style="width:100%;margin-bottom:8px">
+  <input type="text" class="gIn" placeholder="3." style="width:100%;margin-bottom:12px">
+  <button class="btn full" id="gratGo">שמירת תודה 🙏</button>`;
+  document.getElementById('gratGo').onclick=()=>{
+    const vals=[...el.querySelectorAll('.gIn')].map(i=>i.value.trim()).filter(Boolean);
+    if(!vals.length){toast('כתוב/כתבי לפחות תודה אחת');return;}
+    S.gratitude[k]=vals;markDay('grat');save();renderGrat();toast('תודה נרשמה ✨');};}
+function esc(s){return s.replace(/[<>&"]/g,c=>({'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;'}[c]));}
+
+/* ============ MEDITATION LIST + PLAYER ============ */
+function renderMeds(){document.getElementById('medList').innerHTML=MEDS.map((m,i)=>
+  `<div class="card medCard" data-i="${i}"><div class="medIc">${m.ic}</div><div><h4>${m.name}</h4><p>${m.desc}</p></div><div class="medDur">${m.min} ד׳</div></div>`).join('');
+  document.querySelectorAll('#medList .medCard').forEach(el=>el.onclick=()=>play(MEDS[+el.dataset.i]));}
+
+let P={med:null,step:0,left:0,total:0,elapsed:0,timer:null,paused:false};
+const CIRC=2*Math.PI*46;
+function play(med){P={med,step:0,left:med.steps[0][1],total:med.steps.reduce((a,s)=>a+s[1],0),elapsed:0,timer:null,paused:false};
+  document.getElementById('pTitle').textContent=med.name;
+  document.getElementById('pProg').style.strokeDasharray=CIRC;
+  document.getElementById('player').classList.add('on');
+  showStep();tick();P.timer=setInterval(tick,1000);
+  if(navigator.wakeLock)navigator.wakeLock.request('screen').then(l=>P.lock=l).catch(()=>{});}
+function showStep(){const el=document.getElementById('pStep');el.style.animation='none';void el.offsetWidth;el.style.animation='';el.textContent=G(P.med.steps[P.step][0]);}
+function tick(){if(P.paused)return;
+  P.left--;P.elapsed++;
+  const rem=Math.max(0,P.total-P.elapsed);
+  document.getElementById('pTime').textContent=String(Math.floor(rem/60)).padStart(2,'0')+':'+String(rem%60).padStart(2,'0');
+  document.getElementById('pProg').style.strokeDashoffset=CIRC*(1-P.elapsed/P.total);
+  if(P.left<=0){P.step++;
+    if(P.step>=P.med.steps.length){endMed(true);return;}
+    P.left=P.med.steps[P.step][1];showStep();}}
+function endMed(done){clearInterval(P.timer);if(P.lock)P.lock.release().catch(()=>{});
+  document.getElementById('player').classList.remove('on');
+  if(done){S.stats.sessions++;markDay('med',P.med.min);save();renderStats();
+    toast(P.med.id==='evening'?'לילה של אור 🌙':'המסע הושלם ✨ '+P.med.min+' דקות בתטא');}}
+document.getElementById('pExit').onclick=()=>{if(P.elapsed>=60){S.stats.sessions++;markDay('med',Math.round(P.elapsed/60));save();renderStats();}endMed(false);};
+document.getElementById('pPause').onclick=e=>{P.paused=!P.paused;e.target.textContent=P.paused?'▶':'⏸';};
+document.getElementById('sosFab').onclick=()=>play(MEDS.find(m=>m.id==='sos'));
+
+/* ============ DOWNLOADS LIBRARY ============ */
+let dlTheme='love';
+function renderDlLib(){document.getElementById('dlTabs').innerHTML=THEMES.map(([k,l])=>
+    `<button class="tTab ${k===dlTheme?'on':''}" data-k="${k}">${l}</button>`).join('');
+  document.querySelectorAll('.tTab').forEach(b=>b.onclick=()=>{dlTheme=b.dataset.k;renderDlLib();});
+  document.getElementById('dlCount').textContent=S.stats.downloadsAccepted+' אושרו';
+  document.getElementById('dlList').innerHTML=ALLDL.filter(d=>d.theme===dlTheme).map(d=>{
+    const acc=S.downloads.acceptedIds.includes(d.id);
+    return `<div class="dlItem ${acc?'acc':''}"><div>${G(d.text)}</div><button data-id="${d.id}" ${acc?'disabled':''}>${acc?'✓ התקבל':'כן'}</button></div>`;}).join('');
+  document.querySelectorAll('#dlList button:not([disabled])').forEach(b=>b.onclick=()=>{
+    acceptDl(b.dataset.id);markDay('dl');renderDlLib();toast('נעשה, נעשה, נעשה ✨');});}
+
+/* ============ STATS / SETTINGS ============ */
+function renderStats(){const now=new Date();const pre=now.getFullYear()+'-'+String(now.getMonth()+1).padStart(2,'0');
+  const days=Object.keys(S.practice.days).filter(k=>k.startsWith(pre)).length;
+  document.getElementById('stDays').textContent=days;
+  document.getElementById('stMin').textContent=S.stats.totalMinutes;
+  document.getElementById('stDl').textContent=S.stats.downloadsAccepted;
+  document.getElementById('stSes').textContent=S.stats.sessions;
+  document.getElementById('meSub').textContent=days>=5?'איזו התמדה מרשימה 🌟':'כל דקה באור נספרת ✨';}
+function renderSettings(){document.getElementById('setName').value=S.profile.name;
+  document.getElementById('setGender').value=S.profile.gender;}
+document.getElementById('setName').onchange=e=>{S.profile.name=e.target.value.trim();save();renderToday();};
+document.getElementById('setGender').onchange=e=>{S.profile.gender=e.target.value;save();renderAll();};
+document.getElementById('expBtn').onclick=()=>{const a=document.createElement('a');
+  a.href='data:application/json;charset=utf-8,'+encodeURIComponent(JSON.stringify(S,null,1));
+  a.download='thetaverse-backup.json';a.click();toast('הגיבוי ירד ✓');};
+document.getElementById('impBtn').onclick=()=>document.getElementById('impFile').click();
+document.getElementById('impFile').onchange=e=>{const f=e.target.files[0];if(!f)return;
+  const r=new FileReader();r.onload=()=>{try{const s=JSON.parse(r.result);
+    if(s.schemaVersion===1){S=s;save();renderAll();toast('הנתונים יובאו ✓');}else toast('קובץ לא תואם');}catch(err){toast('קובץ לא תקין');}};r.readAsText(f);};
+
+/* ============ FREQUENCIES: WEB AUDIO ENGINE ============ */
+const FQ_PRESETS=[
+ {id:'theta',ic:'🌀',name:'צלילה לתטא',desc:'binaural 6Hz · רמפה מאלפא · רעש חום',min:20,hp:true,
+  ent:{type:'bin',carrier:200,beat:6,rampFrom:10,rampSec:300,lvl:.20},amb:{type:'brown',lp:700,lvl:.30}},
+ {id:'flag',ic:'✨',name:'תרגול תטא',desc:'‏5.5Hz + דרון 528 עדין — פריסט הדגל',min:20,hp:true,
+  ent:{type:'bin',carrier:200,beat:5.5,rampFrom:9,rampSec:240,lvl:.20},sol:{f:528,lvl:.07},amb:{type:'brown',lp:800,lvl:.25}},
+ {id:'sleep',ic:'🌙',name:'שינה עמוקה',desc:'isochronic 2.5Hz · גלי אוקיינוס',min:45,hp:false,
+  ent:{type:'iso',carrier:150,beat:2.5,rampFrom:6,rampSec:600,lvl:.15},amb:{type:'ocean',lvl:.35}},
+ {id:'calm',ic:'🍃',name:'רוגע',desc:'isochronic 8Hz רך · בלי אוזניות',min:15,hp:false,
+  ent:{type:'iso',carrier:180,beat:8,lvl:.15},amb:{type:'brown',lp:900,lvl:.28}},
+ {id:'focus',ic:'🎯',name:'ריכוז',desc:'binaural 10Hz · גשם',min:30,hp:true,
+  ent:{type:'bin',carrier:250,beat:10,lvl:.18},amb:{type:'rain',lvl:.24}},
+ {id:'shaman',ic:'🥁',name:'מסע שאמאני',desc:'פולס תיפוף 4.5Hz',min:15,hp:false,
+  ent:{type:'iso',carrier:110,beat:4.5,lvl:.24,hard:true},amb:{type:'brown',lp:500,lvl:.16}}];
+const SOLF=[[174,'שחרור כאב'],[285,'התחדשות'],[396,'שחרור פחד'],[417,'שינוי'],[528,'אהבה'],[639,'יחסים'],[741,'ניקוי'],[852,'אינטואיציה'],[963,'הארה']];
+
+let AC=null,AMaster=null,FQ={on:false,nodes:[],preset:null,solo:null,start:0,timer:null,mode:null};
+function acInit(){if(AC){AC.resume();return;}
+  AC=new (window.AudioContext||window.webkitAudioContext)({latencyHint:'playback'});
+  const lim=AC.createDynamicsCompressor();
+  lim.threshold.value=-12;lim.knee.value=30;lim.ratio.value=12;lim.attack.value=.003;lim.release.value=.25;
+  AMaster=AC.createGain();AMaster.gain.value=.8;AMaster.connect(lim).connect(AC.destination);}
+document.addEventListener('visibilitychange',()=>{if(!document.hidden&&AC&&AC.state!=='running')AC.resume();});
+
+function mkGain(v){const g=AC.createGain();g.gain.value=v;g.connect(AMaster);return g;}
+function fadeIn(g,v,s=3){g.gain.setValueAtTime(.0001,AC.currentTime);g.gain.exponentialRampToValueAtTime(Math.max(v,.0002),AC.currentTime+s);}
+function mkBinaural(o){const g=mkGain(.0001);
+  const oL=AC.createOscillator(),oR=AC.createOscillator();
+  oL.frequency.value=o.carrier;
+  const startBeat=o.rampFrom||o.beat;oR.frequency.value=o.carrier+startBeat;
+  if(o.rampFrom)oR.frequency.linearRampToValueAtTime(o.carrier+o.beat,AC.currentTime+o.rampSec);
+  let pL,pR;
+  if(window.StereoPannerNode){pL=new StereoPannerNode(AC,{pan:-1});pR=new StereoPannerNode(AC,{pan:1});}
+  else{const m=AC.createChannelMerger(2);pL=AC.createGain();pR=AC.createGain();pL.connect(m,0,0);pR.connect(m,0,1);m.connect(g);
+    oL.connect(pL);oR.connect(pR);oL.start();oR.start();fadeIn(g,o.lvl);return[oL,oR,g];}
+  oL.connect(pL).connect(g);oR.connect(pR).connect(g);oL.start();oR.start();fadeIn(g,o.lvl);
+  return[oL,oR,g];}
+function mkIso(o){const g=mkGain(.0001);
+  const osc=AC.createOscillator();osc.frequency.value=o.carrier;
+  const am=AC.createGain();am.gain.value=0;
+  const lfo=AC.createOscillator();lfo.type=o.hard?'square':'sine';
+  const startBeat=o.rampFrom||o.beat;lfo.frequency.value=startBeat;
+  if(o.rampFrom)lfo.frequency.linearRampToValueAtTime(o.beat,AC.currentTime+o.rampSec);
+  const dep=AC.createGain();dep.gain.value=.5;
+  const dc=AC.createConstantSource();dc.offset.value=.5;
+  lfo.connect(dep).connect(am.gain);dc.connect(am.gain);
+  osc.connect(am).connect(g);osc.start();lfo.start();dc.start();fadeIn(g,o.lvl);
+  return[osc,lfo,dc,g];}
+function mkSol(f,lvl){const g=mkGain(.0001);
+  const parts=[[1,1],[2,.22],[3,.1]].map(([m,a])=>{
+    const o=AC.createOscillator(),pg=AC.createGain();
+    o.frequency.value=f*m;o.detune.value=(Math.random()-.5)*4;pg.gain.value=a;
+    o.connect(pg).connect(g);o.start();return o;});
+  const trem=AC.createOscillator();trem.frequency.value=.12;
+  const tg=AC.createGain();tg.gain.value=lvl*.12;trem.connect(tg).connect(g.gain);trem.start();
+  fadeIn(g,lvl,2);return[...parts,trem,g];}
+function noiseBuf(type){const sr=AC.sampleRate,b=AC.createBuffer(2,sr*8,sr);
+  for(let ch=0;ch<2;ch++){const d=b.getChannelData(ch);
+    if(type==='pink'||type==='rain'){let b0=0,b1=0,b2=0;
+      for(let i=0;i<d.length;i++){const w=Math.random()*2-1;
+        b0=.997*b0+.029*w;b1=.985*b1+.032*w;b2=.95*b2+.048*w;d[i]=(b0+b1+b2+w*.05)*3.2;}}
+    else{let last=0;for(let i=0;i<d.length;i++){const w=Math.random()*2-1;
+      d[i]=(last+.02*w)/1.02;last=d[i];d[i]*=3.5;}}}
+  return b;}
+function mkAmbient(o){const g=mkGain(.0001);
+  const src=AC.createBufferSource();src.buffer=noiseBuf(o.type==='rain'?'pink':o.type==='ocean'?'brown':o.type);src.loop=true;
+  const f=AC.createBiquadFilter();f.type='lowpass';f.Q.value=.5;
+  f.frequency.value=o.type==='rain'?5200:(o.lp||800);
+  let chain=src.connect(f);
+  if(o.type==='rain'){const hp=AC.createBiquadFilter();hp.type='highpass';hp.frequency.value=400;chain=chain.connect(hp);}
+  chain.connect(g);
+  const extra=[];
+  if(o.type==='ocean'){const lfo=AC.createOscillator();lfo.frequency.value=.09;
+    const tc=AC.createGain();tc.gain.value=450;f.frequency.value=850;lfo.connect(tc).connect(f.frequency);
+    const tg=AC.createGain();tg.gain.value=o.lvl*.35;lfo.connect(tg).connect(g.gain);lfo.start();extra.push(lfo);}
+  src.start();fadeIn(g,o.lvl,4);return[src,f,g,...extra];}
+function bowl(when,base=440,lvl=.4){const out=mkGain(lvl);
+  [[1,1,6],[2.756,.6,4.5],[5.404,.35,3],[8.933,.2,2],[1.003,.6,6]].forEach(([r,a,dec])=>{
+    const o=AC.createOscillator(),g=AC.createGain();
+    o.frequency.value=base*r;g.gain.setValueAtTime(.0001,when);
+    g.gain.linearRampToValueAtTime(a,when+.01+Math.random()*.01);
+    g.gain.setTargetAtTime(.0001,when+.02,dec/5);
+    o.connect(g).connect(out);o.start(when);o.stop(when+dec+1);});}
+
+function fqStop(count=true){if(!FQ.on)return;
+  clearInterval(FQ.timer);
+  if(AMaster){AMaster.gain.setTargetAtTime(.0001,AC.currentTime,1.2);}
+  const nodes=FQ.nodes;
+  setTimeout(()=>{nodes.forEach(n=>{try{n.stop&&n.stop()}catch(e){}try{n.disconnect&&n.disconnect()}catch(e){}});
+    if(AMaster)AMaster.gain.setValueAtTime(.8,AC.currentTime);},4000);
+  const mins=Math.round((Date.now()-FQ.start)/60000);
+  if(count&&mins>=1){S.stats.totalMinutes+=mins;markDay('med');save();renderStats();toast(mins+' דקות בתדר ✨');}
+  FQ={on:false,nodes:[],preset:null,solo:null,start:0,timer:null,mode:null};renderFreq();}
+
+function fqPlayPreset(p,forceIso){acInit();fqStop(false);
+  const nodes=[];const mode=(forceIso&&p.ent.type==='bin')?'iso':p.ent.type;
+  const ent={...p.ent,type:mode};
+  nodes.push(...(mode==='bin'?mkBinaural(ent):mkIso(ent)));
+  if(p.sol)nodes.push(...mkSol(p.sol.f,p.sol.lvl));
+  if(p.amb)nodes.push(...mkAmbient(p.amb));
+  bowl(AC.currentTime+.1,432,.35);
+  FQ={on:true,nodes,preset:p,solo:null,start:Date.now(),mode,timer:setInterval(renderFqNow,1000)};
+  renderFreq();}
+function fqPlaySol(f){acInit();fqStop(false);
+  const nodes=[...mkSol(f,.2),...mkAmbient({type:'brown',lp:900,lvl:.12})];
+  FQ={on:true,nodes,preset:null,solo:f,start:Date.now(),mode:'sol',timer:setInterval(renderFqNow,1000)};
+  renderFreq();}
+
+function renderFqNow(){const el=document.getElementById('freqNow');if(!FQ.on){el.style.display='none';return;}
+  el.style.display='block';el.classList.add('glow');
+  const sec=Math.floor((Date.now()-FQ.start)/1000);
+  const t=String(Math.floor(sec/60)).padStart(2,'0')+':'+String(sec%60).padStart(2,'0');
+  const name=FQ.preset?FQ.preset.ic+' '+FQ.preset.name:'🎵 סולפג\'יו '+FQ.solo+'Hz';
+  const sub=FQ.preset?(FQ.mode==='iso'&&FQ.preset.ent.type==='bin'?'מצב רמקול (איזוכרוני)':FQ.preset.desc):SOLF.find(s=>s[0]===FQ.solo)[1];
+  if(!el.dataset.built||el.dataset.k!==(FQ.preset?FQ.preset.id:'s'+FQ.solo)){
+    el.dataset.built='1';el.dataset.k=FQ.preset?FQ.preset.id:'s'+FQ.solo;
+    el.innerHTML=`<div style="display:flex;align-items:center;gap:12px">
+      <div><h4 style="font-weight:500">${name}</h4><p class="sub" style="margin:2px 0 0;font-size:.78rem">${sub}</p></div>
+      <div class="medDur" style="margin-inline-start:auto;direction:ltr" id="fqT">${t}</div></div>
+      <div class="fqWave">${Array.from({length:24},(_,i)=>`<i style="animation-delay:${(i*.09).toFixed(2)}s"></i>`).join('')}</div>
+      <div class="fqRow"><label>עוצמה</label><input type="range" id="fqVol" min="0" max="100" value="80"></div>
+      <button class="btn full ghost" id="fqStopBtn">סיום ⏹</button>`;
+    document.getElementById('fqStopBtn').onclick=()=>fqStop(true);
+    document.getElementById('fqVol').oninput=e=>{const v=(e.target.value/100);AMaster.gain.setTargetAtTime(v*v,AC.currentTime,.05);};}
+  else document.getElementById('fqT').textContent=t;}
+
+function renderFreq(){renderFqNow();
+  document.getElementById('freqPresets').innerHTML=FQ_PRESETS.map((p,i)=>{
+    const on=FQ.preset&&FQ.preset.id===p.id;
+    return `<div class="card medCard ${on?'glow':''}" data-i="${i}">
+      <div class="medIc">${p.ic}</div>
+      <div><h4>${p.name}</h4><p>${p.desc}</p>${p.hp?'<div class="hpBanner">🎧 מומלץ אוזניות · <u data-noHp="'+i+'">אין לי אוזניות</u></div>':''}</div>
+      <div class="medDur">${on?'▶ פעיל':p.min+' ד׳'}</div></div>`;}).join('');
+  document.querySelectorAll('#freqPresets .medCard').forEach(el=>el.onclick=e=>{
+    if(e.target.dataset.noHp!==undefined){fqPlayPreset(FQ_PRESETS[+e.target.dataset.noHp],true);return;}
+    fqPlayPreset(FQ_PRESETS[+el.dataset.i]);});
+  document.getElementById('solGrid').innerHTML=SOLF.map(([f,n])=>
+    `<button class="solChip ${FQ.solo===f?'on':''}" data-f="${f}"><b>${f}Hz</b>${n}</button>`).join('');
+  document.querySelectorAll('.solChip').forEach(b=>b.onclick=()=>{
+    if(FQ.solo===+b.dataset.f)fqStop(true);else fqPlaySol(+b.dataset.f);});}
+
+/* ============ TOAST ============ */
+let toastT;function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('on');
+  clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove('on'),2600);}
+
+function renderAll(){renderToday();renderMeds();renderDlLib();renderFreq();renderStats();renderSettings();}
+</script>
+</body>
+</html>
