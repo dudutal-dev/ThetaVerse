@@ -21,7 +21,8 @@ skills/theta-healing-expert/
     ├── app-spec.md              ← מפרט האפליקציה המלא: מסכים, מכניקות, UX, אחסון
     ├── science-safety.md        ← ראיות, בטיחות, קווים אדומים, דיסקליימרים
     ├── training-israel.md       ← סולם הקורסים, מחירים, הסצנה הישראלית
-    └── sound-frequencies.md     ← תחום העומק: תדרים, סולפג׳יו, entrainment, ריפוי בצליל
+    ├── sound-frequencies.md     ← תחום העומק: תדרים, סולפג׳יו, entrainment, ריפוי בצליל
+    └── business-model.md        ← המודל העסקי: תמחור, ערוץ מדריכים, unit economics, GTM
 
 research/                        ← דוחות המחקר המלאים (אנגלית, עם מקורות)
 ├── 01-foundations.md            ← היסטוריה, תפיסת עולם, שבעת המישורים, מילון
@@ -30,7 +31,8 @@ research/                        ← דוחות המחקר המלאים (אנג�
 ├── 04-science-safety.md         ← מדע גלי התטא, ראיות, ביקורת, התוויות-נגד
 ├── 05-daily-practice-app.md     ← תרגול יומי, סקר אפליקציות, ארכיטקטורת תוכן
 ├── 06-frequencies-sound.md      ← עולם התדרים והראיות: entrainment, סולפג׳יו, 432, ריפוי בצליל
-└── 07-audio-engineering.md      ← הנדסת אודיו: Web Audio API, מובייל, פריסטים (עם קוד)
+├── 07-audio-engineering.md      ← הנדסת אודיו: Web Audio API, מובייל, פריסטים (עם קוד)
+└── 08-business-model.md         ← בנצ׳מרקים עסקיים: Hallow/Pray, המרות, תשלומים בישראל
 ```
 
 ## ⚖️ הבהרה
