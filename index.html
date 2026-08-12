@@ -185,7 +185,7 @@ textarea{width:100%;min-height:90px;background:var(--bg3);border:1px solid var(-
 .planeRow .pl{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font-size:1.05rem;background:rgba(255,255,255,.04);border:1px solid var(--cardB);flex-shrink:0}
 .planeRow.done .pl{border-color:var(--gold);box-shadow:0 0 14px rgba(226,185,106,.35)}
 .planeRow .pn{font-size:.82rem;color:var(--pearlDim);width:90px}
-.dayDots{display:flex;gap:6px;flex:1}
+.dayDots{display:flex;gap:6px;flex:1;flex-wrap:wrap}
 .dayDot{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;font-size:.66rem;background:rgba(255,255,255,.05);border:1px solid var(--cardB);color:var(--muted)}
 .dayDot.done{background:linear-gradient(135deg,rgba(226,185,106,.35),rgba(139,92,246,.3));color:var(--pearl);border-color:rgba(226,185,106,.5)}
 .dayDot.now{border-color:var(--cyan);color:var(--cyan);box-shadow:0 0 12px rgba(103,232,249,.4)}
@@ -404,9 +404,19 @@ textarea{width:100%;min-height:90px;background:var(--bg3);border:1px solid var(-
 
 <!-- 21-DAY PROGRAM -->
 <div id="prog" class="ovl"><div class="ovlIn">
-  <div class="ovlHead"><b>מסע 21 יום אל תטא 🗺️</b><button class="ovlX" id="progX">✕</button></div>
+  <div class="ovlHead"><b id="progTitle"></b><button class="ovlX" id="progX">✕</button></div>
   <div id="progMap"></div>
   <div id="progDay"></div>
+</div></div>
+
+<!-- MILESTONE CELEBRATION -->
+<div id="cele" class="ovl"><div class="ovlIn" style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:92dvh;text-align:center;padding-top:calc(60px + var(--stop))">
+  <div id="celeE" style="font-size:4.2rem;animation:breathe 2.6s ease-in-out infinite;filter:drop-shadow(0 0 34px rgba(226,185,106,.55))"></div>
+  <h2 id="celeT" style="font-family:'Rubik','Heebo',sans-serif;font-weight:600;font-size:1.5rem;margin:18px 0 6px;background:linear-gradient(110deg,var(--gold),#fff,var(--nebula));-webkit-background-clip:text;background-clip:text;color:transparent"></h2>
+  <p class="sub">אבן דרך במסע · מתנה בשבילך:</p>
+  <div class="theory" id="celeR" style="font-size:1.05rem;max-width:34ch"></div>
+  <button class="yesBtn" id="celeYes" style="flex:0 0 auto;width:100%;max-width:300px;margin-top:8px">כן ✓ — קיבלתי</button>
+  <button class="btn ghost" id="celeX" style="margin-top:10px">סגור</button>
 </div></div>
 
 <div id="toast"></div>
@@ -427,7 +437,7 @@ initStars();addEventListener('resize',initStars);requestAnimationFrame(drawStars
 const KEY='thetaverse.v1';
 const todayKey=()=>{const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');};
 let S=load();
-S.journal=S.journal||[];S.program=S.program||{day:1,completed:[]};S.stats.beliefsReplaced=S.stats.beliefsReplaced||0;
+S.journal=S.journal||[];S.program=S.program||{day:1,completed:[]};S.program.active=S.program.active||'21';S.milestones=S.milestones||[];S.stats.beliefsReplaced=S.stats.beliefsReplaced||0;
 function load(){try{const s=JSON.parse(localStorage.getItem(KEY));if(s&&s.schemaVersion===1)return s;}catch(e){}
   return {schemaVersion:1,profile:{name:'',gender:'x',onboarded:false},
     stats:{totalMinutes:0,sessions:0,downloadsAccepted:0,beliefsReplaced:0},
@@ -438,7 +448,7 @@ function load(){try{const s=JSON.parse(localStorage.getItem(KEY));if(s&&s.schema
 function save(){localStorage.setItem(KEY,JSON.stringify(S));}
 function markDay(kind,minutes=0){const k=todayKey();const d=S.practice.days[k]||(S.practice.days[k]={items:[]});
   if(!d.items.includes(kind))d.items.push(kind);
-  if(minutes){S.stats.totalMinutes+=minutes;}save();renderLoop();renderStats();}
+  if(minutes){S.stats.totalMinutes+=minutes;}save();renderLoop();renderStats();checkMilestones();}
 
 /* gender */
 function G(t){const g=S.profile.gender;if(g==='x')return t;
@@ -818,33 +828,79 @@ const PROG21=[
  {t:'חפירה שלישית',dig:1,th:'<b>איך זה משרת אותי?</b> השאלה החזקה ביותר. לכל דפוס יש רווח נסתר — מזהים אותו, שומרים את הטוב, משחררים את הפחד.'},
  {t:'תודה והכנה לסיום',med:'evening',th:'<b>הכרת תודה.</b> התרגול עם הגיבוי המחקרי החזק ביותר לרווחה נפשית — שלוש תודות בערב משנות את מה שהמוח מחפש ביום.'},
  {t:'טקס סיום 🎓',med:'journey',th:'<b>יום 21.</b> שלושה שבועות של צלילה יומית אל תטא. מהיום — המסע שלך, בקצב שלך. המשך/המשיכי לצלול.'}];
-function progState(){S.program=S.program||{day:1,completed:[]};return S.program;}
-function renderProgCard(){const p=progState();const el=document.getElementById('progCard');
-  if(p.completed.length>=21){el.innerHTML='<div class="dlDone">🎓 השלמת את המסע! 21 ימים אל גלי תטא</div>';return;}
-  const d=PROG21[p.day-1];
+function progState(){S.program=S.program||{active:'21',day:1,completed:[]};return S.program;}
+const WEEKS30=[['💗','אהבה עצמית'],['💰','שפע'],['💞','יחסים'],['🌟','ייעוד'],['🎓','סיום']];
+const PROG30=[
+ {t:'פתיחת שבוע האהבה',med:'heart',th:'<b>שבוע 1: אהבה עצמית.</b> היחס שלנו לעצמנו הוא התשתית של כל השאר. השבוע — מרככים את הקול הפנימי.'},
+ {t:'הטמעות אהבה עצמית',dl:1,th:'<b>הקול הפנימי.</b> את המשפטים שאנחנו אומרים לעצמנו אנחנו שומעים הכי הרבה פעמים ביום. שווה שיהיו טובים.'},
+ {t:'צלילה מהירה',med:'quick',th:'<b>רגע לעצמך.</b> גם 4 דקות של שקט הן הצהרה: אני שווה את הזמן הזה.'},
+ {t:'חפירה — הביקורת הפנימית',dig:1,th:'<b>מאיפה הביקורת?</b> חופרים אל השורש של "אני לא מספיק" — ומחליפים אותו במשהו נכון יותר.'},
+ {t:'המסע המלא',med:'journey',th:'<b>עומק.</b> ככל שהגוף לומד את הדרך — הצלילה נעשית מהירה ועמוקה יותר.'},
+ {t:'הטמעות סליחה עצמית',dl:1,th:'<b>סליחה עצמית.</b> לסלוח לעצמך זה לא לוותר לעצמך — זה לפנות מקום לצמוח.'},
+ {t:'מנוחה',rest:1,th:'<b>יום מנוחה.</b> מנוחה היא חלק מהתרגול — והיא נספרת בדיוק כמו תרגול.'},
+ {t:'פתיחת שבוע השפע',med:'journey',th:'<b>שבוע 2: שפע.</b> שפע הוא קודם כול דרך הסתכלות — "יש דרך" במקום "אין מספיק".'},
+ {t:'הטמעות שפע',dl:1,th:'<b>מיינדסט של שפע.</b> ההבדל בין מחסור לשפע מתחיל במה שהעין מחפשת — ומתאמנים עליו כמו על שריר.'},
+ {t:'ריכוז בשפע קיים',med:'quick',th:'<b>מה כבר יש?</b> דקות ספורות של מנייה מודעת של מה שכבר קיים — משנות את תחושת המחסור מבפנים.'},
+ {t:'חפירה — חסימת שפע',dig:1,th:'<b>מה עוצר את השפע?</b> לרוב זו אמונה ישנה על כסף, ראויות או ביטחון. יורדים אליה — ומחליפים.'},
+ {t:'הארקה ויציבות',med:'ground',th:'<b>יציבות.</b> תחושת ביטחון פנימית היא הקרקע שעליה שפע יכול לצמוח.'},
+ {t:'הטמעות שפע — העמקה',dl:1,th:'<b>לתת ולקבל.</b> שפע זורם בשני הכיוונים — גם היכולת לקבל היא מיומנות.'},
+ {t:'מנוחה',rest:1,th:'<b>יום מנוחה.</b> גם האדמה נחה בין זריעה לקציר.'},
+ {t:'פתיחת שבוע היחסים',med:'heart',th:'<b>שבוע 3: יחסים.</b> מערכות היחסים שלנו הן מראה — השבוע מסתכלים בה בעדינות.'},
+ {t:'הטמעות זוגיות ויחסים',dl:1,th:'<b>ביטחון בקשר.</b> קשר טוב נבנה על תחושת ביטחון — קודם כול שלך בעצמך.'},
+ {t:'צלילה מהירה — הקשבה',med:'quick',th:'<b>הקשבה.</b> כשהמערכת שלנו רגועה, אנחנו שומעים את האחר באמת — לא רק מחכים לתורנו לדבר.'},
+ {t:'חפירה — דפוס ביחסים',dig:1,th:'<b>הדפוס שחוזר.</b> אם אותו קונפליקט חוזר עם אנשים שונים — השורש כנראה אצלנו. וזו בשורה טובה: עליו אפשר לעבוד.'},
+ {t:'מדיטציית ערב — תודה על אנשים',med:'evening',th:'<b>תודה על מי שיש.</b> הערב — שלוש תודות על אנשים. ההוקרה משנה את מה שאנחנו רואים בהם.'},
+ {t:'הטמעות יחסים — העמקה',dl:1,th:'<b>גבולות באהבה.</b> גבול ברור הוא לא ריחוק — הוא מה שמאפשר קרבה בריאה.'},
+ {t:'מנוחה',rest:1,th:'<b>יום מנוחה.</b> קרבה צריכה גם מרווח נשימה.'},
+ {t:'פתיחת שבוע הייעוד',med:'journey',th:'<b>שבוע 4: ייעוד.</b> לא "מה אני אמור לעשות" — אלא מה ממלא אותי כשאני עושה אותו.'},
+ {t:'הטמעות השראה',dl:1,th:'<b>השראה יומית.</b> ייעוד לא מגיע בבת אחת — הוא נבנה מרגעים קטנים של משמעות.'},
+ {t:'היום המושלם שלי',med:'quick',th:'<b>בריאת היום.</b> 5 דקות לראות את היום מתגלגל בדיוק כמו שטוב לך — ואז לצאת אליו.'},
+ {t:'חפירה — מה עוצר אותי',dig:1,th:'<b>הבלם הפנימי.</b> בין החלום לביצוע עומדת בדרך כלל אמונה אחת. מוצאים אותה היום.'},
+ {t:'המסע המלא — ויזואליזציה של הדרך',med:'journey',th:'<b>לראות את הדרך.</b> במרחב האור — לראות את עצמך צועד/ת בכיוון שמרגיש נכון.'},
+ {t:'הטמעות ביטחון',dl:1,th:'<b>אומץ.</b> ביטחון לא אומר בלי פחד — אלא לצעוד יחד איתו.'},
+ {t:'מנוחה',rest:1,th:'<b>יום מנוחה.</b> לפני הסיום — עצירה. הדרך שעברת כבר שלך.'},
+ {t:'מבט לאחור',med:'evening',th:'<b>יום 29.</b> חודש של תרגול. מה השתנה בשינה, במבט, בתגובות? כתוב/כתבי לעצמך שלוש תשובות בתודה של הערב.'},
+ {t:'טקס סיום 🎓',med:'journey',th:'<b>יום 30.</b> חיים בתדר תטא — זה כבר לא אתגר. זה אורח חיים. המסע ממשיך בקצב שלך.'}];
+function progDef(){const p=progState();
+  if(p.active==='30')return{list:PROG30,total:30,title:'🗺️ מסע 30 יום — חיים בתדר תטא',cert:'30 ימים — חיים בתדר תטא',
+    rows:WEEKS30.map((w,i)=>({ic:w[0],nm:w[1],days:i<4?Array.from({length:7},(_,k)=>i*7+k+1):[29,30]}))};
+  return{list:PROG21,total:21,title:'🗺️ מסע 21 יום אל תטא',cert:'21 ימים אל גלי תטא',
+    rows:PLANES.map((w,i)=>({ic:w[0],nm:w[1],days:[1,2,3].map(k=>i*3+k)}))};}
+function stageFor(day,A){for(const r of A.rows)if(r.days.includes(day))return r;return A.rows[0];}
+function renderProgCard(){const p=progState();const el=document.getElementById('progCard');const A=progDef();
+  if(p.active==='21'&&p.completed.length>=21){
+    el.innerHTML=`<div class="dlDone">🎓 השלמת את המסע הראשון!</div>
+      <button class="btn gold full" id="prog30Go">התחל את המסע השני — 30 יום ✨</button>`;
+    document.getElementById('prog30Go').onclick=()=>{
+      S.program={active:'30',day:1,completed:[],done21:true};save();
+      renderProgCard();progShow();toast('המסע השני נפתח 🌟');};return;}
+  if(p.active==='30'&&p.completed.length>=30){
+    el.innerHTML='<div class="dlDone">🎓 שני המסעות הושלמו — חיים בתדר תטא!</div>';return;}
+  const d=A.list[p.day-1];const st=stageFor(p.day,A);
   el.innerHTML=`<div style="display:flex;align-items:center;gap:12px">
-    <div class="medIc">${PLANES[Math.min(6,Math.floor((p.day-1)/3))][0]}</div>
-    <div><h4 style="font-weight:500">יום ${p.day} מתוך 21 — ${d.t}</h4>
-    <p class="sub" style="margin:2px 0 0;font-size:.78rem">שער ${Math.min(7,Math.ceil(p.day/3))}: ${PLANES[Math.min(6,Math.floor((p.day-1)/3))][1]} · ${p.completed.length} ימים הושלמו</p></div></div>
+    <div class="medIc">${st.ic}</div>
+    <div><h4 style="font-weight:500">יום ${p.day} מתוך ${A.total} — ${d.t}</h4>
+    <p class="sub" style="margin:2px 0 0;font-size:.78rem">${p.active==='30'?'שבוע':'שער'}: ${st.nm} · ${p.completed.length} ימים הושלמו</p></div></div>
     <button class="btn full" id="progOpen" style="margin-top:12px">ליום שלי במסע ←</button>`;
   document.getElementById('progOpen').onclick=progShow;}
 function progShow(){document.getElementById('prog').classList.add('on');renderProg();}
 document.getElementById('progX').onclick=()=>document.getElementById('prog').classList.remove('on');
-function renderProg(){const p=progState();
-  document.getElementById('progMap').innerHTML=PLANES.map(([ic,nm],pi)=>{
-    const days=[1,2,3].map(k=>pi*3+k).filter(d=>d<=21);
-    const done=days.every(d=>p.completed.includes(d));
-    return `<div class="planeRow ${done?'done':''}"><div class="pl">${ic}</div><div class="pn">${nm}</div>
-      <div class="dayDots">${days.map(d=>`<div class="dayDot ${p.completed.includes(d)?'done':''} ${d===p.day?'now':''}">${d}</div>`).join('')}</div></div>`;}).join('');
-  const day=PROG21[p.day-1];const doneAll=p.completed.length>=21;
+function renderProg(){const p=progState();const A=progDef();
+  document.getElementById('progTitle').textContent=A.title;
+  document.getElementById('progMap').innerHTML=A.rows.map(r=>{
+    const done=r.days.every(d=>p.completed.includes(d));
+    return `<div class="planeRow ${done?'done':''}"><div class="pl">${r.ic}</div><div class="pn">${r.nm}</div>
+      <div class="dayDots">${r.days.map(d=>`<div class="dayDot ${p.completed.includes(d)?'done':''} ${d===p.day?'now':''}">${d}</div>`).join('')}</div></div>`;}).join('');
+  const doneAll=p.completed.length>=A.total;
+  const day=A.list[Math.min(p.day,A.total)-1];
   document.getElementById('progDay').innerHTML=doneAll?
     `<div class="card glow" style="text-align:center;padding:26px"><div style="font-size:2.6rem">🎓</div>
      <h4 style="font-family:'Rubik','Heebo',sans-serif;font-size:1.2rem;margin:10px 0 4px">תעודת מסע</h4>
-     <p class="sub">${esc(S.profile.name||'')} — 21 ימים אל גלי תטא · ${new Date().toLocaleDateString('he-IL')}</p></div>`:
+     <p class="sub">${esc(S.profile.name||'')} — ${A.cert} · ${new Date().toLocaleDateString('he-IL')}</p></div>`:
     `<div class="card glow" style="margin-top:14px"><h4 style="font-weight:500">יום ${p.day}: ${day.t}</h4>
      <div class="theory">${day.th}</div>
-     <button class="btn full" id="progTask">${day.dig?'לחפירה מודרכת ⛏️':day.dl?'להטמעת היום 💫':'לתרגול היום 🌌'}</button>
-     <button class="btn gold full" id="progDone" style="margin-top:10px">סיימתי את יום ${p.day} ✓</button></div>`;
+     ${day.rest?'':`<button class="btn full" id="progTask">${day.dig?'לחפירה מודרכת ⛏️':day.dl?'להטמעת היום 💫':'לתרגול היום 🌌'}</button>`}
+     <button class="btn gold full" id="progDone" style="margin-top:10px">${day.rest?'יום מנוחה — נספר ✓':'סיימתי את יום '+p.day+' ✓'}</button></div>`;
   const task=document.getElementById('progTask');
   if(task)task.onclick=()=>{document.getElementById('prog').classList.remove('on');
     if(day.dig)digOpen();
@@ -852,8 +908,31 @@ function renderProg(){const p=progState();
     else{const m=MEDS.find(x=>x.id===day.med);if(m)play(m);}};
   const dn=document.getElementById('progDone');
   if(dn)dn.onclick=()=>{if(!p.completed.includes(p.day))p.completed.push(p.day);
-    if(p.day<21)p.day++;save();renderProg();renderProgCard();
-    toast(p.completed.length>=21?'🎓 השלמת את המסע!':'יום הושלם ✨ נתראה מחר');};}
+    if(day.rest)markDay('med');
+    if(p.day<A.total)p.day++;save();renderProg();renderProgCard();
+    toast(p.completed.length>=A.total?'🎓 המסע הושלם!':'יום הושלם ✨ נתראה מחר');};}
+
+/* ============ MILESTONES ============ */
+const MILES=[
+ {k:'d7',n:7,type:'days',e:'🌱',t:'שבוע של אור',r:'אני יודע/ת שההתמדה שלי בונה אותי, צעד קטן אחרי צעד.'},
+ {k:'d21',n:21,type:'days',e:'🌿',t:'21 ימי תרגול',r:'אני יודע/ת שהתרגול הזה כבר חלק ממני.'},
+ {k:'d50',n:50,type:'days',e:'🌳',t:'50 ימי תרגול',r:'אני יודע/ת איך זה מרגיש לחיות עם שורשים עמוקים.'},
+ {k:'d100',n:100,type:'days',e:'🌟',t:'100 ימי תרגול',r:'אני יודע/ת שאני מקור של שקט — לעצמי ולסביבתי.'},
+ {k:'s50',n:50,type:'ses',e:'🌌',t:'50 מסעות תטא',r:'אני יודע/ת את הדרך אל השקט גם בעיניים פקוחות.'},
+ {k:'b10',n:10,type:'bel',e:'🏆',t:'10 אמונות הוחלפו',r:'אני יודע/ת שאני זה/זו שכותב/ת את הסיפור שלי.'}];
+function checkMilestones(){S.milestones=S.milestones||[];
+  const days=Object.keys(S.practice.days).length;
+  for(const m of MILES){if(S.milestones.includes(m.k))continue;
+    const v=m.type==='days'?days:m.type==='ses'?S.stats.sessions:(S.stats.beliefsReplaced||0);
+    if(v>=m.n){S.milestones.push(m.k);save();celeShow(m);break;}}}
+function celeShow(m){
+  document.getElementById('celeE').textContent=m.e;
+  document.getElementById('celeT').textContent=m.t;
+  document.getElementById('celeR').textContent=G(m.r);
+  document.getElementById('cele').classList.add('on');
+  document.getElementById('celeYes').onclick=()=>{S.stats.downloadsAccepted++;save();renderStats();
+    document.getElementById('cele').classList.remove('on');toast('הוטמע ✨');};
+  document.getElementById('celeX').onclick=()=>document.getElementById('cele').classList.remove('on');}
 
 /* ============ FREQUENCIES: WEB AUDIO ENGINE ============ */
 const FQ_PRESETS=[
