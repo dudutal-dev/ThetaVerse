@@ -339,7 +339,9 @@ textarea{width:100%;min-height:90px;background:var(--bg3);border:1px solid var(-
       <div class="setRow"><label>הנחיה קולית 🔊</label>
         <select id="setTts"><option value="on">פועלת</option><option value="off">כבויה</option></select></div>
       <div class="setRow"><label>קצב הקראה</label>
-        <select id="setRate"><option value="0.75">רגוע מאוד</option><option value="0.85">רגוע</option><option value="1">רגיל</option></select></div>
+        <select id="setRate"><option value="0.75">רגוע מאוד</option><option value="0.82">רגוע</option><option value="1">רגיל</option></select></div>
+      <div class="setRow"><label>קול</label>
+        <select id="setVoice" style="max-width:170px"></select></div>
       <div class="setRow"><label>תזכורת בוקר ☀️</label><input type="time" id="remAM" style="width:112px"></div>
       <div class="setRow"><label>תזכורת ערב 🌙</label><input type="time" id="remPM" style="width:112px"></div>
       <p class="sub" style="font-size:.72rem;margin:10px 2px">💡 התזכורות פועלות כשהאפליקציה פתוחה או ברקע · השאר/י ריק לביטול</p>
@@ -455,7 +457,7 @@ if('serviceWorker' in navigator&&location.protocol==='https:')navigator.serviceW
 const KEY='thetaverse.v1';
 const todayKey=()=>{const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');};
 let S=load();
-S.journal=S.journal||[];S.program=S.program||{day:1,completed:[]};S.program.active=S.program.active||'21';S.milestones=S.milestones||[];S.stats.beliefsReplaced=S.stats.beliefsReplaced||0;S.settings=S.settings||{remAM:null,remPM:null,fired:{}};S.settings.fired=S.settings.fired||{};if(S.settings.tts===undefined)S.settings.tts=true;S.settings.ttsRate=S.settings.ttsRate||0.85;
+S.journal=S.journal||[];S.program=S.program||{day:1,completed:[]};S.program.active=S.program.active||'21';S.milestones=S.milestones||[];S.stats.beliefsReplaced=S.stats.beliefsReplaced||0;S.settings=S.settings||{remAM:null,remPM:null,fired:{}};S.settings.fired=S.settings.fired||{};if(S.settings.tts===undefined)S.settings.tts=true;S.settings.ttsRate=S.settings.ttsRate||0.82;
 function load(){try{const s=JSON.parse(localStorage.getItem(KEY));if(s&&s.schemaVersion===1)return s;}catch(e){}
   return {schemaVersion:1,profile:{name:'',gender:'x',onboarded:false},
     stats:{totalMinutes:0,sessions:0,downloadsAccepted:0,beliefsReplaced:0},
@@ -470,7 +472,11 @@ function markDay(kind,minutes=0){const k=todayKey();const d=S.practice.days[k]||
 
 /* gender */
 function G(t){const g=S.profile.gender;if(g==='x')return t;
-  return t.replace(/([֐-׿]+)\/([֐-׿]+)/g,(m,a,b)=>g==='m'?a:a+b);}
+  return t.replace(/([֐-׿]+)\/([֐-׿]+)/g,(m,a,b)=>{
+    if(g==='m')return a;
+    if(b.length===1){const f={'ן':'נ','ם':'מ','ך':'כ','ף':'פ','ץ':'צ'};
+      const last=a.slice(-1);const base=f[last]?a.slice(0,-1)+f[last]:a;return base+b;}
+    return b;});}
 
 /* ============ DATA: DOWNLOADS ============ */
 const THEMES=[['love','💗 אהבה עצמית'],['abund','💰 שפע'],['rel','💞 זוגיות ויחסים'],['health','🌿 בריאות'],['safe','🛡️ ביטחון'],['forgive','🕊️ סליחה ושחרור'],['family','👨‍👩‍👧 משפחה'],['spirit','✨ רוחניות והשראה']];
@@ -489,57 +495,57 @@ const ALLDL=[];THEMES.forEach(([k])=>DL[k].forEach((t,i)=>ALLDL.push({id:k+'-'+i
 /* steps: [text, seconds] */
 const MEDS=[
 {id:'journey',ic:'🌌',name:'צלילת תטא — המסע המלא',desc:'המדיטציה המרכזית · הארקה, האטה, אור',min:12,steps:[
-["שב/י בנוח. כפות הרגליים על הרצפה. עצום/עצמי עיניים... נשימה עמוקה פנימה — ושחרור איטי.",40],
-["עוד נשימה עמוקה... עם כל נשיפה הגוף נרגע — והמוח מאט.",35],
-["דמיין/י שורשים יורדים מכפות הרגליים... עמוק אל תוך האדמה. יציבות. ביטחון.",45],
-["מהאדמה עולה אנרגיה נקייה... דרך הרגליים... הגוף... עד קצה הראש.",45],
-["הגוף נעשה כבד ורגוע... המחשבות מאיטות... את/ה גולש/ת אל גלי תטא.",40],
-["דמיין/י את עצמך בכדור אור רך... מתרומם/ת מעלה... מעל החדר... מעל השמיים.",45],
-["עולים עוד... מעל העננים... אל מרחב שקט וזרוע כוכבים.",50],
-["עוברים דרך שכבות של אור... לבן... זהוב... והמרחב נפתח.",50],
-["לפניך אור לבן-צחור, רך ועוטף... היכנס/י פנימה. זה המרחב שלך.",50],
-["האור עובר דרכך... הגבולות מתרככים... שקט עמוק. הישאר/י כאן.",90],
-["מהמקום הזה — כוונה אחת ללב: שהיום הזה יתגלה בדרך הטובה ביותר עבורך... תודה.",60],
-["שהות שקטה באור... פשוט להיות.",90],
-["לאט לאט... חזרה אל הגוף... אל הנשימה... אל החדר.",40],
-["הרגש/י את כפות הרגליים על האדמה... נשימה עמוקה... ובקצב שלך — פקח/י עיניים. ✨",40]]},
+["שב/י בנוח. כפות הרגליים על הרצפה. עצום/עצמי עיניים... נשימה עמוקה פנימה — ושחרור איטי.",40,"tv_journey_01"],
+["עוד נשימה עמוקה... עם כל נשיפה הגוף נרגע — והמוח מאט.",35,"tv_journey_02"],
+["דמיין/י שורשים יורדים מכפות הרגליים... עמוק אל תוך האדמה. יציבות. ביטחון.",45,"tv_journey_03"],
+["מהאדמה עולה אנרגיה נקייה... דרך הרגליים... הגוף... עד קצה הראש.",45,"tv_journey_04"],
+["הגוף נעשה כבד ורגוע... המחשבות מאיטות... את/ה גולש/ת אל גלי תטא.",40,"tv_journey_05"],
+["דמיין/י את עצמך בכדור אור רך... מתרומם/ת מעלה... מעל החדר... מעל השמיים.",45,"tv_journey_06"],
+["עולים עוד... מעל העננים... אל מרחב שקט וזרוע כוכבים.",50,"tv_journey_07"],
+["עוברים דרך שכבות של אור... לבן... זהוב... והמרחב נפתח.",50,"tv_journey_08"],
+["לפניך אור לבן-צחור, רך ועוטף... היכנס/י פנימה. זה המרחב שלך.",50,"tv_journey_09"],
+["האור עובר דרכך... הגבולות מתרככים... שקט עמוק. הישאר/י כאן.",90,"tv_journey_10"],
+["מהמקום הזה — כוונה אחת ללב: שהיום הזה יתגלה בדרך הטובה ביותר עבורך... תודה.",60,"tv_journey_11"],
+["שהות שקטה באור... פשוט להיות.",90,"tv_journey_12"],
+["לאט לאט... חזרה אל הגוף... אל הנשימה... אל החדר.",40,"tv_journey_13"],
+["הרגש/י את כפות הרגליים על האדמה... נשימה עמוקה... ובקצב שלך — פקח/י עיניים. ✨",40,"tv_journey_14"]]},
 {id:'quick',ic:'⚡',name:'צלילה מהירה',desc:'למתרגלים מנוסים',min:4,steps:[
-["עצום/עצמי עיניים. נשימה אחת עמוקה... והרפיה.",25],
-["צלול/צללי ישר פנימה — אל האור. הגוף יודע את הדרך.",30],
-["שהה/י באור... שקט עמוק.",120],
-["כוונה אחת ללב... תודה.",35],
-["נשימה — ופקיחת עיניים. ✨",20]]},
+["עצום/עצמי עיניים. נשימה אחת עמוקה... והרפיה.",25,"tv_quick_01"],
+["צלול/צללי ישר פנימה — אל האור. הגוף יודע את הדרך.",30,"tv_quick_02"],
+["שהה/שהי באור... שקט עמוק.",120,"tv_quick_03"],
+["כוונה אחת ללב... תודה.",35,"tv_quick_04"],
+["נשימה — ופקיחת עיניים. ✨",20,"tv_quick_05"]]},
 {id:'sos',ic:'🧿',name:'איפוס SOS',desc:'שלוש דקות של אור באמצע היום',min:3,steps:[
-["עצור/עצרי הכול לרגע. שאיפה 4 שניות... החזקה 4... נשיפה 8.",35],
-["שוב: שאיפה... החזקה... נשיפה ארוכה. הכתפיים יורדות.",35],
-["צלילה מהירה פנימה — אל האור.",30],
-["אמור/אמרי בלב: אני מוקף/ת באור. אני רגוע/ה. הכול מסתדר בדרך הטובה ביותר.",45],
-["נשימה אחרונה... חזרה לכאן. ממשיכים את היום מחוברים. 🌟",35]]},
+["עצור/עצרי הכול לרגע. שאיפה 4 שניות... החזקה 4... נשיפה 8.",35,"tv_sos_01"],
+["שוב: שאיפה... החזקה... נשיפה ארוכה. הכתפיים יורדות.",35,"tv_sos_02"],
+["צלילה מהירה פנימה — אל האור.",30,"tv_sos_03"],
+["אמור/אמרי בלב: אני מוקף/ת באור. אני רגוע/ה. הכול מסתדר בדרך הטובה ביותר.",45,"tv_sos_04"],
+["נשימה אחרונה... חזרה לכאן. ממשיכים את היום מחוברים. 🌟",35,"tv_sos_05"]]},
 {id:'heart',ic:'💗',name:'פתיחת הלב',desc:'אהבה ללא תנאי + הטמעות אהבה עצמית',min:10,steps:[
-["התמקם/י בנוח... שלוש נשימות עמוקות ואיטיות.",45],
-["צלול/צללי פנימה במסלול המוכר... דרך השכבות... אל האור הרך.",60],
-["הרשה/הרשי לעצמך להרגיש אהבה ללא תנאי... תן/תני לה לזרום אליך כמו גל חם.",75],
-["האהבה ממלאת את החזה... הלב מתרחב... אין שום דבר שצריך להוכיח.",75],
-["אם תרצה/י, קבל/י: 'אני יודע/ת איך זה מרגיש להיות אהוב/ה ללא תנאי'... אמור/אמרי בלב: כן.",50],
-["'אני יודע/ת שאני ראוי/ה לאהבה בדיוק כפי שאני'... כן.",50],
-["עגן/עגני את התחושה בלב... היא נשארת איתך.",60],
-["נשימה עמוקה... חזרה עדינה... פקיחת עיניים. 💗",45]]},
+["התמקם/י בנוח... שלוש נשימות עמוקות ואיטיות.",45,"tv_heart_01"],
+["צלול/צללי פנימה במסלול המוכר... דרך השכבות... אל האור הרך.",60,"tv_heart_02"],
+["הרשה/הרשי לעצמך להרגיש אהבה ללא תנאי... תן/תני לה לזרום אליך כמו גל חם.",75,"tv_heart_03"],
+["האהבה ממלאת את החזה... הלב מתרחב... אין שום דבר שצריך להוכיח.",75,"tv_heart_04"],
+["אם תרצה/י, קבל/י: 'אני יודע/ת איך זה מרגיש להיות אהוב/ה ללא תנאי'... אמור/אמרי בלב: כן.",50,"tv_heart_05"],
+["'אני יודע/ת שאני ראוי/ה לאהבה בדיוק כפי שאני'... כן.",50,"tv_heart_06"],
+["עגן/עגני את התחושה בלב... היא נשארת איתך.",60,"tv_heart_07"],
+["נשימה עמוקה... חזרה עדינה... פקיחת עיניים. 💗",45,"tv_heart_08"]]},
 {id:'evening',ic:'🌙',name:'מדיטציית ערב — תודה ושחרור',desc:'סקירת היום, שלוש תודות, שחרור',min:8,steps:[
-["סוף היום... שב/י או שכב/י בנוח. נשימות איטיות.",45],
-["התבונן/י ביום שעבר... כאילו מלמעלה, בעיניים רכות, בלי שיפוט.",60],
-["מצא/י דבר ראשון להודות עליו... קטן או גדול... תודה.",50],
-["דבר שני... תודה.",45],
-["ודבר שלישי... תודה מכל הלב.",45],
-["אם משהו הכביד היום — הנח/י אותו עכשיו בעדינות באור... הוא לא חייב לבוא איתך אל הלילה.",70],
-["הגוף כבד ורגוע... הלב שקט... הלילה שומר עליך.",60],
-["לילה טוב... שינה מתוקה ומרפאת. 🌙",40]]},
+["סוף היום... שב/י או שכב/י בנוח. נשימות איטיות.",45,"tv_evening_01"],
+["התבונן/י ביום שעבר... כאילו מלמעלה, בעיניים רכות, בלי שיפוט.",60,"tv_evening_02"],
+["מצא/י דבר ראשון להודות עליו... קטן או גדול... תודה.",50,"tv_evening_03"],
+["דבר שני... תודה.",45,"tv_evening_04"],
+["ודבר שלישי... תודה מכל הלב.",45,"tv_evening_05"],
+["אם משהו הכביד היום — הנח/י אותו עכשיו בעדינות באור... הוא לא חייב לבוא איתך אל הלילה.",70,"tv_evening_06"],
+["הגוף כבד ורגוע... הלב שקט... הלילה שומר עליך.",60,"tv_evening_07"],
+["לילה טוב... שינה מתוקה ומרפאת. 🌙",40,"tv_evening_08"]]},
 {id:'ground',ic:'🌳',name:'הארקה ומרכוז',desc:'שורשים, איסוף אנרגיה, איזון',min:6,steps:[
-["עמוד/עמדי או שב/י יציב... נשימה עמוקה.",35],
-["דמיין/י שורשים צומחים מכפות הרגליים... מעמיקים אל מרכז האדמה.",60],
-["דרך השורשים — כל מה שכבד יורד ומתנקז לאדמה... היא יודעת מה לעשות עם זה.",60],
-["ועכשיו — קרא/י בחזרה אליך את כל האנרגיה שהשארת היום במקומות אחרים... היא חוזרת כאור נקי.",70],
-["האור ממלא אותך מכף רגל עד ראש... מאוזן/ת, יציב/ה, נוכח/ת.",60],
-["נשימה אחרונה... כאן ועכשיו. 🌳",35]]}];
+["עמוד/עמדי או שב/י יציב... נשימה עמוקה.",35,"tv_ground_01"],
+["דמיין/י שורשים צומחים מכפות הרגליים... מעמיקים אל מרכז האדמה.",60,"tv_ground_02"],
+["דרך השורשים — כל מה שכבד יורד ומתנקז לאדמה... היא יודעת מה לעשות עם זה.",60,"tv_ground_03"],
+["ועכשיו — קרא/י בחזרה אליך את כל האנרגיה שהשארת היום במקומות אחרים... היא חוזרת כאור נקי.",70,"tv_ground_04"],
+["האור ממלא אותך מכף רגל עד ראש... מאוזן/ת, יציב/ה, נוכח/ת.",60,"tv_ground_05"],
+["נשימה אחרונה... כאן ועכשיו. 🌳",35,"tv_ground_06"]]}];
 
 /* ============ SPLASH / ONBOARDING ============ */
 const splash=document.getElementById('splash');
@@ -648,24 +654,59 @@ function renderMeds(){document.getElementById('medList').innerHTML=MEDS.map((m,i
   `<div class="card medCard" data-i="${i}"><div class="medIc">${m.ic}</div><div><h4>${m.name}</h4><p>${m.desc}</p></div><div class="medDur">${m.min} ד׳</div></div>`).join('');
   document.querySelectorAll('#medList .medCard').forEach(el=>el.onclick=()=>play(MEDS[+el.dataset.i]));}
 
-/* ---- Hebrew voice guidance (Web Speech API) ---- */
-const TTS={ok:false,voice:null};
+/* ---- voice guidance engine: recorded audio -> TTS -> text ----
+   (architecture ported from MoneroGateway: prime for iOS, quality-scored
+    voice pick, recorded-first with per-segment fallback, bed ducking) ---- */
+const TTS={ok:false,voice:null,voices:[],primed:false};
+function ttsQuality(v){const n=v.name||'';
+  if(/premium|enhanced|neural|natural|siri/i.test(n))return 2;
+  if(/carmit|asaf/i.test(n))return 1;return 0;}
 function ttsInit(){if(!('speechSynthesis' in window))return;
   const pick=()=>{try{
-    const vs=speechSynthesis.getVoices().filter(v=>/^he(-|_|$)/i.test(v.lang)||/hebrew|עברית|carmit/i.test(v.name));
-    if(vs.length){TTS.ok=true;TTS.voice=vs.find(v=>/carmit|female/i.test(v.name))||vs[0];
-      const pv=document.getElementById('pVoice');if(pv)pv.style.display='';}
+    const vs=speechSynthesis.getVoices().filter(v=>/^(he|iw)(-|_|$)/i.test(v.lang)||/hebrew|עברית|carmit|asaf/i.test(v.name));
+    if(!vs.length)return;
+    TTS.ok=true;TTS.voices=vs;
+    const wanted=S.settings.ttsVoice&&vs.find(v=>v.name===S.settings.ttsVoice);
+    TTS.voice=wanted||vs.slice().sort((a,b)=>ttsQuality(b)-ttsQuality(a))[0];
+    const pv=document.getElementById('pVoice');if(pv)pv.style.display='';
+    renderVoicePick();
   }catch(e){}};
   pick();speechSynthesis.onvoiceschanged=pick;}
 ttsInit();
+/* iOS unlocks synthesis only inside a touch event — prime silently on tap */
+function ttsPrime(){if(TTS.primed||!('speechSynthesis' in window))return;
+  try{const u=new SpeechSynthesisUtterance(' ');u.volume=0;u.rate=10;
+    if(TTS.voice)u.voice=TTS.voice;speechSynthesis.speak(u);TTS.primed=true;}catch(e){}}
+document.addEventListener('touchend',ttsPrime,{once:true,passive:true});
+document.addEventListener('click',ttsPrime,{once:true});
+/* duck the frequency bed while the voice speaks */
+function duck(on){try{if(AC&&AMaster&&FQ.on)
+  AMaster.gain.setTargetAtTime(on?0.28:0.8,AC.currentTime,0.25);}catch(e){}}
 function speak(t){if(!TTS.ok||!S.settings.tts)return;
   try{speechSynthesis.cancel();
     const clean=t.replace(/[✨🌟💗🌙🌳🧿⚡🌌]/g,'').replace(/\.\.\./g,', ');
     const u=new SpeechSynthesisUtterance(clean);
     u.lang='he-IL';if(TTS.voice)u.voice=TTS.voice;
-    u.rate=S.settings.ttsRate||0.85;u.pitch=1;u.volume=1;
+    u.rate=S.settings.ttsRate||0.82;u.pitch=0.95;u.volume=1;
+    u.onstart=()=>duck(true);u.onend=()=>duck(false);u.onerror=()=>duck(false);
     speechSynthesis.speak(u);}catch(e){}}
-function speakStop(){try{speechSynthesis.cancel();}catch(e){}}
+function speakStop(){try{speechSynthesis.cancel();}catch(e){}duck(false);
+  if(REC.cur){try{REC.cur.pause();}catch(e){}REC.cur=null;}}
+/* recorded narration: audio/he-f|he-m/<segId>.mp3, falls back per segment */
+const REC={bad:{},cur:null};
+function playSeg(id,text){
+  if(REC.cur){try{REC.cur.pause();}catch(e){}REC.cur=null;}
+  if(!S.settings.tts)return;
+  if(!id||REC.bad[id]){speak(text);return;}
+  const g=S.profile.gender==='m'?'m':'f';
+  const a=new Audio('audio/he-'+g+'/'+id+'.mp3');
+  a.onerror=()=>{REC.bad[id]=1;if(REC.cur===a)REC.cur=null;speak(text);};
+  a.onplay=()=>duck(true);a.onended=()=>{duck(false);if(REC.cur===a)REC.cur=null;};
+  REC.cur=a;a.play().catch(()=>{REC.bad[id]=1;if(REC.cur===a)REC.cur=null;speak(text);});}
+function renderVoicePick(){const sel=document.getElementById('setVoice');if(!sel)return;
+  if(!TTS.voices.length){sel.parentElement.style.display='none';return;}
+  sel.parentElement.style.display='';
+  sel.innerHTML=TTS.voices.map(v=>`<option value="${v.name}" ${TTS.voice&&TTS.voice.name===v.name?'selected':''}>${v.name}${ttsQuality(v)===2?' ★':''}</option>`).join('');}
 
 let P={med:null,step:0,left:0,total:0,elapsed:0,timer:null,paused:false};
 function play(med){if(!med)return;if(med.id==='sos'){playNow(med);return;}moodShow('before',med);}
@@ -679,7 +720,7 @@ function playNow(med){P={med,step:0,left:med.steps[0][1],total:med.steps.reduce(
   showStep();tick();P.timer=setInterval(tick,1000);
   if(navigator.wakeLock)navigator.wakeLock.request('screen').then(l=>P.lock=l).catch(()=>{});}
 function showStep(){const el=document.getElementById('pStep');el.style.animation='none';void el.offsetWidth;el.style.animation='';
-  const t=G(P.med.steps[P.step][0]);el.textContent=t;speak(t);}
+  const st=P.med.steps[P.step];const t=G(st[0]);el.textContent=t;playSeg(st[2],t);}
 function tick(){if(P.paused)return;
   P.left--;P.elapsed++;
   const rem=Math.max(0,P.total-P.elapsed);
@@ -695,10 +736,12 @@ function endMed(done){clearInterval(P.timer);speakStop();if(P.lock)P.lock.releas
     if(P.med.id!=='sos')setTimeout(()=>moodShow('after',null),900);}}
 document.getElementById('pExit').onclick=()=>{if(P.elapsed>=60){S.stats.sessions++;markDay('med',Math.round(P.elapsed/60));save();renderStats();}endMed(false);};
 document.getElementById('pPause').onclick=e=>{P.paused=!P.paused;e.target.textContent=P.paused?'▶':'⏸';
-  try{if(P.paused)speechSynthesis.pause();else speechSynthesis.resume();}catch(err){}};
+  try{if(P.paused){speechSynthesis.pause();if(REC.cur)REC.cur.pause();}
+  else{speechSynthesis.resume();if(REC.cur)REC.cur.play().catch(()=>{});}}catch(err){}};
 document.getElementById('pVoice').onclick=e=>{S.settings.tts=!S.settings.tts;save();
   e.target.textContent=S.settings.tts?'🔊':'🔇';
-  if(!S.settings.tts)speakStop();else if(P.med)speak(G(P.med.steps[P.step][0]));};
+  if(!S.settings.tts)speakStop();
+  else if(P.med){const st=P.med.steps[P.step];playSeg(st[2],G(st[0]));}};
 document.getElementById('sosFab').onclick=()=>play(MEDS.find(m=>m.id==='sos'));
 
 /* ============ DOWNLOADS LIBRARY ============ */
@@ -732,7 +775,7 @@ function renderStats(){const now=new Date();const pre=now.getFullYear()+'-'+Stri
 function renderSettings(){document.getElementById('setName').value=S.profile.name;
   document.getElementById('setGender').value=S.profile.gender;
   document.getElementById('setTts').value=S.settings.tts?'on':'off';
-  document.getElementById('setRate').value=String(S.settings.ttsRate||0.85);
+  document.getElementById('setRate').value=String(S.settings.ttsRate||0.82);renderVoicePick();
   document.getElementById('remAM').value=S.settings.remAM||'';
   document.getElementById('remPM').value=S.settings.remPM||'';
   document.getElementById('profSub').textContent=S.profile.name?'שלום, '+S.profile.name+' 🌟':'ההגדרות והידע שלך';}
@@ -740,6 +783,9 @@ document.getElementById('setName').onchange=e=>{S.profile.name=e.target.value.tr
 document.getElementById('setGender').onchange=e=>{S.profile.gender=e.target.value;save();renderAll();};
 document.getElementById('setTts').onchange=e=>{S.settings.tts=e.target.value==='on';save();};
 document.getElementById('setRate').onchange=e=>{S.settings.ttsRate=parseFloat(e.target.value);save();};
+document.getElementById('setVoice').onchange=e=>{S.settings.ttsVoice=e.target.value;save();
+  const v=TTS.voices.find(x=>x.name===e.target.value);if(v)TTS.voice=v;
+  speak('כך אשמע בזמן התרגול');};
 document.getElementById('remAM').onchange=e=>remChange('remAM',e.target.value);
 document.getElementById('remPM').onchange=e=>remChange('remPM',e.target.value);
 document.getElementById('expBtn').onclick=()=>{const a=document.createElement('a');
