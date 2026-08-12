@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#05060f">
 <link rel="icon" href="icon.svg">
-<title>ThetaVerse — שותפות למדריכות ומדריכים</title>
+<title>ThetaVerse — למדריכות ומדריכים</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700&family=Heebo:wght@200;300;400;500;700&display=swap');
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -17,11 +17,11 @@ body{background:var(--bg0);color:var(--pearl);font-family:'Heebo','Rubik',sans-s
 .n2{width:45vmax;height:45vmax;background:radial-gradient(circle,#12365e,transparent 65%);bottom:-15vmax;left:-12vmax}
 .wrap{position:relative;z-index:1;max-width:760px;margin:0 auto;padding:48px 22px 80px}
 .hero{text-align:center;padding:36px 0 20px}
-.logo{font-family:'Rubik';font-weight:700;font-size:2.6rem;background:linear-gradient(100deg,#f6ead0,var(--gold) 30%,#fff 50%,var(--nebula) 75%,#9db4ff);-webkit-background-clip:text;background-clip:text;color:transparent}
+.logo{font-family:'Rubik','Heebo',sans-serif;font-weight:700;font-size:2.6rem;background:linear-gradient(100deg,#f6ead0,var(--gold) 30%,#fff 50%,var(--nebula) 75%,#9db4ff);-webkit-background-clip:text;background-clip:text;color:transparent}
 .hero .tag{color:var(--dim);font-weight:300;font-size:1.12rem;margin-top:10px}
-.hero .q{font-family:'Rubik';font-weight:500;font-size:1.55rem;margin:34px auto 8px;max-width:22ch;line-height:1.5}
+.hero .q{font-family:'Rubik','Heebo',sans-serif;font-weight:500;font-size:1.55rem;margin:34px auto 8px;max-width:22ch;line-height:1.5}
 .hero .q b{color:var(--gold)}
-h2{font-family:'Rubik';font-weight:600;font-size:1.25rem;color:var(--gold);margin:46px 0 14px}
+h2{font-family:'Rubik','Heebo',sans-serif;font-weight:600;font-size:1.25rem;color:var(--gold);margin:46px 0 14px}
 p{color:var(--dim);font-weight:300}
 .card{background:var(--card);border:1px solid var(--cardB);border-radius:20px;padding:20px;backdrop-filter:blur(12px)}
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px}
@@ -29,21 +29,26 @@ p{color:var(--dim);font-weight:300}
 .feat .ic{font-size:1.6rem}
 .feat b{display:block;font-weight:500;margin:6px 0 3px;color:var(--pearl)}
 .feat span{font-size:.86rem;color:var(--dim);font-weight:300}
-.you li,.stud li{margin:10px 0;padding-inline-start:6px;color:var(--dim);font-weight:300}
-.you li b,.stud li b{color:var(--pearl);font-weight:500}
 ul{list-style:none}
+.day li{display:flex;gap:14px;align-items:flex-start;margin:14px 0;color:var(--dim);font-weight:300}
+.day .tm{flex-shrink:0;width:74px;text-align:center;padding:6px 0;border-radius:12px;background:rgba(139,92,246,.14);border:1px solid rgba(139,92,246,.3);color:var(--nebula);font-size:.78rem}
+.day b{color:var(--pearl);font-weight:500}
+.you li{margin:10px 0;color:var(--dim);font-weight:300}
+.you li b{color:var(--pearl);font-weight:500}
 .you li::before{content:'✦';color:var(--gold);margin-inline-end:10px}
-.stud li::before{content:'✓';color:var(--green);margin-inline-end:10px}
+.per li::before{content:'🎛️';margin-inline-end:10px;font-size:.85rem}
+.per li{margin:10px 0;color:var(--dim);font-weight:300}
+.per li b{color:var(--pearl);font-weight:500}
 .why{border-inline-start:3px solid var(--violet);padding-inline-start:16px;margin:14px 0;color:var(--dim);font-weight:300}
 .why b{color:var(--pearl)}
-.price{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-top:14px}
-.pr{background:var(--card);border:1px solid var(--cardB);border-radius:18px;padding:18px;text-align:center}
-.pr.hot{border-color:rgba(226,185,106,.5);box-shadow:0 0 30px rgba(226,185,106,.12)}
-.pr b{font-family:'Rubik';font-size:1.45rem;display:block;color:var(--pearl)}
-.pr span{font-size:.8rem;color:var(--dim)}
+.shot{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-top:14px}
+.shot .ph{aspect-ratio:9/16;border-radius:18px;border:1px solid var(--cardB);background:linear-gradient(160deg,#12163a,#0a0d22);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;text-align:center;padding:10px}
+.shot .ph i{font-style:normal;font-size:1.9rem}
+.shot .ph span{font-size:.72rem;color:var(--dim)}
 .cta{margin-top:52px;text-align:center;background:linear-gradient(150deg,rgba(226,185,106,.12),rgba(139,92,246,.14));border:1px solid rgba(226,185,106,.4);border-radius:26px;padding:34px 24px}
 .cta h2{margin-top:0}
-.cta .btn{display:inline-block;margin-top:16px;padding:15px 44px;border-radius:999px;background:linear-gradient(135deg,var(--gold),#c99a45);color:#141021;font-weight:600;font-size:1.08rem;text-decoration:none;box-shadow:0 6px 30px rgba(226,185,106,.35)}
+.cta .btn{display:inline-block;margin:8px 6px 0;padding:15px 40px;border-radius:999px;background:linear-gradient(135deg,var(--gold),#c99a45);color:#141021;font-weight:600;font-size:1.05rem;text-decoration:none;box-shadow:0 6px 30px rgba(226,185,106,.35)}
+.cta .btn.ghost{background:rgba(255,255,255,.06);color:var(--pearl);border:1px solid var(--cardB);box-shadow:none}
 .cta .note{font-size:.82rem;color:var(--muted);margin-top:14px}
 .foot{margin-top:56px;font-size:.76rem;color:var(--muted);text-align:center;line-height:1.8}
 .appLink{color:var(--cyan);text-decoration:none}
@@ -65,47 +70,51 @@ ul{list-style:none}
     <p>התלמידים יוצאים מהקורס או מהסדנה מלאי השראה — ותוך שבועיים ההרגל מתפוגג. קבוצת ווטסאפ לא מחזיקה תרגול יומי, וההנחיה "תתרגלו בבית" נשארת באוויר. בדיוק בנקודה הזאת התלמידים הכי זקוקים לליווי — ובדיוק שם נגמרים הכלים.</p>
   </div>
 
-  <h2>🌌 הפתרון — מלווה תרגול יומי בכיס</h2>
+  <h2>🧭 איך האפליקציה בנויה — הלולאה היומית</h2>
+  <div class="card"><ul class="day">
+    <li><span class="tm">☀️ בוקר</span><span><b>צלילת תטא מודרכת</b> (5–15 ד׳) — הארקה, האטה ומסע של אור, עם טקסט שמתקדם לבד · ואז <b>ההטמעה של היום</b>: משפט חיובי אחד שמאשרים ב"כן" מודע</span></li>
+    <li><span class="tm">🌤️ במהלך היום</span><span><b>איפוס SOS של 3 דקות</b> בלחיצה אחת · <b>תדרים חיים</b> — פעימות בינאורליות ואיזוכרוניות בתדרי תטא, סולפג׳יו וצלילי רקע, הכול נוצר בזמן אמת במכשיר</span></li>
+    <li><span class="tm">🌙 ערב</span><span><b>שלוש תודות</b> · <b>יומן אמונות מודרך</b> — אשף חפירה שמוביל מהמחשבה שעל פני השטח אל אמונת השורש, ומחליף אותה (2–3 בשבוע)</span></li>
+    <li><span class="tm">🗺️ ובגדול</span><span><b>מסע 21 יום</b> — 7 שערים, כל יום רעיון של דקה + תרגול אחד · ובסיומו נפתח <b>מסע 30 יום</b> בארבעה שבועות תמטיים: אהבה עצמית, שפע, יחסים וייעוד</span></li>
+  </ul></div>
+
+  <h2>🌌 מה יש בפנים</h2>
   <div class="grid">
-    <div class="feat"><div class="ic">🌅</div><b>לולאה יומית מובנית</b><span>מדיטציית צלילה בבוקר, הטמעת היום, שלוש תודות בערב — 10 דקות ביום</span></div>
-    <div class="feat"><div class="ic">🌊</div><b>מחולל תדרים חי</b><span>פעימות בינאורליות ואיזוכרוניות בתדרי תטא, סולפג׳יו וצלילי רקע — נוצרים בזמן אמת במכשיר</span></div>
-    <div class="feat"><div class="ic">⛏️</div><b>יומן אמונות מודרך</b><span>אשף חפירה שמוביל מהמחשבה שעל פני השטח לאמונת השורש — ומחליף אותה</span></div>
-    <div class="feat"><div class="ic">🗺️</div><b>מסעות 21 ו-30 יום</b><span>תוכניות מובנות עם תיאוריה של דקה ותרגול יומי — ההרגל נבנה לבד</span></div>
-    <div class="feat"><div class="ic">💫</div><b>80+ הטמעות בעברית</b><span>ב-8 נושאים: אהבה עצמית, שפע, יחסים, ביטחון, סליחה ועוד</span></div>
-    <div class="feat"><div class="ic">🔒</div><b>פרטיות מלאה</b><span>בלי חשבון, בלי פרסומות — כל הנתונים נשמרים אצל התלמיד/ה במכשיר</span></div>
+    <div class="feat"><div class="ic">🧘</div><b>6 מדיטציות מודרכות</b><span>מהמסע המלא ועד צלילה מהירה, מדיטציית ערב ומדיטציית הארקה</span></div>
+    <div class="feat"><div class="ic">🌊</div><b>מחולל תדרים חי</b><span>6 מצבים (תטא, שינה, רוגע, ריכוז, מסע שאמאני) + 9 תדרי סולפג׳יו — בלי הקלטות, תדרים מדויקים</span></div>
+    <div class="feat"><div class="ic">💫</div><b>80+ הטמעות בעברית</b><span>ב-8 נושאים: אהבה עצמית, שפע, יחסים, בריאות, ביטחון, סליחה, משפחה והשראה</span></div>
+    <div class="feat"><div class="ic">⛏️</div><b>יומן אמונות</b><span>אשף 8 שלבים עם סולם שאלות, מדידת עוצמה לפני/אחרי ומדף "אמונות שהוחלפו"</span></div>
+    <div class="feat"><div class="ic">📖</div><b>שכבת ידע מובנית</b><span>ליד כל תרגול כפתור "?" שמסביר מה זה ומה זה משרת — ודף "השיטה" המרכז הכול</span></div>
+    <div class="feat"><div class="ic">🌱</div><b>התמדה בלי לחץ</b><span>מעקב שבועי עדין, אבני דרך חגיגיות, יומי מנוחה שנספרים — אפס מכניקות אשמה</span></div>
   </div>
 
-  <h2>✨ מה את מקבלת כשותפת השקה</h2>
-  <div class="card you"><ul>
-    <li><b>עמלה שוטפת של 25%</b> על כל מנוי שמצטרף דרך הקוד האישי שלך — כל עוד המנוי פעיל</li>
-    <li><b>הקול שלך באפליקציה</b> — שותפות תוכן: מדיטציות מוקלטות בקולך, עם קרדיט מלא, לקהל שלך ומעבר לו</li>
-    <li><b>כלי עבודה לקבוצה שלך</b> — הפצת הטמעה יומית לתלמידים, מעקב התקדמות, ואתגרי קבוצה ממותגים (בהמשך הדרך)</li>
-    <li><b>מחיר מייסדות</b> לתלמידים שלך + השפעה ישירה על מפת הדרכים של המוצר</li>
+  <h2>🎛️ התאמה אישית — כבר היום</h2>
+  <div class="card per"><ul>
+    <li><b>לשון פנייה אישית</b> — כל האפליקציה, כולל המדיטציות וההטמעות, מדברת אל התלמיד/ה בלשון שבחרו: נקבה, זכר או מעורב</li>
+    <li><b>קצב אישי</b> — מדיטציה מלאה או צלילה מהירה, מסע מובנה או תרגול חופשי; המינימום ליום עמוס: הטמעה אחת</li>
+    <li><b>תזכורות לפי החיים שלך</b> — שעת בוקר ושעת ערב שהמשתמש קובע, ותזכורת עדינה בערב אם היום עוד לא תורגל</li>
+    <li><b>מעקב אישי</b> — מצב רוח לפני ואחרי כל תרגול, רצועת שבוע, סטטיסטיקות ויומן — הכול פרטי לחלוטין, שמור רק במכשיר</li>
   </ul></div>
 
-  <h2>🤍 מה התלמידים שלך מקבלים</h2>
-  <div class="card stud"><ul>
-    <li><b>חינם לתמיד:</b> הלולאה היומית המלאה — מדיטציה, הטמעת היום, תודה ואיפוס SOS</li>
-    <li><b>Plus ‏(₪35/חודש או ₪249/שנה):</b> כל המדיטציות, כל התדרים, יומן האמונות והמסעות המלאים</li>
-    <li>עברית מלאה, לשון פנייה אישית, עובד גם בלי אינטרנט — ומרגיש כמו אפליקציה מהחנות</li>
+  <h2>🤍 ולסגנון שלך — לאן זה הולך</h2>
+  <div class="card per"><ul>
+    <li><b>המדיטציות בקול שלך</b> — הקלטות שלך משתלבות באפליקציה, עם קרדיט מלא, כך שהתלמידים ממשיכים לשמוע אותך גם בין המפגשים</li>
+    <li><b>חבילות הטמעות משלך</b> — הניסוחים והנושאים שאת עובדת איתם, בסגנון ובשפה שלך</li>
+    <li><b>מסעות בהתאמה</b> — תוכנית 21 יום שממשיכה את הקורס שלך: המונחים שלך, הדגשים שלך, הסדר שלך</li>
+    <li><b>מרחב לקבוצה שלך</b> — הפצת הטמעת היום לתלמידים שלך ומעקב עדין אחרי ההתקדמות של הקבוצה</li>
   </ul></div>
+  <p style="font-size:.85rem;margin-top:10px">חלק מהיכולות בפרק הזה נמצאות בפיתוח — ואנחנו בונים אותן יחד עם המדריכות הראשונות, לפי מה שבאמת משרת את הקהילה שלהן.</p>
 
-  <h2>📈 למה דווקא עכשיו</h2>
-  <div class="why"><b>השוק הגנרי רווי — הנישות מנצחות.</b> Calm ו-Headspace מאבדות מנויים, בעוד אפליקציות נישה ממוקדות-קהילה צומחות פי כמה (Hallow הגיעה ל-10M הורדות ו-$33M ARR בנישה שלה). בעברית — הנישה הזאת פשוט ריקה: אין אף מלווה תרגול יומי רציני.</div>
-  <div class="why"><b>הקהילה שלך כבר מחפשת את זה.</b> התלמידים שואלים מה לתרגל — האפליקציה היא התשובה שנשארת אצלם בכיס, עם השם שלך עליה.</div>
-
-  <h2>💎 המודל, בשקיפות מלאה</h2>
-  <div class="price">
-    <div class="pr"><b>חינם</b><span>הלולאה היומית · לתמיד</span></div>
-    <div class="pr hot"><b>₪249<small style="font-size:.8rem">/שנה</small></b><span>Plus — הכול פתוח<br>(או ₪35/חודש)</span></div>
-    <div class="pr"><b>25%</b><span>עמלה שוטפת לשותפות<br>על כל מנוי שהגיע דרכך</span></div>
-  </div>
+  <h2>🔒 הצד הטכני, בקצרה</h2>
+  <div class="why"><b>בלי חשבון, בלי ענן, בלי פרסומות.</b> האפליקציה נפתחת בדפדפן ומתקינה למסך הבית כאפליקציה מלאה; עובדת גם בלי אינטרנט; וכל הנתונים — יומן, מצב רוח, התקדמות — נשמרים אך ורק במכשיר של התלמיד/ה.</div>
+  <div class="why"><b>הצלילים נוצרים חיים.</b> אין קובצי אודיו דחוסים — התדרים מסונתזים בזמן אמת במכשיר, כך שהם מדויקים למישור ההרץ, וקלים כנוצה.</div>
 
   <div class="cta">
-    <h2 style="color:var(--pearl)">מצטרפות לגל הראשון? 🌊</h2>
-    <p>אנחנו פותחים את ההשקה עם <b style="color:var(--gold)">5 שותפות תוכן בלבד</b> — מדריכות ומדריכים עם קהילה פעילה שרוצים כלי אמיתי בין המפגשים, והכנסה שוטפת לצידו.</p>
-    <a class="btn" href="mailto:dudu@thetaverse.app?subject=שותפות ThetaVerse">בואו נדבר ←</a>
-    <div class="note">דודו טל · ThetaVerse · <a class="appLink" href="index.html">להתנסות באפליקציה עכשיו ↗</a></div>
+    <h2 style="color:var(--pearl)">רוצה לראות איך זה מרגיש? 🌊</h2>
+    <p>הדרך הכי טובה להבין את ThetaVerse היא פשוט לפתוח אותה — שתי דקות של צלילה שוות אלף מילים. ואם זה מדבר אלייך, נשמח לשוחח על התאמה לקהילה ולסגנון שלך.</p>
+    <a class="btn" href="index.html">להתנסות באפליקציה ←</a>
+    <a class="btn ghost" href="mailto:dudu@thetaverse.app?subject=ThetaVerse — שיחת היכרות">לשיחת היכרות 💬</a>
+    <div class="note">דודו טל · ThetaVerse</div>
   </div>
 
   <div class="foot">
