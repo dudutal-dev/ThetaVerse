@@ -1,6 +1,6 @@
-const C = 'thetaverse-v1';
+const C = 'thetaverse-v2';
 self.addEventListener('install', e => {
-  e.waitUntil(caches.open(C).then(c => c.addAll(['./', './index.html', './manifest.json', './icon.svg'])));
+  e.waitUntil(caches.open(C).then(c => c.addAll(['./', './index.html', './manifest.json', './icon.svg', './icon-192.png', './icon-512.png', './apple-touch-icon.png'])));
   self.skipWaiting();
 });
 self.addEventListener('activate', e => {
