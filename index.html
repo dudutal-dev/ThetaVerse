@@ -336,6 +336,10 @@ textarea{width:100%;min-height:90px;background:var(--bg3);border:1px solid var(-
       <div class="setRow"><label>שם</label><input type="text" id="setName" style="width:150px"></div>
       <div class="setRow"><label>לשון פנייה</label>
         <select id="setGender"><option value="x">מעורב (יודע/ת)</option><option value="f">נקבה</option><option value="m">זכר</option></select></div>
+      <div class="setRow"><label>הנחיה קולית 🔊</label>
+        <select id="setTts"><option value="on">פועלת</option><option value="off">כבויה</option></select></div>
+      <div class="setRow"><label>קצב הקראה</label>
+        <select id="setRate"><option value="0.75">רגוע מאוד</option><option value="0.85">רגוע</option><option value="1">רגיל</option></select></div>
       <div class="setRow"><label>תזכורת בוקר ☀️</label><input type="time" id="remAM" style="width:112px"></div>
       <div class="setRow"><label>תזכורת ערב 🌙</label><input type="time" id="remPM" style="width:112px"></div>
       <p class="sub" style="font-size:.72rem;margin:10px 2px">💡 התזכורות פועלות כשהאפליקציה פתוחה או ברקע · השאר/י ריק לביטול</p>
@@ -387,6 +391,7 @@ textarea{width:100%;min-height:90px;background:var(--bg3);border:1px solid var(-
   <div class="pCtl">
     <button class="pBtn" id="pExit">✕</button>
     <button class="pBtn main" id="pPause">⏸</button>
+    <button class="pBtn" id="pVoice" style="display:none">🔊</button>
   </div>
 </div>
 
@@ -450,12 +455,12 @@ if('serviceWorker' in navigator&&location.protocol==='https:')navigator.serviceW
 const KEY='thetaverse.v1';
 const todayKey=()=>{const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');};
 let S=load();
-S.journal=S.journal||[];S.program=S.program||{day:1,completed:[]};S.program.active=S.program.active||'21';S.milestones=S.milestones||[];S.stats.beliefsReplaced=S.stats.beliefsReplaced||0;S.settings=S.settings||{remAM:null,remPM:null,fired:{}};S.settings.fired=S.settings.fired||{};
+S.journal=S.journal||[];S.program=S.program||{day:1,completed:[]};S.program.active=S.program.active||'21';S.milestones=S.milestones||[];S.stats.beliefsReplaced=S.stats.beliefsReplaced||0;S.settings=S.settings||{remAM:null,remPM:null,fired:{}};S.settings.fired=S.settings.fired||{};if(S.settings.tts===undefined)S.settings.tts=true;S.settings.ttsRate=S.settings.ttsRate||0.85;
 function load(){try{const s=JSON.parse(localStorage.getItem(KEY));if(s&&s.schemaVersion===1)return s;}catch(e){}
   return {schemaVersion:1,profile:{name:'',gender:'x',onboarded:false},
     stats:{totalMinutes:0,sessions:0,downloadsAccepted:0,beliefsReplaced:0},
     practice:{days:{}},downloads:{acceptedIds:[],todayIds:[],todayDate:'',todayDone:false},gratitude:{},
-    journal:[],program:{day:1,completed:[]},settings:{remAM:null,remPM:null,fired:{}}};}
+    journal:[],program:{day:1,completed:[]},settings:{remAM:null,remPM:null,fired:{},tts:true,ttsRate:0.85}};}
 /* migration for pre-journal saves */
 (function(){})();
 function save(){localStorage.setItem(KEY,JSON.stringify(S));}
@@ -643,6 +648,25 @@ function renderMeds(){document.getElementById('medList').innerHTML=MEDS.map((m,i
   `<div class="card medCard" data-i="${i}"><div class="medIc">${m.ic}</div><div><h4>${m.name}</h4><p>${m.desc}</p></div><div class="medDur">${m.min} ד׳</div></div>`).join('');
   document.querySelectorAll('#medList .medCard').forEach(el=>el.onclick=()=>play(MEDS[+el.dataset.i]));}
 
+/* ---- Hebrew voice guidance (Web Speech API) ---- */
+const TTS={ok:false,voice:null};
+function ttsInit(){if(!('speechSynthesis' in window))return;
+  const pick=()=>{try{
+    const vs=speechSynthesis.getVoices().filter(v=>/^he(-|_|$)/i.test(v.lang)||/hebrew|עברית|carmit/i.test(v.name));
+    if(vs.length){TTS.ok=true;TTS.voice=vs.find(v=>/carmit|female/i.test(v.name))||vs[0];
+      const pv=document.getElementById('pVoice');if(pv)pv.style.display='';}
+  }catch(e){}};
+  pick();speechSynthesis.onvoiceschanged=pick;}
+ttsInit();
+function speak(t){if(!TTS.ok||!S.settings.tts)return;
+  try{speechSynthesis.cancel();
+    const clean=t.replace(/[✨🌟💗🌙🌳🧿⚡🌌]/g,'').replace(/\.\.\./g,', ');
+    const u=new SpeechSynthesisUtterance(clean);
+    u.lang='he-IL';if(TTS.voice)u.voice=TTS.voice;
+    u.rate=S.settings.ttsRate||0.85;u.pitch=1;u.volume=1;
+    speechSynthesis.speak(u);}catch(e){}}
+function speakStop(){try{speechSynthesis.cancel();}catch(e){}}
+
 let P={med:null,step:0,left:0,total:0,elapsed:0,timer:null,paused:false};
 function play(med){if(!med)return;if(med.id==='sos'){playNow(med);return;}moodShow('before',med);}
 const CIRC=2*Math.PI*46;
@@ -650,9 +674,12 @@ function playNow(med){P={med,step:0,left:med.steps[0][1],total:med.steps.reduce(
   document.getElementById('pTitle').textContent=med.name;
   document.getElementById('pProg').style.strokeDasharray=CIRC;
   document.getElementById('player').classList.add('on');
+  const pv=document.getElementById('pVoice');
+  if(pv){pv.style.display=TTS.ok?'':'none';pv.textContent=S.settings.tts?'🔊':'🔇';}
   showStep();tick();P.timer=setInterval(tick,1000);
   if(navigator.wakeLock)navigator.wakeLock.request('screen').then(l=>P.lock=l).catch(()=>{});}
-function showStep(){const el=document.getElementById('pStep');el.style.animation='none';void el.offsetWidth;el.style.animation='';el.textContent=G(P.med.steps[P.step][0]);}
+function showStep(){const el=document.getElementById('pStep');el.style.animation='none';void el.offsetWidth;el.style.animation='';
+  const t=G(P.med.steps[P.step][0]);el.textContent=t;speak(t);}
 function tick(){if(P.paused)return;
   P.left--;P.elapsed++;
   const rem=Math.max(0,P.total-P.elapsed);
@@ -661,13 +688,17 @@ function tick(){if(P.paused)return;
   if(P.left<=0){P.step++;
     if(P.step>=P.med.steps.length){endMed(true);return;}
     P.left=P.med.steps[P.step][1];showStep();}}
-function endMed(done){clearInterval(P.timer);if(P.lock)P.lock.release().catch(()=>{});
+function endMed(done){clearInterval(P.timer);speakStop();if(P.lock)P.lock.release().catch(()=>{});
   document.getElementById('player').classList.remove('on');
   if(done){S.stats.sessions++;markDay('med',P.med.min);save();renderStats();
     toast(P.med.id==='evening'?'לילה של אור 🌙':'הצלילה הושלמה ✨ '+P.med.min+' דקות בתטא');
     if(P.med.id!=='sos')setTimeout(()=>moodShow('after',null),900);}}
 document.getElementById('pExit').onclick=()=>{if(P.elapsed>=60){S.stats.sessions++;markDay('med',Math.round(P.elapsed/60));save();renderStats();}endMed(false);};
-document.getElementById('pPause').onclick=e=>{P.paused=!P.paused;e.target.textContent=P.paused?'▶':'⏸';};
+document.getElementById('pPause').onclick=e=>{P.paused=!P.paused;e.target.textContent=P.paused?'▶':'⏸';
+  try{if(P.paused)speechSynthesis.pause();else speechSynthesis.resume();}catch(err){}};
+document.getElementById('pVoice').onclick=e=>{S.settings.tts=!S.settings.tts;save();
+  e.target.textContent=S.settings.tts?'🔊':'🔇';
+  if(!S.settings.tts)speakStop();else if(P.med)speak(G(P.med.steps[P.step][0]));};
 document.getElementById('sosFab').onclick=()=>play(MEDS.find(m=>m.id==='sos'));
 
 /* ============ DOWNLOADS LIBRARY ============ */
@@ -700,11 +731,15 @@ function renderStats(){const now=new Date();const pre=now.getFullYear()+'-'+Stri
     strip.innerHTML=h;}}
 function renderSettings(){document.getElementById('setName').value=S.profile.name;
   document.getElementById('setGender').value=S.profile.gender;
+  document.getElementById('setTts').value=S.settings.tts?'on':'off';
+  document.getElementById('setRate').value=String(S.settings.ttsRate||0.85);
   document.getElementById('remAM').value=S.settings.remAM||'';
   document.getElementById('remPM').value=S.settings.remPM||'';
   document.getElementById('profSub').textContent=S.profile.name?'שלום, '+S.profile.name+' 🌟':'ההגדרות והידע שלך';}
 document.getElementById('setName').onchange=e=>{S.profile.name=e.target.value.trim();save();renderToday();};
 document.getElementById('setGender').onchange=e=>{S.profile.gender=e.target.value;save();renderAll();};
+document.getElementById('setTts').onchange=e=>{S.settings.tts=e.target.value==='on';save();};
+document.getElementById('setRate').onchange=e=>{S.settings.ttsRate=parseFloat(e.target.value);save();};
 document.getElementById('remAM').onchange=e=>remChange('remAM',e.target.value);
 document.getElementById('remPM').onchange=e=>remChange('remPM',e.target.value);
 document.getElementById('expBtn').onclick=()=>{const a=document.createElement('a');
