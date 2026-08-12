@@ -67,7 +67,7 @@ main::-webkit-scrollbar{display:none}
 /* nav */
 nav{position:fixed;bottom:0;left:0;right:0;z-index:20;display:flex;justify-content:center}
 .navIn{display:flex;gap:4px;margin:0 auto calc(12px + var(--sbot));padding:7px;border-radius:999px;background:rgba(10,13,31,.72);border:1px solid var(--cardB);backdrop-filter:blur(18px);box-shadow:0 8px 40px rgba(0,0,0,.5)}
-.navBtn{display:flex;flex-direction:column;align-items:center;gap:2px;padding:9px 17px;border:none;background:none;color:var(--muted);font-family:inherit;font-size:.68rem;border-radius:999px;cursor:pointer;transition:.25s}
+.navBtn{display:flex;flex-direction:column;align-items:center;gap:2px;padding:8px 11px;border:none;background:none;color:var(--muted);font-family:inherit;font-size:.68rem;border-radius:999px;cursor:pointer;transition:.25s}
 .navBtn span{font-size:1.25rem;line-height:1}
 .navBtn.on{color:var(--pearl);background:linear-gradient(135deg,rgba(139,92,246,.35),rgba(226,185,106,.18));box-shadow:0 0 22px rgba(139,92,246,.3)}
 
@@ -191,6 +191,11 @@ textarea{width:100%;min-height:90px;background:var(--bg3);border:1px solid var(-
 .dayDot.now{border-color:var(--cyan);color:var(--cyan);box-shadow:0 0 12px rgba(103,232,249,.4)}
 .theory{background:rgba(139,92,246,.08);border:1px solid rgba(139,92,246,.25);border-radius:16px;padding:14px;font-size:.92rem;font-weight:300;line-height:1.7;margin:12px 0}
 .theory b{color:var(--nebula);font-weight:500}
+.infoBtn{width:22px;height:22px;border-radius:50%;border:1px solid var(--cardB);background:rgba(255,255,255,.06);color:var(--pearlDim);font-size:.72rem;font-family:inherit;cursor:pointer;vertical-align:2px;margin-inline-start:4px;line-height:1}
+.wkRow{display:flex;gap:6px;justify-content:space-between}
+.wkDay{flex:1;text-align:center;font-size:.66rem;color:var(--muted)}
+.wkDay i{display:block;width:26px;height:26px;margin:0 auto 5px;border-radius:50%;background:rgba(255,255,255,.05);border:1px solid var(--cardB)}
+.wkDay.on i{background:linear-gradient(135deg,rgba(226,185,106,.45),rgba(139,92,246,.4));border-color:rgba(226,185,106,.55);box-shadow:0 0 10px rgba(226,185,106,.25)}
 /* toast */
 #toast{position:fixed;top:calc(18px + var(--stop));left:50%;transform:translate(-50%,-160%);visibility:hidden;opacity:0;z-index:80;padding:12px 24px;border-radius:999px;background:rgba(15,18,38,.92);border:1px solid rgba(226,185,106,.4);backdrop-filter:blur(12px);font-size:.9rem;transition:transform .5s cubic-bezier(.2,.9,.3,1.2),opacity .4s,visibility .4s;box-shadow:0 8px 34px rgba(0,0,0,.5)}
 #toast.on{transform:translate(-50%,0);visibility:visible;opacity:1}
@@ -244,32 +249,32 @@ textarea{width:100%;min-height:90px;background:var(--bg3);border:1px solid var(-
       </div>
     </div>
 
-    <h3 class="sec">💫 ההטמעה של היום</h3>
+    <h3 class="sec">💫 ההטמעה של היום <button class="infoBtn" data-info="hatmaa">?</button></h3>
     <div class="card" id="dlCard"></div>
 
-    <h3 class="sec">🌌 התרגול הבא</h3>
+    <h3 class="sec">🌌 התרגול הבא <button class="infoBtn" data-info="theta">?</button></h3>
     <div class="card medCard glow" id="nextMed"></div>
 
-    <h3 class="sec">🗺️ המסע — 21 יום אל גלי תטא</h3>
+    <h3 class="sec">🗺️ המסע — 21 יום אל גלי תטא <button class="infoBtn" data-info="journey">?</button></h3>
     <div class="card glow" id="progCard"></div>
 
-    <h3 class="sec">🙏 תודה של ערב</h3>
+    <h3 class="sec">🙏 תודה של ערב <button class="infoBtn" data-info="grat">?</button></h3>
     <div class="card" id="gratCard"></div>
 
-    <h3 class="sec">⛏️ יומן חפירה</h3>
+    <h3 class="sec">⛏️ יומן חפירה <button class="infoBtn" data-info="dig">?</button></h3>
     <div class="card" id="digCard"></div>
   </section>
 
   <!-- MEDITATIONS -->
   <section class="view" id="v-med">
-    <div class="hello">מדיטציות</div>
+    <div class="hello">מדיטציות <button class="infoBtn" data-info="med">?</button></div>
     <p class="sub">בחר/י מסע — הטקסט מתקדם לבדו, רק לעצום עיניים בין שורות</p>
     <div id="medList"></div>
   </section>
 
   <!-- DOWNLOADS -->
   <section class="view" id="v-dl">
-    <div class="hello">ספריית ההטמעות</div>
+    <div class="hello">ספריית ההטמעות <button class="infoBtn" data-info="hatmaa">?</button></div>
     <p class="sub">שום דבר לא נכנס בלי "כן" — כל הטמעה נקלטת רק כשמאשרים אותה · <span id="dlCount" class="chip"></span></p>
     <div class="themeTabs" id="dlTabs"></div>
     <div id="dlList"></div>
@@ -277,7 +282,7 @@ textarea{width:100%;min-height:90px;background:var(--bg3);border:1px solid var(-
 
   <!-- FREQUENCIES -->
   <section class="view" id="v-freq">
-    <div class="hello">תדרים</div>
+    <div class="hello">תדרים <button class="infoBtn" data-info="freq">?</button></div>
     <p class="sub">גלי תטא, סולפג'יו וצלילי רקע — הכול נוצר חי בתוך המכשיר 🌊</p>
 
     <div class="card" id="freqNow" style="display:none"></div>
@@ -298,6 +303,7 @@ textarea{width:100%;min-height:90px;background:var(--bg3);border:1px solid var(-
   <section class="view" id="v-me">
     <div class="hello">המסע שלי</div>
     <p class="sub" id="meSub"></p>
+    <div class="card"><div class="wkRow" id="wkStrip"></div></div>
     <div class="statGrid">
       <div class="stat"><b id="stDays">0</b><span>ימי תרגול החודש</span></div>
       <div class="stat"><b id="stMin">0</b><span>דקות בתטא</span></div>
@@ -308,8 +314,20 @@ textarea{width:100%;min-height:90px;background:var(--bg3);border:1px solid var(-
     </div>
     <h3 class="sec">🏆 אמונות שהוחלפו</h3>
     <div class="card" id="jShelf"></div>
-    <h3 class="sec">📓 היומן שלי</h3>
+    <h3 class="sec">📓 היומן שלי <button class="infoBtn" data-info="dig">?</button></h3>
     <div id="jList"></div>
+  </section>
+
+  <!-- PROFILE -->
+  <section class="view" id="v-prof">
+    <div class="hello">פרופיל</div>
+    <p class="sub" id="profSub"></p>
+
+    <div class="card medCard glow" id="methodCard">
+      <div class="medIc">🧭</div>
+      <div><h4>השיטה</h4><p>מה זה תטא, הטמעה, תודה וחפירה — ולמה זה עובד</p></div>
+      <div class="medDur">←</div>
+    </div>
 
     <h3 class="sec">⚙️ הגדרות</h3>
     <div class="card">
@@ -322,6 +340,7 @@ textarea{width:100%;min-height:90px;background:var(--bg3);border:1px solid var(-
         <input type="file" id="impFile" accept=".json" hidden>
       </div>
     </div>
+
     <h3 class="sec">ℹ️ אודות</h3>
     <div class="card">
       <div style="display:flex;align-items:center;gap:12px"><div class="medIc">🌀</div>
@@ -340,7 +359,8 @@ textarea{width:100%;min-height:90px;background:var(--bg3);border:1px solid var(-
   <button class="navBtn" data-v="med"><span>🌌</span>מדיטציות</button>
   <button class="navBtn" data-v="dl"><span>💫</span>הטמעות</button>
   <button class="navBtn" data-v="freq"><span>🌊</span>תדרים</button>
-  <button class="navBtn" data-v="me"><span>🪐</span>המסע שלי</button>
+  <button class="navBtn" data-v="me"><span>🪐</span>מסע</button>
+  <button class="navBtn" data-v="prof"><span>👤</span>פרופיל</button>
 </div></nav>
 </div>
 
@@ -364,6 +384,16 @@ textarea{width:100%;min-height:90px;background:var(--bg3);border:1px solid var(-
     <button class="pBtn main" id="pPause">⏸</button>
   </div>
 </div>
+
+<!-- INFO / METHOD -->
+<div id="infoOvl" class="ovl"><div class="ovlIn" style="padding-top:calc(70px + var(--stop))">
+  <div class="ovlHead"><b id="infoT"></b><button class="ovlX" id="infoX">✕</button></div>
+  <div class="theory" id="infoP" style="font-size:.96rem"></div>
+</div></div>
+<div id="method" class="ovl"><div class="ovlIn">
+  <div class="ovlHead"><b>🧭 השיטה</b><button class="ovlX" id="methodX">✕</button></div>
+  <div id="methodBody"></div>
+</div></div>
 
 <!-- DIGGING WIZARD -->
 <div id="dig" class="ovl"><div class="ovlIn">
@@ -492,13 +522,13 @@ const ONB=[
  {h:'🌀 ברוכים הבאים ל-ThetaVerse',p:'גלי תטא (4–8 הרץ) הם תדר המוח שבין ערות לחלום — מצב של הרפיה עמוקה, דמיון חי ותובנות.<br><br>ThetaVerse היא מסע יומי קצר אל המצב הזה: להאט, להתמלא — ולחזור בהיר/ה יותר.'},
  {h:'🗺️ המסלול היומי',p:'☀️ <b>בוקר</b> — צלילת תטא מודרכת + ההטמעה של היום (5–15 ד׳)<br>🌊 <b>במהלך היום</b> — תדרים חיים ואיפוס SOS של 3 דקות<br>🌙 <b>ערב</b> — שלוש תודות ויומן אמונות<br>🎓 <b>ובגדול</b> — מסע מובנה של 21 יום, שער אחר שער'},
  {h:'✨ מה מייחד אותה',p:'• כל הצלילים נוצרים <b>חיים במכשיר</b> — התדרים מדויקים, בלי הקלטות<br>• עברית מלאה ולשון פנייה אישית<br>• <b>פרטיות מוחלטת</b> — הכול נשמר רק אצלך במכשיר<br>• בלי חשבון, בלי פרסומות, עובד גם בלי אינטרנט'}];
-let onbStep=0;
+let onbStep=0,onbIntroOnly=false;
 function onbRender(){
-  document.getElementById('onbDots').innerHTML=Array.from({length:5},(_,i)=>`<i class="${i<=onbStep?'on':''}"></i>`).join('');
+  document.getElementById('onbDots').innerHTML=Array.from({length:onbIntroOnly?3:5},(_,i)=>`<i class="${i<=onbStep?'on':''}"></i>`).join('');
   const B=document.getElementById('onbBody');
   if(onbStep<3){const o=ONB[onbStep];
     B.innerHTML=`<h2>${o.h}</h2><p style="min-height:130px">${G(o.p)}</p>
-    <div class="wizNav">${onbStep>0?'<button class="btn ghost" id="onbBack">→</button>':''}<button class="btn gold" id="onbNext" style="flex:1">המשך ←</button></div>`;}
+    <div class="wizNav">${onbStep>0?'<button class="btn ghost" id="onbBack">→</button>':''}<button class="btn gold" id="onbNext" style="flex:1">${onbIntroOnly&&onbStep===2?'הבנתי ✨':'המשך ←'}</button></div>`;}
   else if(onbStep===3){
     B.innerHTML=`<h2>נעים להכיר 🌟</h2><p>איך לקרוא לך?</p>
     <input type="text" id="onbName" placeholder="השם שלך" style="width:100%" value="${esc(S.profile.name||'')}">
@@ -515,14 +545,19 @@ function onbRender(){
     <p style="font-size:.88rem">ThetaVerse נועדה לרווחה אישית — היא משלימה ואינה מחליפה טיפול רפואי או נפשי. אם יש לך היסטוריה של מצבים נפשיים מורכבים, מומלץ להתייעץ עם איש מקצוע לפני עבודה מדיטטיבית עמוקה. ואין להאזין לתדרי הרפיה בזמן נהיגה.</p>
     <div class="wizNav"><button class="btn ghost" id="onbBack">→</button><button class="btn gold" id="onbGo" style="flex:1">מתחילים ✨</button></div>`;}
   const back=document.getElementById('onbBack');if(back)back.onclick=()=>{saveOnbFields();onbStep--;onbRender();};
-  const next=document.getElementById('onbNext');if(next)next.onclick=()=>{saveOnbFields();onbStep++;onbRender();};
+  const next=document.getElementById('onbNext');if(next)next.onclick=()=>{
+    if(onbIntroOnly&&onbStep===2){S.profile.introSeen=true;save();
+      document.getElementById('onb').classList.remove('on');return;}
+    saveOnbFields();onbStep++;onbRender();};
   const go=document.getElementById('onbGo');if(go)go.onclick=()=>{
-    S.profile.onboarded=true;save();
+    S.profile.onboarded=true;S.profile.introSeen=true;save();
     document.getElementById('onb').classList.remove('on');startApp();};}
 function saveOnbFields(){const nm=document.getElementById('onbName');if(nm)S.profile.name=nm.value.trim();
   const g=document.querySelector('#onbBody .gBtn.on');if(g)S.profile.gender=g.dataset.g;save();}
 
-function startApp(){document.getElementById('app').classList.add('on');renderAll();}
+function startApp(){document.getElementById('app').classList.add('on');renderAll();
+  if(!S.profile.introSeen){onbIntroOnly=true;onbStep=0;onbRender();
+    document.getElementById('onb').classList.add('on');}}
 
 /* ============ NAV ============ */
 document.querySelectorAll('.navBtn').forEach(b=>b.onclick=()=>{
@@ -631,9 +666,16 @@ function renderStats(){const now=new Date();const pre=now.getFullYear()+'-'+Stri
   document.getElementById('stSes').textContent=S.stats.sessions;
   document.getElementById('stBel').textContent=S.stats.beliefsReplaced||0;
   document.getElementById('stProg').textContent=(S.program&&S.program.completed.length)||0;
-  document.getElementById('meSub').textContent=days>=5?'איזו התמדה מרשימה 🌟':'כל דקה באור נספרת ✨';}
+  document.getElementById('meSub').textContent=days>=5?'איזו התמדה מרשימה 🌟':'כל דקה באור נספרת ✨';
+  const strip=document.getElementById('wkStrip');
+  if(strip){const dn=['א','ב','ג','ד','ה','ו','ש'];let h='';
+    for(let i=6;i>=0;i--){const d=new Date(Date.now()-i*864e5);
+      const k=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+      const on=!!S.practice.days[k];h+=`<div class="wkDay ${on?'on':''}"><i></i>${dn[d.getDay()]}</div>`;}
+    strip.innerHTML=h;}}
 function renderSettings(){document.getElementById('setName').value=S.profile.name;
-  document.getElementById('setGender').value=S.profile.gender;}
+  document.getElementById('setGender').value=S.profile.gender;
+  document.getElementById('profSub').textContent=S.profile.name?'שלום, '+S.profile.name+' 🌟':'ההגדרות והידע שלך';}
 document.getElementById('setName').onchange=e=>{S.profile.name=e.target.value.trim();save();renderToday();};
 document.getElementById('setGender').onchange=e=>{S.profile.gender=e.target.value;save();renderAll();};
 document.getElementById('expBtn').onclick=()=>{const a=document.createElement('a');
@@ -643,6 +685,29 @@ document.getElementById('impBtn').onclick=()=>document.getElementById('impFile')
 document.getElementById('impFile').onchange=e=>{const f=e.target.files[0];if(!f)return;
   const r=new FileReader();r.onload=()=>{try{const s=JSON.parse(r.result);
     if(s.schemaVersion===1){S=s;save();renderAll();toast('הנתונים יובאו ✓');}else toast('קובץ לא תואם');}catch(err){toast('קובץ לא תקין');}};r.readAsText(f);};
+
+/* ============ INFO / METHOD ============ */
+const INFO={
+ theta:{t:'🌊 מה זה גלי תטא?',p:'המוח פועל בתדרים חשמליים. תטא (4–8 הרץ) הוא התדר שבין ערות לחלום — הרגע שלפני ההירדמות: הגוף רגוע, הדמיון חי, והקליטה הרגשית בשיאה.<br><br><b>מה זה משרת:</b> ירידה במתח, ריכוך דפוסים אוטומטיים, וגישה ליצירתיות ולתובנות. במדיטציה לומדים להגיע לשם בכוונה — ולהישאר ערים.'},
+ med:{t:'🌌 מדיטציות מודרכות',p:'מסלול מונחה שמאט קודם את הגוף (הארקה ונשימה) ואז מוביל את הדמיון במסע של אור — הדמיון החי הוא הדלת לגלי תטא.<br><br><b>מה זה משרת:</b> המוח מגיב לתמונה מדומיינת חיה כמעט כמו לחוויה אמיתית. לכן מסע מדומיין של רוגע מרגיע באמת — את הגוף, ואז את המחשבות.'},
+ hatmaa:{t:'💫 מה זו הטמעה?',p:'משפט חיובי שמנוסח כידיעה ("אני יודע/ת איך זה מרגיש...") — ואת/ה מאשר/ת אותו ב"כן" מודע. שום דבר לא נכנס בלי הסכמה שלך.<br><br><b>מה זה משרת:</b> חזרה יומית על משפטים כאלה, במיוחד בזמן רגיעה, מאמנת את הקשב לזהות את הטוב ובונה תחושת מסוגלות. שלוש הטמעות חדשות מחכות כל בוקר.'},
+ grat:{t:'🙏 למה תודה?',p:'שלושה דברים טובים מהיום — קטנים כגדולים — שנכתבים בערב.<br><br><b>מה זה משרת:</b> זה התרגול עם הגיבוי המחקרי החזק ביותר לשיפור מצב רוח ושינה. כשהמוח יודע שבערב יירשמו שלוש תודות — הוא מתחיל לחפש אותן כבר מהבוקר. תוך שבועות משתנה מה שהעין תופסת.'},
+ dig:{t:'⛏️ מה זו חפירה?',p:'ירידה בסולם שאלות ("ואז מה? ומה הכי גרוע בזה?") — מהמחשבה שעל פני השטח אל אמונת השורש שמחזיקה אותה, ואז ניסוח אמונה חדשה במקומה.<br><br><b>מה זה משרת:</b> טיפול בסיבה במקום בסימפטום. כשמחליפים את אמונת השורש — כל המחשבות שנשענו עליה משתחררות איתה. מומלץ 2–3 פעמים בשבוע, בערב.'},
+ journey:{t:'🗺️ מסע 21 יום',p:'תוכנית מובנית: 7 שערים, 3 ימים בכל שער — מהארקה ונשימה ועד צלילה עצמאית. כל יום: רעיון של דקה + תרגול אחד.<br><br><b>מה זה משרת:</b> הרגל נבנה מחזרות קטנות ועקביות, לא ממאמצים גדולים. אחרי 21 יום של צעדים קטנים — התרגול כבר חלק מהיום שלך.'},
+ freq:{t:'🌊 מה הם התדרים?',p:'צלילים שנוצרים חיים במכשיר: פעימות בינאורליות (שני טונים, אחד לכל אוזן — והמוח שומע פעימה בקצב תטא), גלים איזוכרוניים (עובדים גם ברמקול) ודרוני סולפג׳יו.<br><br><b>מה זה משרת:</b> עוגן קשב ורקע עוטף לתרגול ולשינה. בשקיפות מלאה: אפקט ההרפיה מגובה מחקרית; ההסבר של "סנכרון גלי מוח" עדיין נחקר. 🎧 לבינאורלי צריך אוזניות.'}};
+function infoShow(k){const o=INFO[k];if(!o)return;
+  document.getElementById('infoT').textContent=o.t;
+  document.getElementById('infoP').innerHTML=G(o.p);
+  document.getElementById('infoOvl').classList.add('on');}
+document.addEventListener('click',e=>{const b=e.target.closest('.infoBtn');
+  if(b){e.stopPropagation();infoShow(b.dataset.info);}});
+document.getElementById('infoX').onclick=()=>document.getElementById('infoOvl').classList.remove('on');
+document.getElementById('methodX').onclick=()=>document.getElementById('method').classList.remove('on');
+function methodShow(){document.getElementById('methodBody').innerHTML=
+  ['theta','med','hatmaa','grat','dig','journey','freq'].map(k=>
+    `<div class="card"><h4 style="font-weight:500;margin-bottom:8px">${INFO[k].t}</h4><p class="sub" style="margin:0;font-size:.88rem;line-height:1.75">${G(INFO[k].p)}</p></div>`).join('');
+  document.getElementById('method').classList.add('on');}
+document.getElementById('methodCard').onclick=methodShow;
 
 /* ============ DIGGING JOURNAL ============ */
 const EMOS=['😰','😢','😡','😔','😶'];
