@@ -153,6 +153,44 @@ input[type=range]::-webkit-slider-thumb{appearance:none;-webkit-appearance:none;
 .fqWave i{flex:1;background:linear-gradient(180deg,var(--gold),var(--violet));border-radius:3px;animation:wv 1.2s ease-in-out infinite;opacity:.85}
 @keyframes wv{0%,100%{height:22%}50%{height:100%}}
 .hpBanner{font-size:.78rem;color:var(--cyan);margin-top:8px}
+/* overlays (wizard/program) */
+.ovl{position:fixed;inset:0;z-index:70;display:none;background:rgba(4,5,13,.9);backdrop-filter:blur(10px);overflow-y:auto}
+.ovl.on{display:block}
+.ovlIn{max-width:560px;margin:0 auto;padding:calc(16px + var(--stop)) 18px calc(40px + var(--sbot))}
+.ovlHead{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.ovlHead b{font-family:'Rubik','Heebo',sans-serif;font-size:1.15rem;font-weight:600}
+.ovlX{width:38px;height:38px;border-radius:50%;border:1px solid var(--cardB);background:rgba(255,255,255,.05);color:var(--pearl);font-size:1rem;cursor:pointer}
+.wizDots{display:flex;gap:6px;margin-bottom:16px}
+.wizDots i{flex:1;height:4px;border-radius:4px;background:rgba(255,255,255,.08)}
+.wizDots i.on{background:linear-gradient(90deg,var(--gold),var(--violet))}
+.wizQ{font-size:1.15rem;font-weight:400;line-height:1.7;margin-bottom:6px}
+.wizHint{color:var(--pearlDim);font-size:.85rem;font-weight:300;margin-bottom:14px}
+textarea{width:100%;min-height:90px;background:var(--bg3);border:1px solid var(--cardB);color:var(--pearl);font-family:inherit;font-size:1rem;padding:12px;border-radius:14px;outline:none;resize:vertical;line-height:1.6}
+.emoRow{display:flex;gap:8px;margin:10px 0}
+.emoBtn{flex:1;font-size:1.5rem;padding:9px 0;border-radius:14px;border:1px solid var(--cardB);background:rgba(255,255,255,.03);cursor:pointer;transition:.2s}
+.emoBtn.on{border-color:var(--gold);background:rgba(226,185,106,.12);transform:scale(1.08)}
+.lvlRow{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0}
+.lvlBtn{padding:12px;border-radius:14px;border:1px solid var(--cardB);background:rgba(255,255,255,.03);color:var(--pearlDim);font-family:inherit;font-size:.9rem;cursor:pointer}
+.lvlBtn.on{border-color:var(--nebula);color:var(--nebula);background:rgba(139,92,246,.1)}
+.ladder{margin:8px 0}
+.ladder .rung{display:flex;gap:8px;align-items:flex-start;padding:8px 10px;border-radius:12px;background:rgba(255,255,255,.03);border:1px solid var(--cardB);margin-bottom:7px;font-size:.9rem;font-weight:300;line-height:1.5}
+.rung .qm{color:var(--nebula);font-size:.75rem;flex-shrink:0;margin-top:2px}
+.wizNav{display:flex;gap:10px;margin-top:18px}
+.jItem{padding:14px;border-radius:16px;background:var(--card);border:1px solid var(--cardB);margin-bottom:10px}
+.jItem .jb{font-weight:500;margin:4px 0}
+.jItem .jm{color:var(--pearlDim);font-size:.78rem;font-weight:300}
+.jDelta{color:var(--green);font-size:.8rem}
+/* program map */
+.planeRow{display:flex;align-items:center;gap:10px;padding:9px 4px}
+.planeRow .pl{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font-size:1.05rem;background:rgba(255,255,255,.04);border:1px solid var(--cardB);flex-shrink:0}
+.planeRow.done .pl{border-color:var(--gold);box-shadow:0 0 14px rgba(226,185,106,.35)}
+.planeRow .pn{font-size:.82rem;color:var(--pearlDim);width:90px}
+.dayDots{display:flex;gap:6px;flex:1}
+.dayDot{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;font-size:.66rem;background:rgba(255,255,255,.05);border:1px solid var(--cardB);color:var(--muted)}
+.dayDot.done{background:linear-gradient(135deg,rgba(226,185,106,.35),rgba(139,92,246,.3));color:var(--pearl);border-color:rgba(226,185,106,.5)}
+.dayDot.now{border-color:var(--cyan);color:var(--cyan);box-shadow:0 0 12px rgba(103,232,249,.4)}
+.theory{background:rgba(139,92,246,.08);border:1px solid rgba(139,92,246,.25);border-radius:16px;padding:14px;font-size:.92rem;font-weight:300;line-height:1.7;margin:12px 0}
+.theory b{color:var(--nebula);font-weight:500}
 /* toast */
 #toast{position:fixed;top:calc(18px + var(--stop));left:50%;transform:translate(-50%,-160%);visibility:hidden;opacity:0;z-index:80;padding:12px 24px;border-radius:999px;background:rgba(15,18,38,.92);border:1px solid rgba(226,185,106,.4);backdrop-filter:blur(12px);font-size:.9rem;transition:transform .5s cubic-bezier(.2,.9,.3,1.2),opacity .4s,visibility .4s;box-shadow:0 8px 34px rgba(0,0,0,.5)}
 #toast.on{transform:translate(-50%,0);visibility:visible;opacity:1}
@@ -221,8 +259,14 @@ input[type=range]::-webkit-slider-thumb{appearance:none;-webkit-appearance:none;
     <h3 class="sec">🌌 התרגול הבא</h3>
     <div class="card medCard glow" id="nextMed"></div>
 
+    <h3 class="sec">🗺️ המסע — 21 יום למישור השביעי</h3>
+    <div class="card glow" id="progCard"></div>
+
     <h3 class="sec">🙏 תודה של ערב</h3>
     <div class="card" id="gratCard"></div>
+
+    <h3 class="sec">⛏️ יומן חפירה</h3>
+    <div class="card" id="digCard"></div>
   </section>
 
   <!-- MEDITATIONS -->
@@ -268,7 +312,14 @@ input[type=range]::-webkit-slider-thumb{appearance:none;-webkit-appearance:none;
       <div class="stat"><b id="stMin">0</b><span>דקות בתטא</span></div>
       <div class="stat"><b id="stDl">0</b><span>הורדות שאושרו</span></div>
       <div class="stat"><b id="stSes">0</b><span>מסעות למישור השביעי</span></div>
+      <div class="stat"><b id="stBel">0</b><span>אמונות שהוחלפו</span></div>
+      <div class="stat"><b id="stProg">0</b><span>ימי מסע הושלמו</span></div>
     </div>
+    <h3 class="sec">🏆 אמונות שהוחלפו</h3>
+    <div class="card" id="jShelf"></div>
+    <h3 class="sec">📓 היומן שלי</h3>
+    <div id="jList"></div>
+
     <h3 class="sec">⚙️ הגדרות</h3>
     <div class="card">
       <div class="setRow"><label>שם</label><input type="text" id="setName" style="width:150px"></div>
@@ -317,6 +368,20 @@ input[type=range]::-webkit-slider-thumb{appearance:none;-webkit-appearance:none;
   </div>
 </div>
 
+<!-- DIGGING WIZARD -->
+<div id="dig" class="ovl"><div class="ovlIn">
+  <div class="ovlHead"><b id="digTitle">חפירה חדשה ⛏️</b><button class="ovlX" id="digX">✕</button></div>
+  <div class="wizDots" id="digDots"></div>
+  <div id="digBody"></div>
+</div></div>
+
+<!-- 21-DAY PROGRAM -->
+<div id="prog" class="ovl"><div class="ovlIn">
+  <div class="ovlHead"><b>המסע למישור השביעי 🗺️</b><button class="ovlX" id="progX">✕</button></div>
+  <div id="progMap"></div>
+  <div id="progDay"></div>
+</div></div>
+
 <div id="toast"></div>
 
 <script>
@@ -335,10 +400,14 @@ initStars();addEventListener('resize',initStars);requestAnimationFrame(drawStars
 const KEY='thetaverse.v1';
 const todayKey=()=>{const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');};
 let S=load();
+S.journal=S.journal||[];S.program=S.program||{day:1,completed:[]};S.stats.beliefsReplaced=S.stats.beliefsReplaced||0;
 function load(){try{const s=JSON.parse(localStorage.getItem(KEY));if(s&&s.schemaVersion===1)return s;}catch(e){}
   return {schemaVersion:1,profile:{name:'',gender:'x',onboarded:false},
-    stats:{totalMinutes:0,sessions:0,downloadsAccepted:0},
-    practice:{days:{}},downloads:{acceptedIds:[],todayIds:[],todayDate:'',todayDone:false},gratitude:{}};}
+    stats:{totalMinutes:0,sessions:0,downloadsAccepted:0,beliefsReplaced:0},
+    practice:{days:{}},downloads:{acceptedIds:[],todayIds:[],todayDate:'',todayDone:false},gratitude:{},
+    journal:[],program:{day:1,completed:[]}};}
+/* migration for pre-journal saves */
+(function(){})();
 function save(){localStorage.setItem(KEY,JSON.stringify(S));}
 function markDay(kind,minutes=0){const k=todayKey();const d=S.practice.days[k]||(S.practice.days[k]={items:[]});
   if(!d.items.includes(kind))d.items.push(kind);
@@ -447,7 +516,7 @@ function greet(){const h=new Date().getHours();const n=S.profile.name?', '+S.pro
   if(h<22)return['ערב טוב'+n+' 🌙','זמן תודה ושחרור'];
   return['לילה טוב'+n+' 🌌','צלילה רכה אל תוך תטא'];}
 function renderToday(){const[g,s]=greet();document.getElementById('greet').textContent=g;document.getElementById('greetSub').textContent=s;
-  renderLoop();renderDaily();renderNextMed();renderGrat();}
+  renderLoop();renderDaily();renderNextMed();renderGrat();renderProgCard();renderTodayDig();}
 function renderLoop(){const d=S.practice.days[todayKey()];const items=d?d.items:[];
   document.querySelectorAll('.loopIt').forEach(el=>el.classList.toggle('done',items.includes(el.dataset.k)));}
 
@@ -538,6 +607,8 @@ function renderStats(){const now=new Date();const pre=now.getFullYear()+'-'+Stri
   document.getElementById('stMin').textContent=S.stats.totalMinutes;
   document.getElementById('stDl').textContent=S.stats.downloadsAccepted;
   document.getElementById('stSes').textContent=S.stats.sessions;
+  document.getElementById('stBel').textContent=S.stats.beliefsReplaced||0;
+  document.getElementById('stProg').textContent=(S.program&&S.program.completed.length)||0;
   document.getElementById('meSub').textContent=days>=5?'איזו התמדה מרשימה 🌟':'כל דקה באור נספרת ✨';}
 function renderSettings(){document.getElementById('setName').value=S.profile.name;
   document.getElementById('setGender').value=S.profile.gender;}
@@ -550,6 +621,152 @@ document.getElementById('impBtn').onclick=()=>document.getElementById('impFile')
 document.getElementById('impFile').onchange=e=>{const f=e.target.files[0];if(!f)return;
   const r=new FileReader();r.onload=()=>{try{const s=JSON.parse(r.result);
     if(s.schemaVersion===1){S=s;save();renderAll();toast('הנתונים יובאו ✓');}else toast('קובץ לא תואם');}catch(err){toast('קובץ לא תקין');}};r.readAsText(f);};
+
+/* ============ DIGGING JOURNAL ============ */
+const EMOS=['😰','😢','😡','😔','😶'];
+const LVLS=[['core','גרעיני — מהחיים האלה'],['gen','גנטי — מהמשפחה'],['hist','היסטורי — עמוק/ישן'],['soul','נשמתי — כל-כולי']];
+const LVLN={core:'גרעיני',gen:'גנטי',hist:'היסטורי',soul:'נשמתי'};
+const LADDER_QS=['מה היה קורה אם...?','מה הכי גרוע בזה?','מתי הרגשתי כך לראשונה?','מה זה נותן לי?','ממי למדתי את זה?'];
+let J=null;
+function digOpen(){J={step:0,trigger:'',emo:'',intBefore:6,surface:'',ladder:[],bottom:'',level:'',lesson:'',repl:'',intAfter:3};
+  document.getElementById('dig').classList.add('on');digRender();}
+function digClose(){document.getElementById('dig').classList.remove('on');J=null;}
+document.getElementById('digX').onclick=digClose;
+function digDots(){document.getElementById('digDots').innerHTML=Array.from({length:8},(_,i)=>`<i class="${i<=J.step?'on':''}"></i>`).join('');}
+function digRender(){digDots();const B=document.getElementById('digBody');const s=J.step;
+  const nav=(okLabel='המשך ←',canSkip=false)=>`<div class="wizNav">${s>0?'<button class="btn ghost" id="wzBack">→ חזרה</button>':''}<button class="btn gold" id="wzNext" style="flex:1">${okLabel}</button></div>`;
+  if(s===0)B.innerHTML=`<div class="wizQ">מה קרה? מה הטריגר?</div><div class="wizHint">אירוע, מחשבה או תחושה שהציפו משהו</div>
+    <textarea id="wzT">${esc(J.trigger)}</textarea>
+    <div class="emoRow">${EMOS.map(e=>`<button class="emoBtn ${J.emo===e?'on':''}" data-e="${e}">${e}</button>`).join('')}</div>
+    <div class="fqRow"><label>עוצמה ${J.intBefore}/10</label><input type="range" id="wzInt" min="1" max="10" value="${J.intBefore}"></div>${nav()}`;
+  else if(s===1)B.innerHTML=`<div class="wizQ">אמונת פני השטח</div><div class="wizHint">מה המשפט שרץ לך בראש? ("אני לא מספיק...", "תמיד אני...")</div>
+    <textarea id="wzT">${esc(J.surface)}</textarea>${nav()}`;
+  else if(s===2)B.innerHTML=`<div class="wizQ">שאלות הסולם</div><div class="wizHint">בחר/י שאלה, כתוב/כתבי את התשובה — וכל תשובה היא השלב הבא. ממשיכים עד שמגיעים למשפט עם מטען רגשי.</div>
+    <div class="ladder">${J.ladder.map(r=>`<div class="rung"><span class="qm">${r.q}</span><span>${esc(r.a)}</span></div>`).join('')}</div>
+    <select id="wzQ" style="width:100%;margin-bottom:8px">${LADDER_QS.map(q=>`<option>${q}</option>`).join('')}</select>
+    <textarea id="wzT" placeholder="התשובה..."></textarea>
+    <button class="btn ghost full" id="wzAdd" style="margin-top:8px">הוסף שלב לסולם +</button>${nav('מצאתי את התחתית ←')}`;
+  else if(s===3)B.innerHTML=`<div class="wizQ">אמונת התחתית</div><div class="wizHint">המשפט עם המטען — לרוב מפתיע במילוליות שלו ("אם... אז אמות לבד")</div>
+    <textarea id="wzT">${esc(J.bottom||(J.ladder.length?J.ladder[J.ladder.length-1].a:''))}</textarea>
+    <div class="lvlRow">${LVLS.map(([k,l])=>`<button class="lvlBtn ${J.level===k?'on':''}" data-l="${k}">${l}</button>`).join('')}</div>${nav()}`;
+  else if(s===4)B.innerHTML=`<div class="wizQ">מה אני לומד/ת מזה?</div><div class="wizHint">החוכמה ששומרים — לא מוחקים בלי להפיק את הלקח</div>
+    <textarea id="wzT">${esc(J.lesson)}</textarea>${nav()}`;
+  else if(s===5)B.innerHTML=`<div class="wizQ">האמונה החדשה</div><div class="wizHint">נסח/י כהורדה: "אני יודע/ת ש... / איך זה מרגיש ל..."</div>
+    <textarea id="wzT">${esc(J.repl)}</textarea>${nav()}`;
+  else if(s===6)B.innerHTML=`<div class="wizQ" style="text-align:center;margin-top:12px">${esc(G(J.repl))}</div>
+    <div class="wizHint" style="text-align:center">מוכן/ה לקבל את זה?</div>
+    <button class="yesBtn" id="wzYes" style="width:100%;margin-top:10px">כן ✓ — קיבלתי</button>`;
+  else if(s===7)B.innerHTML=`<div class="wizQ">איך זה מרגיש עכשיו?</div>
+    <div class="fqRow"><label>עוצמה ${J.intAfter}/10</label><input type="range" id="wzInt" min="0" max="10" value="${J.intAfter}"></div>
+    <div class="wizHint">היה: ${J.intBefore}/10</div>
+    <div class="wizNav"><button class="btn gold full" id="wzDone">נעשה, נעשה, נעשה ✨</button></div>`;
+  // wire
+  const T=document.getElementById('wzT');
+  B.querySelectorAll('.emoBtn').forEach(b=>b.onclick=()=>{J.emo=b.dataset.e;J.trigger=T.value;digRender();});
+  B.querySelectorAll('.lvlBtn').forEach(b=>b.onclick=()=>{J.level=b.dataset.l;J.bottom=T.value;digRender();});
+  const intEl=document.getElementById('wzInt');
+  if(intEl)intEl.oninput=e=>{if(s===0)J.intBefore=+e.target.value;else J.intAfter=+e.target.value;
+    e.target.closest('.fqRow').querySelector('label').textContent='עוצמה '+e.target.value+'/10';};
+  const add=document.getElementById('wzAdd');
+  if(add)add.onclick=()=>{const q=document.getElementById('wzQ').value;
+    if(T.value.trim()){J.ladder.push({q,a:T.value.trim()});digRender();}};
+  const back=document.getElementById('wzBack');if(back)back.onclick=()=>{J.step--;digRender();};
+  const next=document.getElementById('wzNext');
+  if(next)next.onclick=()=>{
+    if(s===0){J.trigger=T.value.trim();if(!J.trigger){toast('כתוב/כתבי מה קרה');return;}}
+    if(s===1){J.surface=T.value.trim();if(!J.surface){toast('נסח/י את המשפט');return;}}
+    if(s===2&&T.value.trim())J.ladder.push({q:document.getElementById('wzQ').value,a:T.value.trim()});
+    if(s===3){J.bottom=T.value.trim();if(!J.bottom){toast('נסח/י את אמונת התחתית');return;}if(!J.level){toast('בחר/י רמה');return;}}
+    if(s===4)J.lesson=T.value.trim();
+    if(s===5){J.repl=T.value.trim();if(!J.repl){toast('נסח/י את האמונה החדשה');return;}}
+    J.step++;digRender();};
+  const yes=document.getElementById('wzYes');
+  if(yes)yes.onclick=()=>{J.step=7;digRender();};
+  const done=document.getElementById('wzDone');
+  if(done)done.onclick=()=>{
+    S.journal.push({id:Date.now()+'',date:todayKey(),trigger:J.trigger,emo:J.emo,surface:J.surface,ladder:J.ladder,
+      bottom:J.bottom,level:J.level,lesson:J.lesson,repl:J.repl,ib:J.intBefore,ia:J.intAfter});
+    S.stats.beliefsReplaced=(S.stats.beliefsReplaced||0)+1;save();
+    markDay('grat');digClose();renderJournal();renderTodayDig();renderStats();
+    toast('אמונה הוחלפה 🏆 נעשה, נעשה, נעשה');};}
+function renderTodayDig(){const el=document.getElementById('digCard');
+  const week=S.journal.filter(j=>{const d=new Date(j.date);return (Date.now()-d)/864e5<7;}).length;
+  el.innerHTML=`<p class="sub" style="margin-bottom:10px">${week?week+' חפירות בשבוע האחרון · מומלץ 2–3':'ערב פנוי? זה הזמן לרדת לאמונת השורש'}</p>
+    <button class="btn full" id="digGo">חפירה חדשה ⛏️</button>`;
+  document.getElementById('digGo').onclick=digOpen;}
+function renderJournal(){
+  const shelf=document.getElementById('jShelf');
+  const n=S.stats.beliefsReplaced||0;
+  shelf.innerHTML=n?`<div style="font-size:1.05rem">🏆 <b>${n}</b> אמונות הוחלפו</div>`+
+    S.journal.slice(-3).reverse().map(j=>`<div class="jm" style="margin-top:6px">✓ <s style="color:var(--muted)">${esc(j.bottom)}</s> ← ${esc(G(j.repl))}</div>`).join('')
+    :'<p class="sub" style="margin:0">עוד אין — האמונה הראשונה שתוחלף תופיע כאן ✨';
+  const list=document.getElementById('jList');
+  list.innerHTML=S.journal.length?S.journal.slice().reverse().map(j=>
+    `<div class="jItem"><div class="jm">${j.date} · ${j.emo||''} · רמה: ${LVLN[j.level]||''} · <span class="jDelta">${j.ib}→${j.ia}</span></div>
+     <div class="jb">${esc(j.bottom)}</div>
+     <div class="jm">↳ ${esc(G(j.repl))}</div></div>`).join('')
+    :'<div class="card"><p class="sub" style="margin:0">היומן ריק — פתח/י חפירה ראשונה מהמסך הראשי</p></div>';}
+
+/* ============ 21-DAY PROGRAM ============ */
+const PLANES=[['🪨','מינרלים'],['🌿','צמחים'],['🐾','חיים'],['🕊️','רוח'],['👼','מלאכים'],['📐','חוקים'],['✨','הבורא']];
+const PROG21=[
+ {t:'נשימה והארקה',med:'ground',th:'<b>מה זה מצב תטא?</b> גלי מוח של 4–8 הרץ — המצב שבין ערות לחלום: נמנום, חלימה, מדיטציה עמוקה. שם, על פי השיטה, התת-מודע קשוב ביותר.'},
+ {t:'שורשים לאדמה',med:'ground',th:'<b>שבעת מישורי הקיום.</b> מינרלים, צמחים, בעלי חיים ואדם, עולם הרוח, מלאכים, החוקים — והשביעי: בורא כל היש. המסע שלנו עולה דרך כולם.'},
+ {t:'המסע המלא — פעם ראשונה',med:'journey',th:'<b>המישור השביעי.</b> אור לבן-צחור מנצנץ, אהבה ללא תנאי, בלי חובות ובלי תנאים. לשם עולים — ומשם עובדים.'},
+ {t:'המסע המלא — מעמיקים',med:'journey',th:'<b>הפקודה.</b> "בורא כל היש, מצוּוה/מתבקש ש... בדרך הטובה והמיטבית ביותר. תודה. נעשה, נעשה, נעשה." הציווי מיועד לתת-מודע שלך — לעקוף את הספק.'},
+ {t:'המסע המלא — בשלישית',med:'journey',th:'<b>עדות.</b> בשיטה, שינוי "לא קרה" עד שהיית עד/ה לו בעיני הרוח. לכן לא ממהרים לצאת — רואים את האור עד הסוף.'},
+ {t:'בוחן שריר — כיול',med:'quick',th:'<b>בוחן שריר.</b> עמידה יציבה, עיניים עצומות: אמור/אמרי "כן, כן, כן" — הגוף נוטה קדימה; "לא, לא, לא" — אחורה. כיילו עם "שמי X". וחשוב: לשתות מים קודם!'},
+ {t:'הורדות ראשונות',dl:1,th:'<b>כלל הרשות.</b> שום שינוי לא נכנס בלי "כן" מילולי — גם לא חיובי. לכן כל הורדה באפליקציה מחכה לאישור שלך.'},
+ {t:'ארבע רמות האמונה',med:'quick',th:'<b>4 הרמות:</b> גרעין (מהחיים האלה), גנטי (מהמשפחה), היסטורי (עמוק/ישן), נשמתי (כל-כולי). אמונה יכולה לשבת בכמה רמות במקביל.'},
+ {t:'חפירה ראשונה',dig:1,th:'<b>מהי חפירה?</b> ירידה בסולם שאלות מאמונת פני-השטח לאמונת התחתית — זו שמחזיקה את כל הערימה. מושכים אותה — והכול נופל איתה.'},
+ {t:'פתיחת הלב',med:'heart',th:'<b>סליחה.</b> בשיטה — סליחה אינה הסכמה למה שקרה. היא שחרור המטען שאת/ה נושא/ת. החופש שלך.'},
+ {t:'הורדות אהבה עצמית',dl:1,th:'<b>עבודת תחושות.</b> יש דברים שלא "חסומים" — פשוט מעולם לא הרגשנו אותם. הורדה משלימה את החוסר: ללמוד בשניות איך זה מרגיש.'},
+ {t:'חפירה שנייה',dig:1,th:'<b>אמונת מפתח ≠ תחתית.</b> המשפט הרגשי הראשון הוא לרוב שלב בדרך. ממשיכים לשאול "ואז מה?" עד שהתשובות מתחילות להסתובב במעגל.'},
+ {t:'מדיטציית ערב',med:'evening',th:'<b>תטא לפני שינה.</b> הדקות שלפני ההירדמות הן חלון תטא טבעי — הזמן הכי רך לתודה ולשחרור.'},
+ {t:'סיכום שבוע — עלייה מהירה',med:'quick',th:'<b>תזמון אלוהי.</b> לא הכול מגיע מתי שביקשנו — בשיטה סומכים על "בדרך ובזמן הטובים ביותר" ומשחררים את הלחץ על השעון.'},
+ {t:'מניפסטציה ראשונה',med:'journey',th:'<b>מניפסטציה מהמישור השביעי.</b> מנסחים בזמן הווה, רואים את זה כמושלם, אומרים תודה — ומשחררים.'},
+ {t:'הורדות שפע',dl:1,th:'<b>"בדרך הטובה והמיטבית ביותר".</b> שסתום הביטחון של כל בקשה — כדי שהתוצאה תבוא בצורה שמיטיבה באמת.'},
+ {t:'היום המושלם שלי',med:'quick',th:'<b>בריאת היום מראש.</b> 5 דקות בבוקר לראות את היום מתגלגל בדיוק כמו שטוב לך — ואז לצאת אליו.'},
+ {t:'עלייה עצמאית',med:'quick',th:'<b>דחיפת הכתר.</b> עם הזמן, מפת הדרכים מתקצרת לכוונה אחת: "אני שם". המישור השביעי בכל מקום — וגם בך.'},
+ {t:'חפירה שלישית',dig:1,th:'<b>איך זה משרת אותי?</b> השאלה הכי חזקה בחפירה. לכל דפוס יש רווח נסתר — מזהים אותו, שומרים את הטוב, משחררים את הפחד.'},
+ {t:'תודה והכנה לסיום',med:'evening',th:'<b>הכרת תודה.</b> העוגן המחקרי החזק ביותר של כל התרגול — ובשיטה: התדר שממנו בוראים.'},
+ {t:'טקס סיום 🎓',med:'journey',th:'<b>יום 21.</b> שלושה שבועות של עלייה יומית. מהיום — המסע שלך, בקצב שלך. נעשה, נעשה, נעשה.'}];
+function progState(){S.program=S.program||{day:1,completed:[]};return S.program;}
+function renderProgCard(){const p=progState();const el=document.getElementById('progCard');
+  if(p.completed.length>=21){el.innerHTML='<div class="dlDone">🎓 השלמת את המסע! 21 ימים למישור השביעי</div>';return;}
+  const d=PROG21[p.day-1];
+  el.innerHTML=`<div style="display:flex;align-items:center;gap:12px">
+    <div class="medIc">${PLANES[Math.min(6,Math.floor((p.day-1)/3))][0]}</div>
+    <div><h4 style="font-weight:500">יום ${p.day} מתוך 21 — ${d.t}</h4>
+    <p class="sub" style="margin:2px 0 0;font-size:.78rem">מישור ${Math.min(7,Math.ceil(p.day/3))}: ${PLANES[Math.min(6,Math.floor((p.day-1)/3))][1]} · ${p.completed.length} ימים הושלמו</p></div></div>
+    <button class="btn full" id="progOpen" style="margin-top:12px">ליום שלי במסע ←</button>`;
+  document.getElementById('progOpen').onclick=progShow;}
+function progShow(){document.getElementById('prog').classList.add('on');renderProg();}
+document.getElementById('progX').onclick=()=>document.getElementById('prog').classList.remove('on');
+function renderProg(){const p=progState();
+  document.getElementById('progMap').innerHTML=PLANES.map(([ic,nm],pi)=>{
+    const days=[1,2,3].map(k=>pi*3+k).filter(d=>d<=21);
+    const done=days.every(d=>p.completed.includes(d));
+    return `<div class="planeRow ${done?'done':''}"><div class="pl">${ic}</div><div class="pn">${nm}</div>
+      <div class="dayDots">${days.map(d=>`<div class="dayDot ${p.completed.includes(d)?'done':''} ${d===p.day?'now':''}">${d}</div>`).join('')}</div></div>`;}).join('');
+  const day=PROG21[p.day-1];const doneAll=p.completed.length>=21;
+  document.getElementById('progDay').innerHTML=doneAll?
+    `<div class="card glow" style="text-align:center;padding:26px"><div style="font-size:2.6rem">🎓</div>
+     <h4 style="font-family:'Rubik','Heebo',sans-serif;font-size:1.2rem;margin:10px 0 4px">תעודת מסע</h4>
+     <p class="sub">${esc(S.profile.name||'')} — 21 ימים למישור השביעי · ${new Date().toLocaleDateString('he-IL')}</p></div>`:
+    `<div class="card glow" style="margin-top:14px"><h4 style="font-weight:500">יום ${p.day}: ${day.t}</h4>
+     <div class="theory">${day.th}</div>
+     <button class="btn full" id="progTask">${day.dig?'לחפירה מודרכת ⛏️':day.dl?'להורדת היום 💫':'לתרגול היום 🌌'}</button>
+     <button class="btn gold full" id="progDone" style="margin-top:10px">סיימתי את יום ${p.day} ✓</button></div>`;
+  const task=document.getElementById('progTask');
+  if(task)task.onclick=()=>{document.getElementById('prog').classList.remove('on');
+    if(day.dig)digOpen();
+    else if(day.dl){document.querySelector('.navBtn[data-v="today"]').click();window.scrollTo(0,0);}
+    else{const m=MEDS.find(x=>x.id===day.med);if(m)play(m);}};
+  const dn=document.getElementById('progDone');
+  if(dn)dn.onclick=()=>{if(!p.completed.includes(p.day))p.completed.push(p.day);
+    if(p.day<21)p.day++;save();renderProg();renderProgCard();
+    toast(p.completed.length>=21?'🎓 השלמת את המסע!':'יום הושלם ✨ נתראה מחר');};}
 
 /* ============ FREQUENCIES: WEB AUDIO ENGINE ============ */
 const FQ_PRESETS=[
@@ -696,7 +913,7 @@ function renderFreq(){renderFqNow();
 let toastT;function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('on');
   clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove('on'),2600);}
 
-function renderAll(){renderToday();renderMeds();renderDlLib();renderFreq();renderStats();renderSettings();}
+function renderAll(){renderToday();renderMeds();renderDlLib();renderFreq();renderJournal();renderStats();renderSettings();}
 </script>
 </body>
 </html>
